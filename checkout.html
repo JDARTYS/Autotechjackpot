@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout - AutoTechJackpot</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <div class="logo">
+          <a href="index.html">AutoTechJackpot</a>
+      </div>
+    <nav>
+      <a href="how-it-works.html">How It Works</a>
+      <a href="winners.html">Winners</a>
+      <a href="tickets.html">Tickets</a>
+      <a href="cart.html">Cart</a>
+      <a href="login.html">Login / Register</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="checkout">
+      <h1>Checkout</h1>
+      <p>Review your order and proceed to payment.</p>
+
+      <!-- Dettagli dell'ordine -->
+      <div class="order-summary" id="order-summary">
+        <!-- Ordine aggiunto dinamicamente -->
+      </div>
+
+      <!-- Sezione di pagamento -->
+      <div class="payment-section">
+        <!-- Link PayPal.me con importo dinamico -->
+        <a id="paypal-button" href="#" class="cta-button">
+          Complete Payment via PayPal
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Autotechjackpot. All rights reserved.</p>
+    <nav>
+        <a href="policy.html">Terms & Policy</a> |  
+    </nav>
+  </footer>
+
+  <script>
+    // Funzione per calcolare l'importo totale dal carrello
+    function calculateTotal() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      let total = 0;
+
+      cart.forEach(item => {
+        total += parseFloat(item.ticketPrice) || 0;
+      });
+
+      return total.toFixed(2); // Due cifre decimali
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const totalAmount = calculateTotal(); // Calcola il totale dell'ordine
+      const orderSummary = document.getElementById('order-summary');
+      orderSummary.innerHTML = `
+        <p>Total Amount: €${totalAmount}</p>
+      `;
+
+      // Imposta l'URL del pagamento PayPal con l'importo dinamico
+      const paypalLink = `https://paypal.me/autotechjackpot?amount=${totalAmount}`;
+      const paypalButton = document.getElementById('paypal-button');
+      paypalButton.setAttribute('href', paypalLink);
+    });
+  </script>
+</body>
+</html>

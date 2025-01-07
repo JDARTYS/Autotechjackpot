@@ -67,23 +67,24 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
       const { total, orderDetails } = calculateTotal(); // Calcola il totale dell'ordine e dettagli
+
       const orderSummary = document.getElementById('order-summary');
-      orderSummary.innerHTML = `
-        ${orderDetails.join('')}
-        <p>Total Amount: €${total}</p>
-      `;
+
+      if (cart.length > 0) {
+        orderSummary.innerHTML = `
+          ${orderDetails.join('')}
+          <p>Total Amount: €${total}</p>
+        `;
+      } else {
+        orderSummary.innerHTML = '<p>Your cart is empty.</p>';
+      }
 
       // Imposta l'URL del pagamento PayPal con l'importo dinamico
       const paypalLink = `https://paypal.me/autotechjackpot?amount=${total}`;
       const paypalButton = document.getElementById('paypal-button');
       paypalButton.setAttribute('href', paypalLink);
-
-      // Gestire il caso di carrello vuoto
-      if (cart.length === 0) {
-        orderSummary.innerHTML = '<p>Your cart is empty.</p>';
-        paypalButton.style.display = 'none'; // Nascondi il pulsante PayPal se il carrello è vuoto
-      }
     });
   </script>
 </body>

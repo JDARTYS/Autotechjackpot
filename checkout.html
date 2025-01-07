@@ -54,25 +54,36 @@
     function calculateTotal() {
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
       let total = 0;
+      const orderDetails = [];
 
       cart.forEach(item => {
         total += parseFloat(item.ticketPrice) || 0;
+        orderDetails.push(`
+          <p>${item.competitionName}: €${item.ticketPrice} x ${item.quantity}</p>
+        `);
       });
 
-      return total.toFixed(2); // Due cifre decimali
+      return { total: total.toFixed(2), orderDetails };
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      const totalAmount = calculateTotal(); // Calcola il totale dell'ordine
+      const { total, orderDetails } = calculateTotal(); // Calcola il totale dell'ordine e dettagli
       const orderSummary = document.getElementById('order-summary');
       orderSummary.innerHTML = `
-        <p>Total Amount: €${totalAmount}</p>
+        ${orderDetails.join('')}
+        <p>Total Amount: €${total}</p>
       `;
 
       // Imposta l'URL del pagamento PayPal con l'importo dinamico
-      const paypalLink = `https://paypal.me/autotechjackpot?amount=${totalAmount}`;
+      const paypalLink = `https://paypal.me/autotechjackpot?amount=${total}`;
       const paypalButton = document.getElementById('paypal-button');
       paypalButton.setAttribute('href', paypalLink);
+
+      // Gestire il caso di carrello vuoto
+      if (cart.length === 0) {
+        orderSummary.innerHTML = '<p>Your cart is empty.</p>';
+        paypalButton.style.display = 'none'; // Nascondi il pulsante PayPal se il carrello è vuoto
+      }
     });
   </script>
 </body>

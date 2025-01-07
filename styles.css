@@ -1,0 +1,273 @@
+/* General Styles */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #fff;
+  background-color: var(--bg-color);
+  line-height: 1.6;
+}
+
+:root {
+  --primary-color: #FF6A00;
+  --bg-color: #14144A;
+  --card-bg-color: #1A1A50;
+  --light-bg-color: #2C2C6C;
+}
+
+/* Header */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  padding: 20px 0;
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+header .header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0 20px;
+}
+
+header .logo {
+  font-size: 1.8em;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+header nav {
+  display: flex;
+  justify-content: space-around;
+  flex: 1;
+}
+
+header nav a {
+  text-decoration: none;
+  color: #14144A;
+  font-weight: 600;
+  padding: 0 15px;
+  transition: color 0.3s;
+}
+
+header nav a:hover {
+  color: var(--primary-color);
+}
+
+/* Styles for Cart */
+.cart {
+  margin-top: 100px;
+  padding: 40px;
+  background-color: var(--card-bg-color);
+  border-radius: 8px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+#cart-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.cart-item {
+  background-color: var(--light-bg-color);
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  color: #fff;
+  position: relative;
+}
+
+.cart-item img {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.cart-item-details {
+  margin-top: 10px;
+}
+
+.cart-item-details h4 {
+  font-size: 1.2em;
+  color: var(--primary-color);
+}
+
+.cart-item-details p {
+  font-size: 1em;
+}
+
+.remove-item {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: red;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+/* Checkout Button */
+#cart-summary {
+  text-align: center;
+  margin-top: 30px;
+}
+
+button {
+  display: inline-block;
+  width: 100%;
+  padding: 10px 15px;
+  background-color: var(--primary-color);
+  color: #fff;
+  font-size: 1.2em;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #e65900;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 20px;
+  background-color: var(--bg-color);
+  color: #fff;
+}
+
+footer nav a {
+  color: var(--primary-color);
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+footer nav a:hover {
+  text-decoration: underline;
+}
+
+/* Competitions Section */
+.competitions {
+  margin-top: 100px;
+  padding: 40px;
+  text-align: center;
+}
+
+.competitions h2 {
+  font-size: 2.5em;
+  color: var(--primary-color);
+  margin-bottom: 30px;
+}
+
+.competition-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  justify-items: center;
+}
+
+.competition-card {
+  background-color: var(--bg-color);
+  border: 2px solid var(--primary-color);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 300px;
+  text-align: center;
+}
+
+.competition-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.competition-card-content {
+  padding: 15px;
+  color: #fff;
+}
+
+.competition-card-content h3 {
+  font-size: 1.4em;
+  color: var(--primary-color);
+  margin: 10px 0;
+}
+
+.competition-card-content p {
+  font-size: 1em;
+  margin: 10px 0;
+}
+
+.competition-card-content h4 {
+  font-size: 1.4em;
+  color: var(--primary-color);
+  margin: 10px 0;
+}
+
+.enter-button {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: var(--primary-color);
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.enter-button:hover {
+  background-color: #e65900;
+}
+
+/* Stile per la spunta */
+.checkmark {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 2em;
+  color: green;
+  display: none;
+}
+
+.checkmark.visible {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+/* Animazione per far comparire la spunta */
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+  }
+  to {
+      opacity: 1;
+  }
+}
+
+/* CSS responsivo */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+
+  header {
+    flex-direction: column;
+  }
+
+  .competition-grid,
+  #cart-items {
+    gap: 10px;
+  }
+}

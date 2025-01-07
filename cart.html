@@ -87,11 +87,6 @@ function setupRemoveButtons() {
     });
   });
 }
-
-// Assicurati di impostare i pulsanti di rimozione quando il DOM è pronto
-document.addEventListener('DOMContentLoaded', () => {
-  setupRemoveButtons();
-});
         // Navigate to checkout page
         document.getElementById('checkout-button').addEventListener('click', () => {
             window.location.href = 'checkout.html';
@@ -101,6 +96,6 @@ document.addEventListener('DOMContentLoaded', () => {
             setupRemoveButtons();
         });
     </script>
-    <script>cart.js</script>
+    <script>src="cart.js"</script>
 </body>
 </html>

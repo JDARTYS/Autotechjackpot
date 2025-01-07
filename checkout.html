@@ -43,7 +43,7 @@
   </main>
 
   <footer>
-    <p>&copy; 2025 Autotechjackpot. All rights reserved.</p>
+    <p>&copy; 2025 AutoTechJackpot. All rights reserved.</p>
     <nav>
         <a href="policy.html">Terms & Policy</a> |  
     </nav>
@@ -51,10 +51,9 @@
 
   <script>
     // Funzione per calcolare l'importo totale dal carrello
-    function calculateTotal() {
-      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    function calculateTotal(cart) {
       let total = 0;
-      const orderDetails = [];
+      let orderDetails = [];
 
       cart.forEach(item => {
         total += parseFloat(item.ticketPrice) || 0;
@@ -67,21 +66,30 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
+      // Recupera il carrello dal localStorage
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      const { total, orderDetails } = calculateTotal(); // Calcola il totale dell'ordine e dettagli
+      
+      // Debug per controllare il contenuto del carrello
+      console.log('Carrello:', cart);
+
+      // Calcola il totale e i dettagli dell'ordine
+      const { total, orderDetails } = calculateTotal(cart);
 
       const orderSummary = document.getElementById('order-summary');
-
+      
+      // Verifica se il carrello è vuoto
       if (cart.length > 0) {
+        // Mostra i dettagli dell'ordine
         orderSummary.innerHTML = `
           ${orderDetails.join('')}
-          <p>Total Amount: €${total}</p>
+          <p><strong>Total Amount: €${total}</strong></p>
         `;
       } else {
-        orderSummary.innerHTML = '<p>Your cart is empty.</p>';
+        // Messaggio se il carrello è vuoto
+        orderSummary.innerHTML = '<p>Your cart is empty. Please add items to the cart.</p>';
       }
 
-      // Imposta l'URL del pagamento PayPal con l'importo dinamico
+      // Imposta il link PayPal dinamicamente con l'importo del totale
       const paypalLink = `https://paypal.me/autotechjackpot?amount=${total}`;
       const paypalButton = document.getElementById('paypal-button');
       paypalButton.setAttribute('href', paypalLink);

@@ -69,13 +69,14 @@
       });
     });
 
-    // Funzione per aggiungere il biglietto al carrello
-    function addToCart(ticketId, ticketName, ticketPrice, ticketImage) {
-      const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      cart.push({ id: ticketId, name: ticketName, price: ticketPrice, image: ticketImage });
-      localStorage.setItem('cart', JSON.stringify(cart));
-      alert('Ticket added to cart!');
-    }
+  // Funzione per aggiungere il biglietto al carrello
+function addToCart(ticketId, ticketName, ticketPrice, ticketImage) {
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];  // Prendi il carrello esistente o inizializza come array vuoto
+  cart.push({ id: ticketId, name: ticketName, price: ticketPrice, image: ticketImage });  // Aggiungi il biglietto selezionato
+  localStorage.setItem('cart', JSON.stringify(cart));  // Salva il carrello aggiornato nel localStorage
+  alert('Ticket added to cart!');  // Mostra un messaggio di conferma
+}
+
   </script>
 </body>
 </html>

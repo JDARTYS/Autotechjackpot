@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tickets - Autotechjackpot</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <div class="header-container">
+        <div class="logo">
+            <a href="index.html">AutoTechJackpot</a>
+        </div>
+    <nav>
+        <a href="how-it-works.html">How It Works</a>
+        <a href="winners.html">Winners</a>
+        <a href="tickets.html">Tickets</a>
+        <a href="cart.html">Cart</a>
+        <a href="login.html">Login / Register</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="tickets">
+      <h1>Available Tickets</h1>
+      <div class="competition-grid" id="competition-grid">
+        <!-- Biglietti aggiunti dinamicamente qui -->
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Autotechjackpot. All rights reserved.</p>
+    <nav>
+      <a href="policy.html">Terms & Policy</a> | 
+    </nav>
+  </footer>
+
+  <script>
+    // Dati dei biglietti con immagini
+    const tickets = [
+      { id: '1', name: '2020 BMW 745', price: 2.22, image: 'BMW2020.png' },
+      { id: '2', name: '2021 Mercedes-Benz', price: 5.11, image: 'Mercedes2021.png' },
+      { id: '3', name: '2019 Mercedes-Benz', price: 3.59, image: 'Mercedes2019.png' },
+      { id: '4', name: '2015 Mercedes-Benz S', price: 5.01, image: 'Mercedes2015.png' },
+      { id: '5', name: '2023 Audi A7', price: 1.80, image: 'audi.png' },
+      { id: '6', name: 'Iphone 16 ProMax', price: 1.22, image: 'Iphone16.png' }
+    ];
+  
+    // Carica i biglietti nella pagina
+    document.addEventListener('DOMContentLoaded', () => {
+      const competitionGrid = document.getElementById('competition-grid');
+      
+      tickets.forEach(ticket => {
+        const ticketCard = document.createElement('div');
+        ticketCard.classList.add('competition-card');
+        ticketCard.innerHTML = `
+          <img src="${ticket.image}" alt="${ticket.name}" class="ticket-image">
+          <div class="competition-card-content">
+            <h3>${ticket.name}</h3>
+            <p>Price: €${ticket.price.toFixed(2)}</p>
+            <button class="add-to-cart" onclick="addToCart('${ticket.id}', '${ticket.name}', ${ticket.price}, '${ticket.image}')">Add to Cart</button>
+          </div>
+        `;
+        competitionGrid.appendChild(ticketCard);
+      });
+    });
+  
+    // Funzione per aggiungere il biglietto al carrello
+    function addToCart(ticketId, ticketName, ticketPrice, ticketImage) {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.push({ id: ticketId, name: ticketName, price: ticketPrice, image: ticketImage });
+      localStorage.setItem('cart', JSON.stringify(cart));
+      alert('Ticket added to cart!');
+    }
+  </script>  
+</body>
+</html>

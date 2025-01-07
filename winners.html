@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Winners - AutoTechJackpot</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <a href="index.html">AutoTechJackpot</a>
+            </div>
+            <nav>
+                <a href="how-it-works.html">How It Works</a>
+                <a href="winners.html">Winners</a>
+                <a href="tickets.html">Tickets</a>
+                <a href="cart.html">Cart</a>
+                <a href="login.html">Login / Register</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="winners-section">
+            <h1>Our Lucky Winners</h1>
+            <p>Here are the winners who have turned their dreams into reality with AutoTechJackpot!</p>
+
+            <div class="winners-grid" id="winners-grid">
+                <!-- Currently, no winners to display -->
+                <p>No winners have been announced yet. Stay tuned!</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 AutoTechJackpot. All rights reserved.</p>
+        <nav>
+            <a href="policy.html">Terms & Policy</a>
+        </nav>
+    </footer>
+
+    <script>
+        // Simulating an empty state for now. Once winners are available, you can dynamically populate the grid.
+        // You can use the following function to populate winners once data becomes available.
+
+        function loadWinners(winners) {
+            const winnersGrid = document.getElementById('winners-grid');
+
+            if (winners.length === 0) {
+                winnersGrid.innerHTML = "<p>No winners have been announced yet. Stay tuned!</p>";
+            } else {
+                winners.forEach(winner => {
+                    const winnerCard = document.createElement("div");
+                    winnerCard.classList.add("winner-card");
+                    winnerCard.innerHTML = `
+                        <img src="${winner.image}" alt="${winner.name}" class="winner-img">
+                        <div class="winner-details">
+                            <h2>${winner.name}</h2>
+                            <p><strong>Prize:</strong> ${winner.prize}</p>
+                            <p><strong>Location:</strong> ${winner.location}</p>
+                            <p><strong>Winning Ticket:</strong> ${winner.ticket}</p>
+                        </div>
+                    `;
+                    winnersGrid.appendChild(winnerCard);
+                });
+            }
+        }
+
+        // For now, just an empty array to simulate no winners
+        const winners = [];
+
+        // When winners are available, call loadWinners(winners);
+        loadWinners(winners);  // This will show "No winners" for now
+    </script>
+</body>
+</html>

@@ -34,8 +34,8 @@
             <h3>iPhone 16 ProMax</h3>
             <p>Win the latest iPhone! Enter now and take your chance to win big.</p>
             <p>Ticket Price: <span class="price">€1.22</span></p>
-            <p>Tickets Remaining: <span class="tickets-remaining" id="iphone-tickets-remaining">3800</span></p>
-            <a href="tickets.html?competitionId=1" class="enter-button">Enter Now</a>
+            <p>Tickets Remaining: <span class="tickets-remaining" id="iphone-tickets-remaining">Loading...</span></p>
+            <a href="tickets.html?competitionId=iphone" class="enter-button">Enter Now</a>
           </div>
         </div>
 
@@ -46,8 +46,8 @@
             <h3>Audi A5</h3>
             <p>Ready for a new adventure? Get your ticket now!</p>
             <p>Ticket Price: <span class="price">€1.80</span></p>
-            <p>Tickets Remaining: <span class="tickets-remaining" id="audi-tickets-remaining">18000</span></p>
-            <a href="tickets.html?competitionId=2" class="enter-button">Enter Now</a>
+            <p>Tickets Remaining: <span class="tickets-remaining" id="audi-tickets-remaining">Loading...</span></p>
+            <a href="tickets.html?competitionId=audi" class="enter-button">Enter Now</a>
           </div>
         </div>
 
@@ -58,8 +58,8 @@
             <h3>BMW 745</h3>
             <p>Get your chance to win a BMW! Enter now and take part in the competition.</p>
             <p>Ticket Price: <span class="price">€2.22</span></p>
-            <p>Tickets Remaining: <span class="tickets-remaining" id="bmw-tickets-remaining">22000</span></p>
-            <a href="tickets.html?competitionId=3" class="enter-button">Enter Now</a>
+            <p>Tickets Remaining: <span class="tickets-remaining" id="bmw-tickets-remaining">Loading...</span></p>
+            <a href="tickets.html?competitionId=bmw" class="enter-button">Enter Now</a>
           </div>
         </div>
 
@@ -70,8 +70,8 @@
             <h3>Mercedes GLE</h3>
             <p>Win a Mercedes GLE! Don't miss your chance to enter.</p>
             <p>Ticket Price: <span class="price">€5.11</span></p>
-            <p>Tickets Remaining: <span class="tickets-remaining" id="mercedes-gle-tickets-remaining">15000</span></p>
-            <a href="tickets.html?competitionId=4" class="enter-button">Enter Now</a>
+            <p>Tickets Remaining: <span class="tickets-remaining" id="mercedes-gle-tickets-remaining">Loading...</span></p>
+            <a href="tickets.html?competitionId=mercedesGle" class="enter-button">Enter Now</a>
           </div>
         </div>
 
@@ -82,8 +82,8 @@
             <h3>Mercedes CLS</h3>
             <p>Get your chance to win a Mercedes CLS! Enter now.</p>
             <p>Ticket Price: <span class="price">€3.59</span></p>
-            <p>Tickets Remaining: <span class="tickets-remaining" id="mercedes-cls-tickets-remaining">15000</span></p>
-            <a href="tickets.html?competitionId=5" class="enter-button">Enter Now</a>
+            <p>Tickets Remaining: <span class="tickets-remaining" id="mercedes-cls-tickets-remaining">Loading...</span></p>
+            <a href="tickets.html?competitionId=mercedesCls" class="enter-button">Enter Now</a>
           </div>
         </div>
 
@@ -94,8 +94,8 @@
             <h3>Mercedes S63 AMG</h3>
             <p>Enter for a chance to win a Mercedes S63 AMG! Hurry up!</p>
             <p>Ticket Price: <span class="price">€5.01</span></p>
-            <p>Tickets Remaining: <span class="tickets-remaining" id="mercedes-s63-tickets-remaining">13500</span></p>
-            <a href="tickets.html?competitionId=6" class="enter-button">Enter Now</a>
+            <p>Tickets Remaining: <span class="tickets-remaining" id="mercedes-s63-tickets-remaining">Loading...</span></p>
+            <a href="tickets.html?competitionId=mercedesS63" class="enter-button">Enter Now</a>
           </div>
         </div>
 
@@ -110,6 +110,27 @@
     </nav>
   </footer>
 
-  <script src="script.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Carica i dati dei biglietti dal localStorage
+      const ticketsData = JSON.parse(localStorage.getItem('ticketsData')) || {
+        iphone: { total: 3800 },
+        audi: { total: 18000 },
+        bmw: { total: 22000 },
+        mercedesGle: { total: 15000 },
+        mercedesCls: { total: 15000 },
+        mercedesS63: { total: 13500 }
+      };
+
+      // Aggiorna i contatori dei biglietti rimanenti per ogni competizione
+      Object.keys(ticketsData).forEach(competitionId => {
+        const ticketCountElement = document.getElementById(`${competitionId}-tickets-remaining`);
+        if (ticketCountElement) {
+          ticketCountElement.textContent = ticketsData[competitionId].total;
+        }
+      });
+    });
+  </script>
+
 </body>
 </html>

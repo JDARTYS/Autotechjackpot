@@ -9,16 +9,17 @@
 <body>
   <header>
     <div class="header-container">
-        <div class="logo">
-            <a href="index.html">AutoTechJackpot</a>
-        </div>
-    <nav>
-        <a href="how-it-works.html">How It Works</a>
-        <a href="winners.html">Winners</a>
-        <a href="tickets.html">Tickets</a>
-        <a href="cart.html">Cart</a>
-        <a href="login.html">Login / Register</a>
-    </nav>
+      <div class="logo">
+        <a href="index.html" aria-label="Go to Home page">AutoTechJackpot</a>
+      </div>
+      <nav>
+        <a href="how-it-works.html" aria-label="How it Works">How It Works</a>
+        <a href="winners.html" aria-label="View Winners">Winners</a>
+        <a href="tickets.html" aria-label="View Tickets" class="active">Tickets</a>
+        <a href="cart.html" aria-label="View Cart">Cart</a>
+        <a href="login.html" aria-label="Login or Register">Login / Register</a>
+      </nav>
+    </div>
   </header>
 
   <main>
@@ -33,7 +34,7 @@
   <footer>
     <p>&copy; 2025 Autotechjackpot. All rights reserved.</p>
     <nav>
-      <a href="policy.html">Terms & Policy</a> | 
+      <a href="policy.html" aria-label="Terms and Policies">Terms & Policy</a>
     </nav>
   </footer>
 
@@ -47,7 +48,7 @@
       { id: '5', name: '2023 Audi A7', price: 1.80, image: 'audi.png' },
       { id: '6', name: 'Iphone 16 ProMax', price: 1.22, image: 'Iphone16.png' }
     ];
-  
+
     // Carica i biglietti nella pagina
     document.addEventListener('DOMContentLoaded', () => {
       const competitionGrid = document.getElementById('competition-grid');
@@ -60,13 +61,13 @@
           <div class="competition-card-content">
             <h3>${ticket.name}</h3>
             <p>Price: €${ticket.price.toFixed(2)}</p>
-            <button class="add-to-cart" onclick="addToCart('${ticket.id}', '${ticket.name}', ${ticket.price}, '${ticket.image}')">Add to Cart</button>
+            <button class="add-to-cart" onclick="addToCart('${ticket.id}', '${ticket.name}', ${ticket.price}, '${ticket.image}')" aria-label="Add ${ticket.name} to Cart">Add to Cart</button>
           </div>
         `;
         competitionGrid.appendChild(ticketCard);
       });
     });
-  
+
     // Funzione per aggiungere il biglietto al carrello
     function addToCart(ticketId, ticketName, ticketPrice, ticketImage) {
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -74,6 +75,6 @@
       localStorage.setItem('cart', JSON.stringify(cart));
       alert('Ticket added to cart!');
     }
-  </script>  
+  </script>
 </body>
 </html>

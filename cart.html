@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Your Cart - Autotechjackpot</title>
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -10,11 +11,11 @@
     <header>
         <div class="header-container">
             <div class="logo">
-                <a href="index.html">AutoTechJackpot</a>
+                <a href="index.html" aria-label="Go to Home page">AutoTechJackpot</a>
             </div>
             <nav>
-                <a href="index.html">Home</a>
-                <a href="tickets.html">Tickets</a>
+                <a href="index.html" aria-label="Home Page">Home</a>
+                <a href="tickets.html" aria-label="Tickets Page">Tickets</a>
             </nav>
         </div>
     </header>
@@ -52,7 +53,7 @@
                 cartItem.innerHTML = `
                     <p>${item.ticketName}</p>
                     <p>Price: €${item.ticketPrice.toFixed(2)}</p>
-                    <button class="remove-button" data-index="${index}">Remove</button>
+                    <button class="remove-button" data-index="${index}" aria-label="Remove item from cart">Remove</button>
                 `;
                 cartItems.appendChild(cartItem);
             });

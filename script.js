@@ -1,30 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Aggiungi qui eventuale codice di interattività, animazioni o altre logiche JS
-
-  // Esempio per l'integrazione del PayPal Button direttamente nella pagina
-  const paypalButtonContainer = document.getElementById('paypal-button-container');
-
-  if (paypalButtonContainer) {
-    paypal.Buttons({
-      createOrder: (data, actions) => {
-        return actions.order.create({
-          purchase_units: [{
-            amount: {
-              value: '10.00' // Imposta l'importo per il pagamento
-            }
-          }]
-        });
-      },
-      onApprove: (data, actions) => {
-        return actions.order.capture().then(function(details) {
-          alert('Transaction completed by ' + details.payer.name.given_name);
-        });
-      }
-    }).render(paypalButtonContainer); // Renderizza il pulsante PayPal
-  }
-});
-
-document.addEventListener('DOMContentLoaded', () => {
   // Dati dei biglietti iniziali
   const ticketsData = {
     iphone: { total: 3800, price: 1.22 },
@@ -36,43 +10,51 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // Funzione per aggiornare il conteggio dei biglietti
-  const updateTicketCount = (competitionId, ticketsRemaining) => {
-    const element = document.getElementById(`${competitionId}-tickets-remaining`);
-    if (element) {
-      element.textContent = ticketsRemaining;
+  const updateTicketCount = (competitionId) => {
+    if (ticketsData[competitionId]) {
+      ticketsData[competitionId].total--;  // Decrementa il numero di biglietti disponibili
+      // Aggiorna l'interfaccia utente per riflettere il nuovo numero
+      const ticketElement = document.getElementById(`${competitionId}-tickets-remaining`);
+      if (ticketElement) {
+        ticketElement.textContent = ticketsData[competitionId].total;
+      }
     }
   };
 
-  // Logica per il decremento dei biglietti quando l'utente acquista un biglietto
+  // Funzione per gestire il decremento dei biglietti quando l'utente acquista un biglietto
   document.querySelectorAll('.enter-button').forEach(button => {
     button.addEventListener('click', (e) => {
-      const competitionId = e.target.href.split('=')[1];
-      switch (competitionId) {
-        case '1':
-          ticketsData.iphone.total--;
-          updateTicketCount('iphone', ticketsData.iphone.total);
-          break;
-        case '2':
-          ticketsData.audi.total--;
-          updateTicketCount('audi', ticketsData.audi.total);
-          break;
-        case '3':
-          ticketsData.bmw.total--;
-          updateTicketCount('bmw', ticketsData.bmw.total);
-          break;
-        case '4':
-          ticketsData.mercedesGle.total--;
-          updateTicketCount('mercedes-gle', ticketsData.mercedesGle.total);
-          break;
-        case '5':
-          ticketsData.mercedesCls.total--;
-          updateTicketCount('mercedes-cls', ticketsData.mercedesCls.total);
-          break;
-        case '6':
-          ticketsData.mercedesS63.total--;
-          updateTicketCount('mercedes-s63', ticketsData.mercedesS63.total);
-          break;
-      }
+      const competitionId = e.target.href.split('=')[1];  // Ottieni l'ID del biglietto dalla URL
+      updateTicketCount(competitionId);  // Decrementa il numero del biglietto
     });
   });
+
+  // Aggiungi il pulsante PayPal nella pagina
+  const paypalButtonContainer = document.getElementById('paypal-button-container');
+
+  if (paypalButtonContainer) {
+    paypal.Buttons({
+      createOrder: (data, actions) => {
+        const competitionId = data.purchase_units[0].description || 'iphone';  // Usa 'iphone' come default
+        return actions.order.create({
+          purchase_units: [{
+            description: competitionId,  // Associa l'ID del biglietto
+            amount: { value: ticketsData[competitionId].price.toFixed(2) }  // Imposta l'importo per il pagamento
+          }]
+        });
+      },
+      onApprove: (data, actions) => {
+        return actions.order.capture().then(function(details) {
+          alert('Transaction completed by ' + details.payer.name.given_name);
+
+          // Decrementa il numero del biglietto acquistato
+          const competitionId = data.purchase_units[0].description;
+          updateTicketCount(competitionId);
+
+          // Reindirizza alla homepage dopo il pagamento
+          window.location.href = 'index.html';  // Homepage
+        });
+      }
+    }).render(paypalButtonContainer); // Renderizza il pulsante PayPal
+  }
 });

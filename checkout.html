@@ -53,16 +53,15 @@
     let orderDetails = '';
 
     cart.forEach(item => {
-      // Gestione fallback per valori mancanti o non validi
-      const ticketPrice = parseFloat(item.ticketPrice) || 0; // Default a 0 se non valido
+      const price = parseFloat(item.price) || 0; // Usa 'price' invece di 'ticketPrice'
       const quantity = item.quantity || 1; // Default a 1 se non presente
 
-      total += ticketPrice * quantity;
+      total += price * quantity;
 
       orderDetails += `
         <div class="order-item">
-          <p><strong>${item.competitionName || "Unnamed Competition"}</strong></p>
-          <p>Price: €${ticketPrice.toFixed(2)} x ${quantity}</p>
+          <p><strong>${item.name || "Unnamed Competition"}</strong></p>
+          <p>Price: €${price.toFixed(2)} x ${quantity}</p>
         </div>
       `;
     });
@@ -72,7 +71,7 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    console.log('Cart contents:', cart); // Debug per controllare il contenuto del carrello
+    console.log('Cart contents:', cart); // Debug per verificare il contenuto
 
     const orderSummary = document.getElementById('order-summary');
     const paypalButton = document.getElementById('paypal-button');

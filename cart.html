@@ -15,11 +15,11 @@
             </div>
             <nav>
                 <a href="how-it-works.html">How It Works</a>
-        <a href="winners.html">Winners</a>
-        <a href="tickets.html">Tickets</a>
-        <a href="cart.html">Cart</a>
-        <a href="login.html">Login / Register</a>
-         <a href="activecompetitions.html">Active Competitions</a>
+                <a href="winners.html">Winners</a>
+                <a href="tickets.html">Tickets</a>
+                <a href="cart.html">Cart</a>
+                <a href="login.html">Login / Register</a>
+                <a href="activecompetitions.html">Active Competitions</a>
             </nav>
         </div>
     </header>
@@ -44,38 +44,40 @@
     <script>
         // Funzione per caricare e visualizzare gli articoli nel carrello
         function loadCart() {
-            const cart = JSON.parse(localStorage.getItem('cart')) || [];  // Ottieni il carrello dal localStorage
-            const cartItems = document.getElementById('cart-items');  // Div in cui verranno aggiunti gli articoli
-            const totalPriceElement = document.getElementById('total-price');  // Elemento per visualizzare il totale
-            let total = 0;  // Inizializza la variabile per il totale
-            cartItems.innerHTML = '';  // Pulisci l'area dei cart items prima di aggiungere nuovi articoli
+            const cart = JSON.parse(localStorage.getItem('cart')) || []; // Ottieni il carrello dal localStorage
+            const cartItems = document.getElementById('cart-items'); // Div in cui verranno aggiunti gli articoli
+            const totalPriceElement = document.getElementById('total-price'); // Elemento per visualizzare il totale
+            let total = 0; // Inizializza la variabile per il totale
+            cartItems.innerHTML = ''; // Pulisci l'area dei cart items prima di aggiungere nuovi articoli
 
             cart.forEach((item, index) => {
-                total += item.price;  // Aggiungi il prezzo del biglietto al totale
-                const cartItem = document.createElement('div');  // Crea un div per ogni articolo
-                cartItem.classList.add('cart-item');  // Aggiungi la classe cart-item
+                total += (item.price || 0) * (item.quantity || 1); // Aggiungi il prezzo moltiplicato per la quantità
+
+                const cartItem = document.createElement('div'); // Crea un div per ogni articolo
+                cartItem.classList.add('cart-item'); // Aggiungi la classe cart-item
 
                 // Aggiungi il contenuto HTML per ciascun biglietto
                 cartItem.innerHTML = `
-                    <img src="${item.image}" alt="${item.name}" class="ticket-image">  <!-- Immagine del biglietto -->
-                    <p>${item.name}</p>  <!-- Nome del biglietto -->
-                    <p>Price: €${item.price.toFixed(2)}</p>  <!-- Prezzo del biglietto -->
-                    <button class="remove-button" data-index="${index}" aria-label="Remove item from cart">Remove</button>  <!-- Pulsante per rimuovere il biglietto -->
+                    <img src="${item.image || ''}" alt="${item.name || 'Item'}" class="ticket-image"> <!-- Immagine del biglietto -->
+                    <p>${item.name || 'Unnamed Item'}</p> <!-- Nome del biglietto -->
+                    <p>Price: €${(item.price || 0).toFixed(2)}</p> <!-- Prezzo del biglietto -->
+                    <p>Quantity: ${item.quantity || 1}</p> <!-- Quantità -->
+                    <button class="remove-button" data-index="${index}" aria-label="Remove item from cart">Remove</button> <!-- Pulsante per rimuovere il biglietto -->
                 `;
 
-                cartItems.appendChild(cartItem);  // Aggiungi il div creato all'area dei cart items
+                cartItems.appendChild(cartItem); // Aggiungi il div creato all'area dei cart items
             });
 
-            totalPriceElement.textContent = total.toFixed(2);  // Visualizza il totale nel carrello
-            setupRemoveButtons();  // Configura i pulsanti di rimozione
+            totalPriceElement.textContent = total.toFixed(2); // Visualizza il totale nel carrello
+            setupRemoveButtons(); // Configura i pulsanti di rimozione
         }
 
         // Funzione per rimuovere un articolo dal carrello
         function removeFromCart(index) {
             const cart = JSON.parse(localStorage.getItem('cart')) || [];
-            cart.splice(index, 1);  // Rimuovi l'elemento alla posizione specificata
-            localStorage.setItem('cart', JSON.stringify(cart));  // Salva il carrello aggiornato
-            loadCart();  // Ricarica il carrello per riflettere le modifiche
+            cart.splice(index, 1); // Rimuovi l'elemento alla posizione specificata
+            localStorage.setItem('cart', JSON.stringify(cart)); // Salva il carrello aggiornato
+            loadCart(); // Ricarica il carrello per riflettere le modifiche
         }
 
         // Aggiungi l'evento di rimozione agli articoli del carrello
@@ -83,8 +85,8 @@
             const removeButtons = document.querySelectorAll('.remove-button');
             removeButtons.forEach(button => {
                 button.addEventListener('click', (event) => {
-                    const index = event.target.getAttribute('data-index');  // Ottieni l'indice del biglietto da rimuovere
-                    removeFromCart(index);  // Chiama la funzione per rimuovere l'elemento
+                    const index = event.target.getAttribute('data-index'); // Ottieni l'indice del biglietto da rimuovere
+                    removeFromCart(index); // Chiama la funzione per rimuovere l'elemento
                 });
             });
         }
@@ -92,14 +94,14 @@
         // Funzione per il bottone di checkout
         function setupCheckoutButton() {
             document.getElementById('checkout-button').addEventListener('click', () => {
-                window.location.href = 'checkout.html';  // Reindirizza alla pagina di checkout
+                window.location.href = 'checkout.html'; // Reindirizza alla pagina di checkout
             });
         }
 
         // Carica il carrello e configura i pulsanti di rimozione
         document.addEventListener('DOMContentLoaded', () => {
-            loadCart();  // Carica gli articoli del carrello al caricamento della pagina
-            setupCheckoutButton();  // Imposta l'evento per il bottone di checkout
+            loadCart(); // Carica gli articoli del carrello al caricamento della pagina
+            setupCheckoutButton(); // Imposta l'evento per il bottone di checkout
         });
     </script>
 </body>

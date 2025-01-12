@@ -10,16 +10,17 @@
   <header>
     <div class="header-container">
       <div class="logo">
-          <a href="index.html">AutoTechJackpot</a>
+        <a href="index.html">AutoTechJackpot</a>
       </div>
-    <nav>
-      <a href="how-it-works.html">How It Works</a>
-      <a href="winners.html">Winners</a>
-      <a href="tickets.html">Tickets</a>
-      <a href="cart.html">Cart</a>
-      <a href="login.html">Login / Register</a>
-      <a href="activecompetitions.html">Active Competitions</a>
-    </nav>
+      <nav>
+        <a href="how-it-works.html">How It Works</a>
+        <a href="winners.html">Winners</a>
+        <a href="tickets.html">Tickets</a>
+        <a href="cart.html">Cart</a>
+        <a href="login.html">Login / Register</a>
+        <a href="activecompetitions.html">Active Competitions</a>
+      </nav>
+    </div>
   </header>
 
   <main>
@@ -27,17 +28,14 @@
       <h1>Checkout</h1>
       <p>Review your order and proceed to payment.</p>
 
-      <!-- Dettagli dell'ordine -->
+      <!-- Order Details -->
       <div class="order-summary" id="order-summary">
-        <!-- Ordine aggiunto dinamicamente -->
+        <!-- Order items will be dynamically added here -->
       </div>
 
-      <!-- Sezione di pagamento -->
+      <!-- Payment Section -->
       <div class="payment-section">
-        <!-- Link PayPal.me con importo dinamico -->
-        <a id="paypal-button" href="#" class="cta-button">
-          Complete Payment via PayPal
-        </a>
+        <a id="paypal-button" href="#" class="cta-button">Complete Payment via PayPal</a>
       </div>
     </section>
   </main>
@@ -45,54 +43,55 @@
   <footer>
     <p>&copy; 2025 AutoTechJackpot. All rights reserved.</p>
     <nav>
-        <a href="policy.html">Terms & Policy</a> |  
+      <a href="policy.html">Terms & Policy</a>
     </nav>
   </footer>
 
   <script>
-    // Funzione per calcolare l'importo totale dal carrello
+    // Function to calculate total amount and generate order details
     function calculateTotal(cart) {
       let total = 0;
-      let orderDetails = [];
+      let orderDetails = '';
 
       cart.forEach(item => {
-        total += parseFloat(item.ticketPrice) || 0;
-        orderDetails.push(`
-          <p>${item.competitionName}: €${item.ticketPrice} x ${item.quantity}</p>
-        `);
+        total += parseFloat(item.ticketPrice) * (item.quantity || 1);
+        orderDetails += `
+          <div class="order-item">
+            <p><strong>${item.competitionName}</strong></p>
+            <p>Price: €${parseFloat(item.ticketPrice).toFixed(2)} x ${item.quantity || 1}</p>
+          </div>
+        `;
       });
 
       return { total: total.toFixed(2), orderDetails };
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      // Recupera il carrello dal localStorage
+      // Retrieve the cart from localStorage
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
       
-      // Debug per controllare il contenuto del carrello
-      console.log('Carrello:', cart);
-
-      // Calcola il totale e i dettagli dell'ordine
-      const { total, orderDetails } = calculateTotal(cart);
+      console.log('Cart contents:', cart); // Debug: check the cart data
 
       const orderSummary = document.getElementById('order-summary');
-      
-      // Verifica se il carrello è vuoto
-      if (cart.length > 0) {
-        // Mostra i dettagli dell'ordine
-        orderSummary.innerHTML = `
-          ${orderDetails.join('')}
-          <p><strong>Total Amount: €${total}</strong></p>
-        `;
-      } else {
-        // Messaggio se il carrello è vuoto
-        orderSummary.innerHTML = '<p>Your cart is empty. Please add items to the cart.</p>';
-      }
-
-      // Imposta il link PayPal dinamicamente con l'importo del totale
-      const paypalLink = `https://paypal.me/autotechjackpot?amount=${total}`;
       const paypalButton = document.getElementById('paypal-button');
-      paypalButton.setAttribute('href', paypalLink);
+
+      if (cart.length > 0) {
+        // Calculate total and details
+        const { total, orderDetails } = calculateTotal(cart);
+
+        // Display order details and total
+        orderSummary.innerHTML = `
+          ${orderDetails}
+          <p class="order-total"><strong>Total Amount: €${total}</strong></p>
+        `;
+
+        // Update PayPal link with dynamic total
+        paypalButton.href = `https://paypal.me/autotechjackpot?amount=${total}`;
+      } else {
+        // Display message for empty cart
+        orderSummary.innerHTML = '<p>Your cart is empty. Please add items to the cart.</p>';
+        paypalButton.style.display = 'none'; // Hide PayPal button if cart is empty
+      }
     });
   </script>
 </body>

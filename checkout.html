@@ -46,53 +46,51 @@
       <a href="policy.html">Terms & Policy</a>
     </nav>
   </footer>
-
   <script>
-    // Function to calculate total amount and generate order details
-    function calculateTotal(cart) {
-      let total = 0;
-      let orderDetails = '';
+  // Funzione per calcolare totale e dettagli ordine
+  function calculateTotal(cart) {
+    let total = 0;
+    let orderDetails = '';
 
-      cart.forEach(item => {
-        total += parseFloat(item.ticketPrice) * (item.quantity || 1);
-        orderDetails += `
-          <div class="order-item">
-            <p><strong>${item.competitionName}</strong></p>
-            <p>Price: €${parseFloat(item.ticketPrice).toFixed(2)} x ${item.quantity || 1}</p>
-          </div>
-        `;
-      });
+    cart.forEach(item => {
+      // Gestione fallback per valori mancanti o non validi
+      const ticketPrice = parseFloat(item.ticketPrice) || 0; // Default a 0 se non valido
+      const quantity = item.quantity || 1; // Default a 1 se non presente
 
-      return { total: total.toFixed(2), orderDetails };
-    }
+      total += ticketPrice * quantity;
 
-    document.addEventListener('DOMContentLoaded', () => {
-      // Retrieve the cart from localStorage
-      const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      
-      console.log('Cart contents:', cart); // Debug: check the cart data
-
-      const orderSummary = document.getElementById('order-summary');
-      const paypalButton = document.getElementById('paypal-button');
-
-      if (cart.length > 0) {
-        // Calculate total and details
-        const { total, orderDetails } = calculateTotal(cart);
-
-        // Display order details and total
-        orderSummary.innerHTML = `
-          ${orderDetails}
-          <p class="order-total"><strong>Total Amount: €${total}</strong></p>
-        `;
-
-        // Update PayPal link with dynamic total
-        paypalButton.href = `https://paypal.me/autotechjackpot?amount=${total}`;
-      } else {
-        // Display message for empty cart
-        orderSummary.innerHTML = '<p>Your cart is empty. Please add items to the cart.</p>';
-        paypalButton.style.display = 'none'; // Hide PayPal button if cart is empty
-      }
+      orderDetails += `
+        <div class="order-item">
+          <p><strong>${item.competitionName || "Unnamed Competition"}</strong></p>
+          <p>Price: €${ticketPrice.toFixed(2)} x ${quantity}</p>
+        </div>
+      `;
     });
-  </script>
+
+    return { total: total.toFixed(2), orderDetails };
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    console.log('Cart contents:', cart); // Debug per controllare il contenuto del carrello
+
+    const orderSummary = document.getElementById('order-summary');
+    const paypalButton = document.getElementById('paypal-button');
+
+    if (cart.length > 0) {
+      const { total, orderDetails } = calculateTotal(cart);
+
+      orderSummary.innerHTML = `
+        ${orderDetails}
+        <p class="order-total"><strong>Total Amount: €${total}</strong></p>
+      `;
+
+      paypalButton.href = `https://paypal.me/autotechjackpot?amount=${total}`;
+    } else {
+      orderSummary.innerHTML = '<p>Your cart is empty. Please add items to the cart.</p>';
+      paypalButton.style.display = 'none'; // Nascondi pulsante PayPal se il carrello è vuoto
+    }
+  });
+</script>
 </body>
 </html>

@@ -10,14 +10,14 @@
   <header>
     <div class="header-container">
       <div class="logo">
-           <a href="index.html" aria-label="Go to Home page">AutoTechJackpot</a>
+        <a href="index.html" aria-label="Go to Home page">AutoTechJackpot</a>
       </div>
       <nav>
         <a href="how-it-works.html" aria-label="How it Works">How It Works</a>
         <a href="winners.html" aria-label="View Winners">Winners</a>
-        <a href="tickets.html" aria-label="View Tickets" class="active">Tickets</a>
+        <a href="tickets.html" aria-label="View Tickets">Tickets</a>
         <a href="cart.html" aria-label="View Cart">Cart</a>
-        <a href="login.html" aria-label="Login or Register">Login / Register</a>
+        <a href="login.html" aria-label="Login or Register" class="active">Login / Register</a>
         <a href="activecompetitions.html" aria-label="Active Competitions">Active Competitions</a>
       </nav>
     </div>
@@ -32,7 +32,7 @@
 
       <div class="form-content">
         <!-- Login Form -->
-        <form id="login-form" class="auth-form active" method="POST" action="/login">
+        <form id="login-form" class="auth-form active" method="POST">
           <h2>Login</h2>
           <label for="login-email">Email Address</label>
           <input type="email" id="login-email" name="email" required placeholder="Enter your email">
@@ -45,7 +45,7 @@
         </form>
 
         <!-- Register Form -->
-        <form id="register-form" class="auth-form" method="POST" action="/register">
+        <form id="register-form" class="auth-form" method="POST">
           <h2>Register</h2>
           <label for="register-name">Full Name</label>
           <input type="text" id="register-name" name="name" required placeholder="Enter your full name">
@@ -97,7 +97,7 @@
         loginForm.classList.remove('active');
       });
 
-      // Confirm password validation
+      // Confirm password validation for registration
       confirmPassword.addEventListener('input', () => {
         if (registerPassword.value !== confirmPassword.value) {
           passwordError.style.display = 'block';
@@ -106,12 +106,40 @@
         }
       });
 
-      // Form submission logic
-      registerForm.addEventListener('submit', (event) => {
-        if (registerPassword.value !== confirmPassword.value) {
-          event.preventDefault();
-          passwordError.style.display = 'block';
+      // Login Form submission logic
+      loginForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
+
+        // Check credentials (hardcoded example)
+        if (email === 'user@example.com' && password === 'password123') {
+          localStorage.setItem('isLoggedIn', 'true');
+          window.location.href = 'tickets.html'; // Redirect to tickets page after login
+        } else {
+          alert('Invalid credentials. Please try again.');
         }
+      });
+
+      // Register Form submission logic
+      registerForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const name = document.getElementById('register-name').value;
+        const email = document.getElementById('register-email').value;
+        const password = document.getElementById('register-password').value;
+        const confirmPassword = document.getElementById('register-confirm-password').value;
+
+        // Check if passwords match
+        if (password !== confirmPassword) {
+          passwordError.style.display = 'block';
+          return;
+        }
+
+        // Simulate registration (e.g., store user data or call an API)
+        localStorage.setItem('isLoggedIn', 'true');
+        window.location.href = 'tickets.html'; // Redirect to tickets page after registration
       });
     });
   </script>

@@ -1,4 +1,5 @@
 /* General Styles */
+/* General Styles */
 body {
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -6,6 +7,10 @@ body {
   background-color: #14144A;
   line-height: 1.6;
   box-sizing: border-box;
+  display: flex; /* Aggiungi per il layout centrato */
+  justify-content: center; /* Centra orizzontalmente */
+  align-items: center; /* Centra verticalmente */
+  height: 100vh; /* Occupare tutta l'altezza della finestra */
 }
 
 *,
@@ -67,7 +72,6 @@ header nav a:hover {
   padding: 20px;
   box-sizing: border-box;
 }
-
 .auth-card {
   background-color: white;
   padding: 20px;

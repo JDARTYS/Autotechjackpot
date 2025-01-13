@@ -1,5 +1,4 @@
 /* General Styles */
-/* General Styles */
 body {
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -7,10 +6,6 @@ body {
   background-color: #14144A;
   line-height: 1.6;
   box-sizing: border-box;
-  display: flex; /* Aggiungi per il layout centrato */
-  justify-content: center; /* Centra orizzontalmente */
-  align-items: center; /* Centra verticalmente */
-  height: 100vh; /* Occupare tutta l'altezza della finestra */
 }
 
 *,
@@ -64,32 +59,45 @@ header nav a:hover {
 /* Authentication Layout */
 .auth-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start; /* Modifica per allineare gli altri contenuti a sinistra */
+  align-items: flex-start; /* Modifica per allineare gli altri contenuti a sinistra */
   flex-direction: column;
   width: 100%;
   max-width: 600px;
   padding: 20px;
   box-sizing: border-box;
-  margin: 0 auto;
-  height: 100vh; /* Imposta l'altezza a tutta la finestra */
 }
 
-.form-tabs {
+/* Centrare la pagina di login */
+body.login-page .auth-container {
   display: flex;
-  justify-content: center;
+  justify-content: center;  /* Centra orizzontalmente */
+  align-items: center;      /* Centra verticalmente */
+  height: 100vh;            /* Occupa tutta l'altezza della pagina */
+}
+
+.auth-card {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+.auth-tabs {
+  display: flex;
+  justify-content: space-between;
   margin-bottom: 20px;
 }
 
 .tab-button {
   background-color: #FF6A00;
   color: white;
-  padding: 10px 20px;
+  padding: 10px;
   border: none;
   font-size: 16px;
+  width: 48%;
   cursor: pointer;
-  width: 100px;
-  text-align: center;
 }
 
 .tab-button.active {
@@ -131,19 +139,13 @@ header nav a:hover {
   display: none;
   font-size: 12px;
 }
-
-/*Nascondi form non attivi*/
+/* Nascondere i form non attivi */
 .auth-form {
   display: none;
 }
 
 .auth-form.active {
   display: block;
-}
-
-.tab-button.active {
-  background-color: #e65900;
-  color: white;
 }
 
 /* Styles for Cart */

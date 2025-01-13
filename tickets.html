@@ -40,53 +40,49 @@
   </footer>
 
   <script>
-    // Dati dei biglietti con immagini
-    const tickets = [
-      { id: '1', name: '2020 BMW 745', price: 2.22, image: 'BMW2020.png' },
-      { id: '2', name: '2021 Mercedes-Benz', price: 5.11, image: 'Mercedes2021.png' },
-      { id: '3', name: '2019 Mercedes-Benz', price: 3.59, image: 'Mercedes2019.png' },
-      { id: '4', name: '2015 Mercedes-Benz S', price: 5.01, image: 'Mercedes2015.png' },
-      { id: '5', name: '2023 Audi A7', price: 1.80, image: 'audi.png' },
-      { id: '6', name: 'Iphone 16 ProMax', price: 1.22, image: 'Iphone16.png' }
-    ];
+  // Funzione per aggiungere il biglietto al carrello
+  function addToCart(ticketId, ticketName, ticketPrice, ticketImage) {
+    // Verifica se l'utente è loggato
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
 
-    // Carica i biglietti nella pagina
-    document.addEventListener('DOMContentLoaded', () => {
-      const competitionGrid = document.getElementById('competition-grid');
-      
-      tickets.forEach(ticket => {
-        const ticketCard = document.createElement('div');
-        ticketCard.classList.add('competition-card');
-        ticketCard.innerHTML = `
-          <img src="${ticket.image}" alt="${ticket.name}" class="ticket-image">
-          <div class="competition-card-content">
-            <h3>${ticket.name}</h3>
-            <p>Price: €${ticket.price.toFixed(2)}</p>
-            <button class="add-to-cart" onclick="addToCart('${ticket.id}', '${ticket.name}', ${ticket.price}, '${ticket.image}')" aria-label="Add ${ticket.name} to Cart">Add to Cart</button>
-          </div>
-        `;
-        competitionGrid.appendChild(ticketCard);
-      });
-    });
-
-    // Funzione per aggiungere il biglietto al carrello
-    function addToCart(ticketId, ticketName, ticketPrice, ticketImage) {
-      const cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-      // Controlla se il biglietto è già presente nel carrello
-      const existingTicket = cart.find(ticket => ticket.id === ticketId);
-      if (existingTicket) {
-        alert('This ticket is already in your cart!');
-        return;
-      }
-
-      // Aggiungi il biglietto al carrello
-      cart.push({ id: ticketId, name: ticketName, price: ticketPrice, image: ticketImage });
-      localStorage.setItem('cart', JSON.stringify(cart));
-
-      // Mostra un messaggio di conferma
-      alert(`Ticket added to cart! You now have ${cart.length} item(s) in your cart.`);
+    if (!isLoggedIn) {
+      alert('You need to be logged in to purchase a ticket! Please log in or register.');
+      return;
     }
-  </script>
+
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    // Controlla se il biglietto è già presente nel carrello
+    const existingTicket = cart.find(ticket => ticket.id === ticketId);
+    if (existingTicket) {
+      alert('This ticket is already in your cart!');
+      return;
+    }
+
+    // Aggiungi il biglietto al carrello
+    cart.push({ id: ticketId, name: ticketName, price: ticketPrice, image: ticketImage });
+    localStorage.setItem('cart', JSON.stringify(cart));
+
+    // Aggiorna il numero di biglietti rimanenti
+    const ticketsData = JSON.parse(localStorage.getItem('ticketsData')) || {
+      iphone: { total: 3800 },
+      audi: { total: 18000 },
+      bmw: { total: 22000 },
+      mercedesGle: { total: 15000 },
+      mercedesCls: { total: 15000 },
+      mercedesS63: { total: 13500 }
+    };
+
+    // Decrementa il numero di biglietti disponibili per la competizione acquistata
+    const competitionId = ticketName.toLowerCase().replace(/\s+/g, '').replace(/[^\w\s]/gi, '');
+    if (ticketsData[competitionId]) {
+      ticketsData[competitionId].total -= 1;
+      localStorage.setItem('ticketsData', JSON.stringify(ticketsData));
+    }
+
+    // Mostra un messaggio di conferma
+    alert(`Ticket added to cart! You now have ${cart.length} item(s) in your cart.`);
+  }
+</script>
 </body>
 </html>

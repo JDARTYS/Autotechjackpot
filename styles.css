@@ -135,15 +135,6 @@ header nav a:hover {
   display: none;
   font-size: 12px;
 }
-/* Nascondere i form non attivi */
-.auth-form {
-  display: none;
-}
-
-.auth-form.active {
-  display: block;
-}
-
 /* Styles for Cart */
 .cart {
   margin-top: 100px;

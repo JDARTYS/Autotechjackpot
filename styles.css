@@ -165,6 +165,15 @@ header nav a:hover {
   text-decoration: underline;
 }
 
+/* Nascondere i form non attivi */
+.auth-form {
+  display: none;
+}
+
+.auth-form.active {
+  display: block;
+}
+
 /* Styles for Cart */
 .cart {
   margin-top: 100px;

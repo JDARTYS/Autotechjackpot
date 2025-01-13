@@ -63,7 +63,7 @@ header nav a:hover {
   align-items: center;
   flex-direction: column; /* Assicura che il contenuto sia centrato */
   width: 100%;
-  max-width: 600px;
+  max-width: 600px; /* Aggiungi un limite alla larghezza per evitare form troppo larghi */
   padding: 20px;
   box-sizing: border-box;
 }

@@ -66,12 +66,15 @@ header nav a:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column; /* Assicura che il contenuto sia centrato */
+  flex-direction: column;
   width: 100%;
-  max-width: 600px; /* Aggiungi un limite alla larghezza per evitare form troppo larghi */
+  max-width: 600px;
   padding: 20px;
   box-sizing: border-box;
+  margin: 0 auto; /* Centra il contenitore orizzontalmente */
+  height: 100vh; /* Assicura che occupi tutta l'altezza della finestra */
 }
+
 .auth-card {
   background-color: white;
   padding: 20px;

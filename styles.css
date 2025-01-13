@@ -131,6 +131,20 @@ header nav a:hover {
   display: none;
   font-size: 12px;
 }
+
+/*Nascondi form non attivi*/
+.auth-form {
+  display: none;
+}
+
+.auth-form.active {
+  display: block;
+}
+
+.tab-button.active {
+  background-color: #e65900;
+}
+
 /* Styles for Cart */
 .cart {
   margin-top: 100px;

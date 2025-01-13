@@ -71,32 +71,25 @@ header nav a:hover {
   max-width: 600px;
   padding: 20px;
   box-sizing: border-box;
-  margin: 0 auto; /* Centra il contenitore orizzontalmente */
-  height: 100vh; /* Assicura che occupi tutta l'altezza della finestra */
+  margin: 0 auto;
+  height: 100vh; /* Imposta l'altezza a tutta la finestra */
 }
 
-.auth-card {
-  background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 100%;
-}
-
-.auth-tabs {
+.form-tabs {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   margin-bottom: 20px;
 }
 
 .tab-button {
   background-color: #FF6A00;
   color: white;
-  padding: 10px;
+  padding: 10px 20px;
   border: none;
   font-size: 16px;
-  width: 48%;
   cursor: pointer;
+  width: 100px;
+  text-align: center;
 }
 
 .tab-button.active {

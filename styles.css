@@ -211,44 +211,6 @@ footer nav a:hover {
   background-color: #e65900;
 }
 
-/* Bottoni di pagamento */
-.payment-button {
-  display: inline-block;
-  padding: 15px 30px;
-  font-size: 16px;
-  font-weight: bold;
-  color: #fff;
-  background-color: #FF6A00; /* Colore arancione */
-  border: none;
-  border-radius: 5px;
-  text-align: center;
-  text-decoration: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.payment-button:hover {
-  background-color: #e65900; /* Tonalità più scura per l'hover */
-}
-
-/* Stile specifico per PayPal */
-.payment-button.paypal {
-  background-color: #003087; /* Colore blu PayPal */
-}
-
-.payment-button.paypal:hover {
-  background-color: #00206e; /* Blu più scuro per l'hover */
-}
-
-/* Stile specifico per Credit Card */
-.payment-button.card {
-  background-color: #FF6A00; /* Colore arancione uniforme */
-}
-
-.payment-button.card:hover {
-  background-color: #e65900; /* Arancione più scuro per l'hover */
-}
-
 /* Responsiveness */
 @media (max-width: 768px) {
   body {

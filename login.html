@@ -74,79 +74,74 @@
   </footer>
 
   <script>
-   document.addEventListener('DOMContentLoaded', () => {
-  const loginTab = document.getElementById('login-tab');
-  const registerTab = document.getElementById('register-tab');
-  const loginForm = document.getElementById('login-form');
-  const registerForm = document.getElementById('register-form');
-  const passwordError = document.getElementById('password-error');
-  const registerPassword = document.getElementById('register-password');
-  const confirmPassword = document.getElementById('register-confirm-password');
+    document.addEventListener('DOMContentLoaded', () => {
+      const loginTab = document.getElementById('login-tab');
+      const registerTab = document.getElementById('register-tab');
+      const loginForm = document.getElementById('login-form');
+      const registerForm = document.getElementById('register-form');
+      const passwordError = document.getElementById('password-error');
+      const registerPassword = document.getElementById('register-password');
+      const confirmPassword = document.getElementById('register-confirm-password');
 
-  loginTab.addEventListener('click', () => {
-    if (!loginForm.classList.contains('active')) {
-      loginTab.classList.add('active');
-      registerTab.classList.remove('active');
-      loginForm.classList.add('active');
-      registerForm.classList.remove('active');
-    }
-  });
+      loginTab.addEventListener('click', () => {
+        loginTab.classList.add('active');
+        registerTab.classList.remove('active');
+        loginForm.classList.add('active');
+        registerForm.classList.remove('active');
+      });
 
-  registerTab.addEventListener('click', () => {
-    if (!registerForm.classList.contains('active')) {
-      registerTab.classList.add('active');
-      loginTab.classList.remove('active');
-      registerForm.classList.add('active');
-      loginForm.classList.remove('active');
-    }
-  });
+      registerTab.addEventListener('click', () => {
+        registerTab.classList.add('active');
+        loginTab.classList.remove('active');
+        registerForm.classList.add('active');
+        loginForm.classList.remove('active');
+      });
 
-  // Confirm password validation for registration
-  confirmPassword.addEventListener('input', () => {
-    if (registerPassword.value !== confirmPassword.value) {
-      passwordError.style.display = 'block';
-    } else {
-      passwordError.style.display = 'none';
-    }
-  });
+      // Confirm password validation for registration
+      confirmPassword.addEventListener('input', () => {
+        if (registerPassword.value !== confirmPassword.value) {
+          passwordError.style.display = 'block';
+        } else {
+          passwordError.style.display = 'none';
+        }
+      });
 
-  // Login Form submission logic
-  loginForm.addEventListener('submit', (event) => {
-    event.preventDefault();
+      // Login Form submission logic
+      loginForm.addEventListener('submit', (event) => {
+        event.preventDefault();
 
-    const email = document.getElementById('login-email').value;
-    const password = document.getElementById('login-password').value;
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
 
-    // Check credentials (hardcoded example)
-    if (email === 'user@example.com' && password === 'password123') {
-      localStorage.setItem('isLoggedIn', 'true');
-      window.location.href = 'tickets.html'; // Redirect to tickets page after login
-    } else {
-      alert('Invalid credentials. Please try again.');
-    }
-  });
+        // Check credentials (hardcoded example)
+        if (email === 'user@example.com' && password === 'password123') {
+          localStorage.setItem('isLoggedIn', 'true');
+          window.location.href = 'tickets.html'; // Redirect to tickets page after login
+        } else {
+          alert('Invalid credentials. Please try again.');
+        }
+      });
 
-  // Register Form submission logic
-  registerForm.addEventListener('submit', (event) => {
-    event.preventDefault();
+      // Register Form submission logic
+      registerForm.addEventListener('submit', (event) => {
+        event.preventDefault();
 
-    const name = document.getElementById('register-name').value;
-    const email = document.getElementById('register-email').value;
-    const password = document.getElementById('register-password').value;
-    const confirmPassword = document.getElementById('register-confirm-password').value;
+        const name = document.getElementById('register-name').value;
+        const email = document.getElementById('register-email').value;
+        const password = document.getElementById('register-password').value;
+        const confirmPassword = document.getElementById('register-confirm-password').value;
 
-    // Check if passwords match
-    if (password !== confirmPassword) {
-      passwordError.style.display = 'block';
-      return;
-    }
+        // Check if passwords match
+        if (password !== confirmPassword) {
+          passwordError.style.display = 'block';
+          return;
+        }
 
-    // Simulate registration (e.g., store user data or call an API)
-    localStorage.setItem('isLoggedIn', 'true');
-    window.location.href = 'tickets.html'; // Redirect to tickets page after registration
-  });
-});
-
+        // Simulate registration (e.g., store user data or call an API)
+        localStorage.setItem('isLoggedIn', 'true');
+        window.location.href = 'tickets.html'; // Redirect to tickets page after registration
+      });
+    });
   </script>
 </body>
 </html>

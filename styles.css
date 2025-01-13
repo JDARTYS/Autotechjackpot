@@ -59,53 +59,63 @@ header nav a:hover {
 /* Authentication Layout */
 .auth-container {
   display: flex;
-  justify-content: space-between;
-  gap: 40px;
+  justify-content: center;
+  padding: 50px 20px;
+}
+
+.auth-card {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 1200px;
+  max-width: 500px;
 }
 
-.auth-section {
-  background-color: #2C2C6C;
-  padding: 30px;
-  border-radius: 8px;
-  width: 45%;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+.auth-tabs {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
 }
 
-h2 {
-  font-size: 2em;
-  color: #FF6A00;
+.tab-button {
+  background-color: #FF6A00;
+  color: white;
+  padding: 10px;
+  border: none;
+  font-size: 16px;
+  width: 48%;
+  cursor: pointer;
+}
+
+.tab-button.active {
+  background-color: #e65900;
 }
 
 .auth-form {
-  display: flex;
-  flex-direction: column;
+  display: none;
 }
 
-.auth-form label {
-  margin-top: 10px;
-  color: #FF6A00;
+.auth-form.active {
+  display: block;
 }
 
 .auth-form input {
-  margin: 10px 0;
+  width: 100%;
   padding: 10px;
+  margin: 10px 0;
   border-radius: 5px;
-  border: 1px solid #FF6A00;
-  background-color: #1A1A50;
-  color: #fff;
+  border: 1px solid #ddd;
 }
 
 .auth-form button {
-  padding: 12px;
   background-color: #FF6A00;
-  color: #fff;
-  font-size: 1.2em;
+  color: white;
+  padding: 12px;
   border: none;
   border-radius: 5px;
+  width: 100%;
   cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
 .auth-form button:hover {
@@ -114,9 +124,9 @@ h2 {
 
 .error-message {
   color: red;
-  margin-top: 10px;
-  }
-
+  display: none;
+  font-size: 12px;
+}
 /* Nascondere i form non attivi */
 .auth-form {
   display: none;

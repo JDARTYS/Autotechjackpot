@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Checkout - AutoTechJackpot</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="https://js.stripe.com/v3/"></script> <!-- Stripe Library -->
 </head>
 <body>
   <header>
@@ -35,7 +36,12 @@
 
       <!-- Payment Section -->
       <div class="payment-section">
+        <h2>Choose Your Payment Method</h2>
+        <!-- PayPal Button -->
         <a id="paypal-button" href="#" class="cta-button">Complete Payment via PayPal</a>
+
+        <!-- Credit Card Payment via Stripe -->
+        <button id="credit-card-button" class="cta-button stripe-button">Pay with Credit Card</button>
       </div>
     </section>
   </main>
@@ -46,50 +52,75 @@
       <a href="policy.html">Terms & Policy</a>
     </nav>
   </footer>
+
   <script>
-  // Funzione per calcolare totale e dettagli ordine
-  function calculateTotal(cart) {
-    let total = 0;
-    let orderDetails = '';
+    const stripe = Stripe('pk_live_51QgpeAFR0CD3L4eTZzZS5p8MpE1Krtjk0bdQB00pFc1eS90wVDLkO0MFcpG6ATrM7mwixQIML7PyS0DAtwa7TjsB00ytBk4wwf'); // Replace with your Stripe publishable key
 
-    cart.forEach(item => {
-      const price = parseFloat(item.price) || 0; // Usa 'price' invece di 'ticketPrice'
-      const quantity = item.quantity || 1; // Default a 1 se non presente
+    // Funzione per calcolare totale e dettagli ordine
+    function calculateTotal(cart) {
+      let total = 0;
+      let orderDetails = '';
 
-      total += price * quantity;
+      cart.forEach(item => {
+        const price = parseFloat(item.price) || 0;
+        const quantity = item.quantity || 1;
 
-      orderDetails += `
-        <div class="order-item">
-          <p><strong>${item.name || "Unnamed Competition"}</strong></p>
-          <p>Price: €${price.toFixed(2)} x ${quantity}</p>
-        </div>
-      `;
-    });
+        total += price * quantity;
 
-    return { total: total.toFixed(2), orderDetails };
-  }
+        orderDetails += `
+          <div class="order-item">
+            <p><strong>${item.name || "Unnamed Competition"}</strong></p>
+            <p>Price: €${price.toFixed(2)} x ${quantity}</p>
+          </div>
+        `;
+      });
 
-  document.addEventListener('DOMContentLoaded', () => {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    console.log('Cart contents:', cart); // Debug per verificare il contenuto
-
-    const orderSummary = document.getElementById('order-summary');
-    const paypalButton = document.getElementById('paypal-button');
-
-    if (cart.length > 0) {
-      const { total, orderDetails } = calculateTotal(cart);
-
-      orderSummary.innerHTML = `
-        ${orderDetails}
-        <p class="order-total"><strong>Total Amount: €${total}</strong></p>
-      `;
-
-      paypalButton.href = `https://paypal.me/autotechjackpot?amount=${total}`;
-    } else {
-      orderSummary.innerHTML = '<p>Your cart is empty. Please add items to the cart.</p>';
-      paypalButton.style.display = 'none'; // Nascondi pulsante PayPal se il carrello è vuoto
+      return { total: total.toFixed(2), orderDetails };
     }
-  });
-</script>
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const orderSummary = document.getElementById('order-summary');
+      const paypalButton = document.getElementById('paypal-button');
+      const creditCardButton = document.getElementById('credit-card-button');
+
+      if (cart.length > 0) {
+        const { total, orderDetails } = calculateTotal(cart);
+
+        orderSummary.innerHTML = `
+          ${orderDetails}
+          <p class="order-total"><strong>Total Amount: €${total}</strong></p>
+        `;
+
+        // Configura PayPal link
+        paypalButton.href = `https://paypal.me/autotechjackpot?amount=${total}`;
+
+        // Stripe Payment for Credit Card
+        creditCardButton.addEventListener('click', () => {
+          stripe.redirectToCheckout({
+            lineItems: cart.map(item => ({
+              price_data: {
+                currency: 'eur',
+                product_data: { name: item.name },
+                unit_amount: Math.round(item.price * 100),
+              },
+              quantity: item.quantity || 1,
+            })),
+            mode: 'payment',
+            successUrl: window.location.origin + '/success.html',
+            cancelUrl: window.location.origin + '/checkout.html',
+          }).then(result => {
+            if (result.error) {
+              alert(result.error.message);
+            }
+          });
+        });
+      } else {
+        orderSummary.innerHTML = '<p>Your cart is empty. Please add items to the cart.</p>';
+        paypalButton.style.display = 'none'; // Nascondi PayPal
+        creditCardButton.style.display = 'none'; // Nascondi Credit Card
+      }
+    });
+  </script>
 </body>
 </html>

@@ -140,17 +140,18 @@
 
         total += price * quantity;
 
-        orderDetails += 
+        orderDetails += `
           <div class="order-item">
             <p><strong>${item.name || "Unnamed Competition"}</strong></p>
             <p>Price: €${price.toFixed(2)} x ${quantity}</p>
           </div>
-        ;
+        `;
       });
 
       return { total: total.toFixed(2), orderDetails };
     }
-async function sendConfirmationEmail(userEmail, total, orderId) {
+
+    async function sendConfirmationEmail(userEmail, total, orderId) {
       const templateParams = {
         user_email: userEmail,
         total_amount: total,
@@ -178,14 +179,14 @@ async function sendConfirmationEmail(userEmail, total, orderId) {
 
       if (cart.length > 0) {
         const { total, orderDetails } = calculateTotal(cart);
-        const orderId = #${Math.floor(Math.random() * 1000000)};
+        const orderId = `${Math.floor(Math.random() * 1000000)}`;
 
-        orderSummary.innerHTML = 
+        orderSummary.innerHTML = `
           ${orderDetails}
           <p class="order-total"><strong>Total Amount: €${total}</strong></p>
-        ;
+        `;
 
-        paypalButton.href = https://paypal.me/autotechjackpot?amount=${total};
+        paypalButton.href = `https://paypal.me/autotechjackpot?amount=${total}`;
         paypalButton.addEventListener('click', () => {
           sendConfirmationEmail(userEmail, total, orderId);
         });
@@ -204,10 +205,10 @@ async function sendConfirmationEmail(userEmail, total, orderId) {
             successUrl: window.location.origin + '/success.html',
             cancelUrl: window.location.origin + '/checkout.html',
           }).then(result => {
-            if (!result.error) {
-              sendConfirmationEmail(userEmail, total, orderId);
-            } else {
+            if (result.error) {
               alert(result.error.message);
+            } else {
+              sendConfirmationEmail(userEmail, total, orderId);
             }
           });
         });

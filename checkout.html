@@ -6,6 +6,76 @@
   <title>Checkout - AutoTechJackpot</title>
   <link rel="stylesheet" href="styles.css">
   <script src="https://js.stripe.com/v3/"></script> <!-- Stripe Library -->
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script> <!-- EmailJS Library -->
+  <style>
+    .checkout {
+      margin-top: 120px;
+      padding: 40px;
+      background-color: #1A1A50;
+      border-radius: 8px;
+      max-width: 800px;
+      margin: 120px auto;
+    }
+
+    .checkout h1, .checkout h2 {
+      color: #FF6A00;
+    }
+
+    .order-summary {
+      background-color: #2C2C6C;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+
+    .order-item {
+      margin-bottom: 10px;
+    }
+
+    .order-total {
+      text-align: right;
+      font-size: 1.2em;
+    }
+
+    .payment-section {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .payment-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .payment-button {
+      display: inline-block;
+      width: 100%;
+      max-width: 350px;
+      padding: 15px;
+      background-color: #FF6A00;
+      color: #fff;
+      font-size: 1.2em;
+      text-align: center;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .payment-button:hover {
+      background-color: #e65900;
+    }
+
+    .paypal {
+      background-color: #0070BA;
+    }
+
+    .paypal:hover {
+      background-color: #005C9E;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -14,7 +84,7 @@
         <a href="index.html" aria-label="Go to Home page">AutoTechJackpot</a>
       </div>
       <nav>
-      <a href="how-it-works.html" aria-label="How it Works">How It Works</a>
+        <a href="how-it-works.html" aria-label="How it Works">How It Works</a>
         <a href="winners.html" aria-label="View Winners">Winners</a>
         <a href="tickets.html" aria-label="View Tickets" class="active">Tickets</a>
         <a href="cart.html" aria-label="View Cart">Cart</a>
@@ -24,7 +94,7 @@
     </div>
   </header>
 
-  <main>
+  <main class="container">
     <section class="checkout">
       <h1>Checkout</h1>
       <p>Review your order and proceed to payment.</p>
@@ -37,11 +107,13 @@
       <!-- Payment Section -->
       <div class="payment-section">
         <h2>Choose Your Payment Method</h2>
-       <!-- Bottone PayPal -->
-<a id="paypal-button" href="#" class="payment-button paypal">Pay with PayPal</a>
+        <div class="payment-buttons">
+          <!-- PayPal Button -->
+          <a id="paypal-button" href="#" class="payment-button paypal">Pay with PayPal</a>
 
-<!-- Bottone Credit Card -->
-<button id="card-button" class="payment-button card">Pay with Credit Card</button>
+          <!-- Credit Card Button -->
+          <button id="card-button" class="payment-button card">Pay with Credit Card</button>
+        </div>
       </div>
     </section>
   </main>
@@ -54,9 +126,10 @@
   </footer>
 
   <script>
-    const stripe = Stripe('pk_live_51QgpeAFR0CD3L4eTZzZS5p8MpE1Krtjk0bdQB00pFc1eS90wVDLkO0MFcpG6ATrM7mwixQIML7PyS0DAtwa7TjsB00ytBk4wwf'); // Replace with your Stripe publishable key
+    emailjs.init("_pzI6mZJ0GThyqyjw"); // Sostituisci con la tua public key da EmailJS
 
-    // Funzione per calcolare totale e dettagli ordine
+    const stripe = Stripe('pk_live_51QgpeAFR0CD3L4eTZzZS5p8MpE1Krtjk0bdQB00pFc1eS90wVDLkO0MFcpG6ATrM7mwixQIML7PyS0DAtwa7TjsB00ytBk4wwf'); // Sostituisci con la tua chiave pubblica Stripe
+
     function calculateTotal(cart) {
       let total = 0;
       let orderDetails = '';
@@ -67,36 +140,57 @@
 
         total += price * quantity;
 
-        orderDetails += `
+        orderDetails += 
           <div class="order-item">
             <p><strong>${item.name || "Unnamed Competition"}</strong></p>
             <p>Price: €${price.toFixed(2)} x ${quantity}</p>
           </div>
-        `;
+        ;
       });
 
       return { total: total.toFixed(2), orderDetails };
+    }
+async function sendConfirmationEmail(userEmail, total, orderId) {
+      const templateParams = {
+        user_email: userEmail,
+        total_amount: total,
+        order_id: orderId,
+      };
+
+      try {
+        const response = await emailjs.send('service_6fjt73r', 'template_0eq4duh', templateParams);
+        if (response.status === 200) {
+          console.log('Email sent successfully!');
+        } else {
+          console.error('Failed to send email:', response);
+        }
+      } catch (error) {
+        console.error('Error while sending email:', error);
+      }
     }
 
     document.addEventListener('DOMContentLoaded', () => {
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
       const orderSummary = document.getElementById('order-summary');
       const paypalButton = document.getElementById('paypal-button');
-      const creditCardButton = document.getElementById('credit-card-button');
+      const cardButton = document.getElementById('card-button');
+      const userEmail = localStorage.getItem('userEmail'); // Supponiamo che l'email sia salvata localmente
 
       if (cart.length > 0) {
         const { total, orderDetails } = calculateTotal(cart);
+        const orderId = #${Math.floor(Math.random() * 1000000)};
 
-        orderSummary.innerHTML = `
+        orderSummary.innerHTML = 
           ${orderDetails}
           <p class="order-total"><strong>Total Amount: €${total}</strong></p>
-        `;
+        ;
 
-        // Configura PayPal link
-        paypalButton.href = `https://paypal.me/autotechjackpot?amount=${total}`;
+        paypalButton.href = https://paypal.me/autotechjackpot?amount=${total};
+        paypalButton.addEventListener('click', () => {
+          sendConfirmationEmail(userEmail, total, orderId);
+        });
 
-        // Stripe Payment for Credit Card
-        creditCardButton.addEventListener('click', () => {
+        cardButton.addEventListener('click', () => {
           stripe.redirectToCheckout({
             lineItems: cart.map(item => ({
               price_data: {
@@ -110,15 +204,17 @@
             successUrl: window.location.origin + '/success.html',
             cancelUrl: window.location.origin + '/checkout.html',
           }).then(result => {
-            if (result.error) {
+            if (!result.error) {
+              sendConfirmationEmail(userEmail, total, orderId);
+            } else {
               alert(result.error.message);
             }
           });
         });
       } else {
         orderSummary.innerHTML = '<p>Your cart is empty. Please add items to the cart.</p>';
-        paypalButton.style.display = 'none'; // Nascondi PayPal
-        creditCardButton.style.display = 'none'; // Nascondi Credit Card
+        paypalButton.style.display = 'none';
+        cardButton.style.display = 'none';
       }
     });
   </script>

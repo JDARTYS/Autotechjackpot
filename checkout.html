@@ -152,7 +152,7 @@
         // Configura il bottone Stripe
         cardButton.addEventListener('click', async () => {
           try {
-            const response = await fetch('/api/create-checkout-session', {
+            const response = await fetch('create-checkout-session.js', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({

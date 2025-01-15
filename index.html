@@ -3,32 +3,126 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Active Competitions - AutoTechJackpot</title>
+  <title>Welcome - AutoTechJackpot</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #f8f8f8;
+      border-bottom: 2px solid #ddd;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo img {
+      max-height: 50px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #333;
+      margin: 0 15px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    nav a:hover {
+      color: #ff7a00;
+    }
+
+    .competition-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .competition-card {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s;
+    }
+
+    .competition-card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+    }
+
+    .competition-card-content {
+      padding: 15px;
+      text-align: center;
+    }
+
+    .competition-card h3 {
+      color: #ff7a00;
+      margin: 10px 0;
+    }
+
+    .enter-button {
+      display: inline-block;
+      padding: 10px 20px;
+      margin-top: 10px;
+      text-decoration: none;
+      background-color: #ff7a00;
+      color: #fff;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .enter-button:hover {
+      background-color: #e66a00;
+    }
+
+    footer {
+      text-align: center;
+      padding: 10px;
+      background-color: #f8f8f8;
+      border-top: 2px solid #ddd;
+    }
+
+    footer nav a {
+      margin: 0 10px;
+      color: #333;
+      font-size: 14px;
+    }
+
+    footer nav a:hover {
+      color: #ff7a00;
+    }
+  </style>
 </head>
 <body>
-
   <header>
-    <div class="header-container">
-      <div class="logo">
-       <a href="index.html" aria-label="Go to Home page">AutoTechJackpot</a>
-      </div>
-      <nav>
-         <a href="how-it-works.html" aria-label="How it Works">How It Works</a>
-        <a href="winners.html" aria-label="View Winners">Winners</a>
-        <a href="tickets.html" aria-label="View Tickets" class="active">Tickets</a>
-        <a href="cart.html" aria-label="View Cart">Cart</a>
-        <a href="login.html" aria-label="Login or Register">Login / Register</a>
-        <a href="activecompetitions.html" aria-label="Active Competitions">Active Competitions</a>
-      </nav>
+    <div class="logo">
+      <a href="index.html" aria-label="Go to Home page">
+        <img src="logo.png" alt="AutoTechJackpot Logo">
+      </a>
     </div>
+    <nav>
+      <a href="how-it-works.html" aria-label="How it Works">How It Works</a>
+      <a href="winners.html" aria-label="View Winners">Winners</a>
+      <a href="tickets.html" aria-label="View Tickets" class="active">Tickets</a>
+      <a href="cart.html" aria-label="View Cart">Cart</a>
+      <a href="login.html" aria-label="Login or Register">Login / Register</a>
+      <a href="activecompetitions.html" aria-label="Active Competitions">Active Competitions</a>
+    </nav>
   </header>
 
   <main>
     <section class="competitions">
       <h2>Competitions Preview</h2>
       <div class="competition-grid">
-        <!-- Competition 1 -->
         <div class="competition-card">
           <img src="audi.png" alt="Audi Competition">
           <div class="competition-card-content">
@@ -37,8 +131,6 @@
             <a href="tickets.html?competitionId=1" class="enter-button">Enter Now</a>
           </div>
         </div>
-
-        <!-- Competition 2 -->
         <div class="competition-card">
           <img src="BMW2020.png" alt="BMW 2020 Competition">
           <div class="competition-card-content">
@@ -47,18 +139,14 @@
             <a href="tickets.html?competitionId=2" class="enter-button">Enter Now</a>
           </div>
         </div>
-
-        <!-- Competition 3 -->
         <div class="competition-card">
           <img src="Mercedes2015.png" alt="Mercedes 2015 Competition">
           <div class="competition-card-content">
             <h3>Mercedes 2015</h3>
             <p>The jackpot is waiting for you. Enter today and win big!</p>
             <a href="tickets.html?competitionId=3" class="enter-button">Enter Now</a>
-          </div>
+</div>
         </div>
-
-        <!-- Competition 4 -->
         <div class="competition-card">
           <img src="Mercedes2021.png" alt="Mercedes 2021 Competition">
           <div class="competition-card-content">
@@ -67,8 +155,6 @@
             <a href="tickets.html?competitionId=4" class="enter-button">Enter Now</a>
           </div>
         </div>
-
-        <!-- Add more competition cards here as needed -->
       </div>
     </section>
   </main>

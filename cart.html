@@ -1,108 +1,195 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Your Cart - Autotechjackpot</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Cart - AutoTechJackpot</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .cart {
+      margin-top: 100px;
+      padding: 40px;
+      background-color: #1A1A50;
+      border-radius: 8px;
+      max-width: 900px;
+      margin: 0 auto;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .cart h1 {
+      font-size: 2.5em;
+      color: #FF6A00;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    #cart-items {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .cart-item {
+      background-color: #2C2C6C;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
+
+    .cart-item img {
+      width: 100%;
+      max-height: 150px;
+      object-fit: cover;
+      border-radius: 5px;
+      margin-bottom: 15px;
+    }
+
+    .cart-item p {
+      margin: 10px 0;
+      font-size: 1em;
+      color: #fff;
+    }
+
+    .cart-item .remove-button {
+      background-color: #FF6A00;
+      color: #fff;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 0.9em;
+    }
+
+    .cart-item .remove-button:hover {
+      background-color: #e65900;
+    }
+
+    #cart-summary {
+      margin-top: 20px;
+      text-align: right;
+      padding: 20px;
+      background-color: #2C2C6C;
+      border-radius: 8px;
+      font-size: 1.2em;
+      color: #fff;
+    }
+
+    #checkout-button {
+      background-color: #FF6A00;
+      color: #fff;
+      padding: 15px 20px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1.2em;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 20px;
+      transition: background-color 0.3s ease;
+    }
+
+    #checkout-button:hover {
+      background-color: #e65900;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <div class="header-container">
-            <div class="logo">
-                <a href="index.html" aria-label="Go to Home page">AutoTechJackpot</a>
-            </div>
-            <nav>
-               <a href="how-it-works.html" aria-label="How it Works">How It Works</a>
+  <header>
+    <div class="header-container">
+      <div class="logo">
+        <a href="index.html" aria-label="Go to Home page">AutoTechJackpot</a>
+      </div>
+      <nav>
+        <a href="how-it-works.html" aria-label="How it Works">How It Works</a>
         <a href="winners.html" aria-label="View Winners">Winners</a>
         <a href="tickets.html" aria-label="View Tickets" class="active">Tickets</a>
         <a href="cart.html" aria-label="View Cart">Cart</a>
         <a href="login.html" aria-label="Login or Register">Login / Register</a>
         <a href="activecompetitions.html" aria-label="Active Competitions">Active Competitions</a>
-            </nav>
-        </div>
-    </header>
+      </nav>
+    </div>
+  </header>
 
-    <main>
-        <section class="cart">
-            <h1>Your Cart</h1>
-            <div id="cart-items">
-                <!-- Cart items will be dynamically loaded here -->
-            </div>
-            <div id="cart-summary">
-                <p>Total: €<span id="total-price">0.00</span></p>
-                <button id="checkout-button">Proceed to Checkout</button>
-            </div>
-        </section>
-    </main>
+  <main>
+    <section class="cart">
+      <h1>Your Cart</h1>
+      <div id="cart-items">
+        <!-- Cart items will be dynamically loaded here -->
+      </div>
+      <div id="cart-summary">
+        <p><strong>Total: €<span id="total-price">0.00</span></strong></p>
+        <button id="checkout-button">Proceed to Checkout</button>
+      </div>
+    </section>
+  </main>
 
-    <footer>
-        <p>&copy; 2025 Autotechjackpot. All rights reserved.</p>
-    </footer>
+  <footer>
+    <p>&copy; 2025 AutoTechJackpot. All rights reserved.</p>
+  </footer>
 
-    <script>
-        // Funzione per caricare e visualizzare gli articoli nel carrello
-        function loadCart() {
-            const cart = JSON.parse(localStorage.getItem('cart')) || []; // Ottieni il carrello dal localStorage
-            const cartItems = document.getElementById('cart-items'); // Div in cui verranno aggiunti gli articoli
-            const totalPriceElement = document.getElementById('total-price'); // Elemento per visualizzare il totale
-            let total = 0; // Inizializza la variabile per il totale
-            cartItems.innerHTML = ''; // Pulisci l'area dei cart items prima di aggiungere nuovi articoli
+  <script>
+    // Funzione per caricare e visualizzare gli articoli nel carrello
+    function loadCart() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const cartItems = document.getElementById('cart-items');
+      const totalPriceElement = document.getElementById('total-price');
+      let total = 0;
 
-            cart.forEach((item, index) => {
-                total += (item.price || 0) * (item.quantity || 1); // Aggiungi il prezzo moltiplicato per la quantità
+      cartItems.innerHTML = '';
+      cart.forEach((item, index) => {
+        total += (item.price  0) * (item.quantity  1);
 
-                const cartItem = document.createElement('div'); // Crea un div per ogni articolo
-                cartItem.classList.add('cart-item'); // Aggiungi la classe cart-item
+        const cartItem = document.createElement('div');
+cartItem.classList.add('cart-item');
+        cartItem.innerHTML = 
+          <img src="${item.image || 'placeholder.jpg'}" alt="${item.name || 'Item'}">
+          <p>${item.name || 'Unnamed Item'}</p>
+          <p>Price: €${(item.price || 0).toFixed(2)}</p>
+          <p>Quantity: ${item.quantity || 1}</p>
+          <button class="remove-button" data-index="${index}">Remove</button>
+        ;
 
-                // Aggiungi il contenuto HTML per ciascun biglietto
-                cartItem.innerHTML = `
-                    <img src="${item.image || ''}" alt="${item.name || 'Item'}" class="ticket-image"> <!-- Immagine del biglietto -->
-                    <p>${item.name || 'Unnamed Item'}</p> <!-- Nome del biglietto -->
-                    <p>Price: €${(item.price || 0).toFixed(2)}</p> <!-- Prezzo del biglietto -->
-                    <p>Quantity: ${item.quantity || 1}</p> <!-- Quantità -->
-                    <button class="remove-button" data-index="${index}" aria-label="Remove item from cart">Remove</button> <!-- Pulsante per rimuovere il biglietto -->
-                `;
+        cartItems.appendChild(cartItem);
+      });
 
-                cartItems.appendChild(cartItem); // Aggiungi il div creato all'area dei cart items
-            });
+      totalPriceElement.textContent = total.toFixed(2);
+      setupRemoveButtons();
+    }
 
-            totalPriceElement.textContent = total.toFixed(2); // Visualizza il totale nel carrello
-            setupRemoveButtons(); // Configura i pulsanti di rimozione
-        }
-
-        // Funzione per rimuovere un articolo dal carrello
-        function removeFromCart(index) {
-            const cart = JSON.parse(localStorage.getItem('cart')) || [];
-            cart.splice(index, 1); // Rimuovi l'elemento alla posizione specificata
-            localStorage.setItem('cart', JSON.stringify(cart)); // Salva il carrello aggiornato
-            loadCart(); // Ricarica il carrello per riflettere le modifiche
-        }
-
-        // Aggiungi l'evento di rimozione agli articoli del carrello
-        function setupRemoveButtons() {
-            const removeButtons = document.querySelectorAll('.remove-button');
-            removeButtons.forEach(button => {
-                button.addEventListener('click', (event) => {
-                    const index = event.target.getAttribute('data-index'); // Ottieni l'indice del biglietto da rimuovere
-                    removeFromCart(index); // Chiama la funzione per rimuovere l'elemento
-                });
-            });
-        }
-
-        // Funzione per il bottone di checkout
-        function setupCheckoutButton() {
-            document.getElementById('checkout-button').addEventListener('click', () => {
-                window.location.href = 'checkout.html'; // Reindirizza alla pagina di checkout
-            });
-        }
-
-        // Carica il carrello e configura i pulsanti di rimozione
-        document.addEventListener('DOMContentLoaded', () => {
-            loadCart(); // Carica gli articoli del carrello al caricamento della pagina
-            setupCheckoutButton(); // Imposta l'evento per il bottone di checkout
+    function setupRemoveButtons() {
+      const removeButtons = document.querySelectorAll('.remove-button');
+      removeButtons.forEach(button => {
+        button.addEventListener('click', (event) => {
+          const index = event.target.getAttribute('data-index');
+          removeFromCart(index);
         });
-    </script>
+      });
+    }
+
+    function removeFromCart(index) {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.splice(index, 1);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      loadCart();
+    }
+
+    function setupCheckoutButton() {
+      document.getElementById('checkout-button').addEventListener('click', () => {
+        window.location.href = 'checkout.html';
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadCart();
+      setupCheckoutButton();
+    });
+  </script>
 </body>
 </html>

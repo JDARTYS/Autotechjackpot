@@ -130,46 +130,6 @@
 
     const stripe = Stripe('pk_live_51QgpeAFR0CD3L4eTZzZS5p8MpE1Krtjk0bdQB00pFc1eS90wVDLkO0MFcpG6ATrM7mwixQIML7PyS0DAtwa7TjsB00ytBk4wwf'); // Sostituisci con la tua chiave pubblica Stripe
 
-    function calculateTotal(cart) {
-      let total = 0;
-      let orderDetails = '';
-
-      cart.forEach(item => {
-        const price = parseFloat(item.price) || 0;
-        const quantity = item.quantity || 1;
-
-        total += price * quantity;
-
-        orderDetails += `
-          <div class="order-item">
-            <p><strong>${item.name || "Unnamed Competition"}</strong></p>
-            <p>Price: €${price.toFixed(2)} x ${quantity}</p>
-          </div>
-        `;
-      });
-
-      return { total: total.toFixed(2), orderDetails };
-    }
-
-    async function sendConfirmationEmail(userEmail, total, orderId) {
-      const templateParams = {
-        user_email: userEmail,
-        total_amount: total,
-        order_id: orderId,
-      };
-
-      try {
-        const response = await emailjs.send('service_6fjt73r', 'template_0eq4duh', templateParams);
-        if (response.status === 200) {
-          console.log('Email sent successfully!');
-        } else {
-          console.error('Failed to send email:', response);
-        }
-      } catch (error) {
-        console.error('Error while sending email:', error);
-      }
-    }
-
     document.addEventListener('DOMContentLoaded', () => {
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
       const orderSummary = document.getElementById('order-summary');
@@ -178,39 +138,44 @@
       const userEmail = localStorage.getItem('userEmail'); // Supponiamo che l'email sia salvata localmente
 
       if (cart.length > 0) {
-        const { total, orderDetails } = calculateTotal(cart);
+        const total = cart.reduce((acc, item) => acc + (item.price * (item.quantity || 1)), 0).toFixed(2);
         const orderId = `${Math.floor(Math.random() * 1000000)}`;
 
-        orderSummary.innerHTML = `
-          ${orderDetails}
-          <p class="order-total"><strong>Total Amount: €${total}</strong></p>
-        `;
+        // Mostra i dettagli del carrello
+        orderSummary.innerHTML = cart.map(item => `
+          <div class="order-item">
+            <p><strong>${item.name}</strong></p>
+            <p>Price: €${item.price.toFixed(2)} x ${item.quantity}</p>
+          </div>
+        `).join('') + `<p class="order-total"><strong>Total Amount: €${total}</strong></p>`;
 
+        // Configura il bottone Stripe
+        cardButton.addEventListener('click', async () => {
+          try {
+            const response = await fetch('/api/create-checkout-session', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                cartItems: cart.map(item => ({
+                  name: item.name,
+                  price: item.price,
+                  quantity: item.quantity,
+                })),
+              }),
+            });
+
+            const { id } = await response.json();
+            await stripe.redirectToCheckout({ sessionId: id });
+          } catch (error) {
+            console.error('Error:', error);
+            alert('Failed to redirect to payment.');
+          }
+        });
+
+        // Configura il bottone PayPal
         paypalButton.href = `https://paypal.me/autotechjackpot?amount=${total}`;
         paypalButton.addEventListener('click', () => {
           sendConfirmationEmail(userEmail, total, orderId);
-        });
-
-        cardButton.addEventListener('click', () => {
-          stripe.redirectToCheckout({
-            lineItems: cart.map(item => ({
-              price_data: {
-                currency: 'eur',
-                product_data: { name: item.name },
-                unit_amount: Math.round(item.price * 100),
-              },
-              quantity: item.quantity || 1,
-            })),
-            mode: 'payment',
-            successUrl: window.location.origin + '/success.html',
-            cancelUrl: window.location.origin + '/checkout.html',
-          }).then(result => {
-            if (result.error) {
-              alert(result.error.message);
-            } else {
-              sendConfirmationEmail(userEmail, total, orderId);
-            }
-          });
         });
       } else {
         orderSummary.innerHTML = '<p>Your cart is empty. Please add items to the cart.</p>';

@@ -1,60 +1,106 @@
+// Configurazione Firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyDn_UmalWNd1dIdJG2lgbKNXKLZlWwmn4w",
+  authDomain: "autotechjackpot.firebaseapp.com",
+  projectId: "autotechjackpot",
+  storageBucket: "autotechjackpot.firebasestorage.app",
+  messagingSenderId: "127768056298",
+  appId: "1:127768056298:web:fbd966161d3a2bc28c2293"
+};
+
+// Inizializza Firebase
+const app = firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+
 document.addEventListener('DOMContentLoaded', () => {
-  // Dati dei biglietti iniziali
-  const ticketsData = {
-    iphone: { total: 3800, price: 1.22 },
-    audi: { total: 18000, price: 1.80 },
-    bmw: { total: 22000, price: 2.22 },
-    mercedesGle: { total: 15000, price: 5.11 },
-    mercedesCls: { total: 15000, price: 3.59 },
-    mercedesS63: { total: 13500, price: 5.01 }
-  };
+  const loginTab = document.getElementById('login-tab');
+  const registerTab = document.getElementById('register-tab');
+  const loginForm = document.getElementById('login-form');
+  const registerForm = document.getElementById('register-form');
+  const passwordError = document.getElementById('password-error');
+  const registerPassword = document.getElementById('register-password');
+  const confirmPassword = document.getElementById('register-confirm-password');
 
-  // Funzione per aggiornare il conteggio dei biglietti
-  const updateTicketCount = (competitionId) => {
-    if (ticketsData[competitionId]) {
-      ticketsData[competitionId].total--;  // Decrementa il numero di biglietti disponibili
-      // Aggiorna l'interfaccia utente per riflettere il nuovo numero
-      const ticketElement = document.getElementById(`${competitionId}-tickets-remaining`);
-      if (ticketElement) {
-        ticketElement.textContent = ticketsData[competitionId].total;
-      }
-    }
-  };
-
-  // Funzione per gestire il decremento dei biglietti quando l'utente acquista un biglietto
-  document.querySelectorAll('.enter-button').forEach(button => {
-    button.addEventListener('click', (e) => {
-      const competitionId = e.target.href.split('=')[1];  // Ottieni l'ID del biglietto dalla URL
-      updateTicketCount(competitionId);  // Decrementa il numero del biglietto
-    });
+  // Funzione per passare da Login a Register
+  loginTab.addEventListener('click', () => {
+    loginTab.classList.add('active');
+    registerTab.classList.remove('active');
+    loginForm.style.display = 'block';
+    registerForm.style.display = 'none';
   });
 
-  // Aggiungi il pulsante PayPal nella pagina
-  const paypalButtonContainer = document.getElementById('paypal-button-container');
+  registerTab.addEventListener('click', () => {
+    registerTab.classList.add('active');
+    loginTab.classList.remove('active');
+    registerForm.style.display = 'block';
+    loginForm.style.display = 'none';
+  });
 
-  if (paypalButtonContainer) {
-    paypal.Buttons({
-      createOrder: (data, actions) => {
-        const competitionId = data.purchase_units[0].description || 'iphone';  // Usa 'iphone' come default
-        return actions.order.create({
-          purchase_units: [{
-            description: competitionId,  // Associa l'ID del biglietto
-            amount: { value: ticketsData[competitionId].price.toFixed(2) }  // Imposta l'importo per il pagamento
-          }]
-        });
-      },
-      onApprove: (data, actions) => {
-        return actions.order.capture().then(function(details) {
-          alert('Transaction completed by ' + details.payer.name.given_name);
+  // Validazione delle password nella registrazione
+  confirmPassword.addEventListener('input', () => {
+    if (registerPassword.value !== confirmPassword.value) {
+      passwordError.style.display = 'block';
+    } else {
+      passwordError.style.display = 'none';
+    }
+  });
 
-          // Decrementa il numero del biglietto acquistato
-          const competitionId = data.purchase_units[0].description;
-          updateTicketCount(competitionId);
+  // Registrazione Utente
+  registerForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = document.getElementById('register-email').value;
+    const password = registerPassword.value;
 
-          // Reindirizza alla homepage dopo il pagamento
-          window.location.href = 'index.html';  // Homepage
-        });
-      }
-    }).render(paypalButtonContainer); // Renderizza il pulsante PayPal
+    auth.createUserWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        alert("Registrazione completata!");
+        console.log("Utente registrato:", userCredential.user);
+      })
+      .catch((error) => {
+        handleError(error, "register");
+      });
+  });
+
+  // Login Utente
+  loginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
+
+    auth.signInWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        alert("Login completato!");
+        console.log("Utente loggato:", userCredential.user);
+        window.location.href = "index.html"; // Reindirizza alla homepage
+      })
+      .catch((error) => {
+        handleError(error, "login");
+      });
+  });
+
+  // Funzione per gestire errori
+  function handleError(error, context) {
+    let message = "";
+    switch (error.code) {
+      case "auth/email-already-in-use":
+        message = "L'indirizzo email è già registrato.";
+        break;
+      case "auth/weak-password":
+        message = "La password deve contenere almeno 6 caratteri.";
+        break;
+      case "auth/invalid-email":
+        message = "Inserisci un indirizzo email valido.";
+        break;
+      case "auth/user-not-found":
+        message = "Utente non trovato. Registrati prima.";
+        break;
+      case "auth/wrong-password":
+        message = "Password errata. Riprova.";
+        break;
+      default:
+        message = "Errore: " + error.message;
+    }
+
+    alert(`Errore durante il ${context}: ${message}`);
   }
 });

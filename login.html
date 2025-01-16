@@ -3,126 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://www.gstatic.com; style-src 'self' 'unsafe-inline';">
+  <meta name="referrer" content="no-referrer">
   <title>Register / Login - AutoTechJackpot</title>
   <link rel="stylesheet" href="styles.css">
-  <style>
-    /* Stile per il logo */
-    .logo img {
-      max-width: 120px;
-      height: auto;
-      display: block;
-      margin: 0 auto;
-    }
-    .auth-container {
-      max-width: 600px;
-      margin: 150px auto;
-      background-color: #1A1A50;
-      padding: 40px;
-      border-radius: 8px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-    }
-
-    .form-tabs {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 20px;
-    }
-
-    .tab-button {
-      flex: 1;
-      text-align: center;
-      padding: 10px 20px;
-      background-color: #2C2C6C;
-      color: #fff;
-      font-weight: bold;
-      cursor: pointer;
-      border: none;
-      border-radius: 8px 8px 0 0;
-      transition: background-color 0.3s;
-    }
-
-    .tab-button.active {
-      background-color: #FF6A00;
-    }
-
-    .form-content {
-      background-color: #2C2C6C;
-      padding: 20px;
-      border-radius: 0 0 8px 8px;
-    }
-
-    label {
-      display: block;
-      margin-top: 15px;
-      font-weight: bold;
-    }
-
-    input {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border: 1px solid #FF6A00;
-      border-radius: 5px;
-      background-color: #1A1A50;
-      color: #fff;
-    }
-
-    input:focus {
-      outline: none;
-      border-color: #FF6A00;
-      box-shadow: 0 0 5px #FF6A00;
-    }
-
-    .btn-primary {
-      display: inline-block;
-      width: 100%;
-      padding: 10px;
-      margin-top: 20px;
-      background-color: #FF6A00;
-      color: #fff;
-      font-size: 1.1em;
-      font-weight: bold;
-      text-align: center;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    .btn-primary:hover {
-      background-color: #e65900;
-    }
-
-    .error-message {
-      color: red;
-      font-size: 0.9em;
-      margin-top: 10px;
-    }
-  </style>
 </head>
 <body>
   <header>
-     <div class="logo">
+    <div class="logo">
       <a href="index.html" aria-label="Go to Home page">
         <img src="logo.png" alt="AutoTechJackpot Logo">
       </a>
-      </div>
-      <nav>
-        <a href="how-it-works.html" aria-label="How it Works">How It Works</a>
-        <a href="winners.html" aria-label="View Winners">Winners</a>
-        <a href="tickets.html" aria-label="View Tickets">Tickets</a>
-        <a href="cart.html" aria-label="View Cart">Cart</a>
-        <a href="login.html" aria-label="Login or Register" class="active">Login / Register</a>
-        <a href="activecompetitions.html" aria-label="Active Competitions">Active Competitions</a>
-      </nav>
     </div>
+    <nav>
+      <a href="how-it-works.html" aria-label="How it Works">How It Works</a>
+      <a href="winners.html" aria-label="View Winners">Winners</a>
+      <a href="tickets.html" aria-label="View Tickets">Tickets</a>
+      <a href="cart.html" aria-label="View Cart">Cart</a>
+      <a href="login.html" aria-label="Login or Register" class="active">Login / Register</a>
+      <a href="activecompetitions.html" aria-label="Active Competitions">Active Competitions</a>
+    </nav>
   </header>
 
   <main>
     <section class="auth-container">
       <div class="form-tabs">
-        <button class="tab-button active" id="login-tab">Login</button>
-        <button class="tab-button" id="register-tab">Register</button>
+        <button class="tab-button active" id="login-tab" aria-controls="login-form">Login</button>
+        <button class="tab-button" id="register-tab" aria-controls="register-form">Register</button>
       </div>
 
       <div class="form-content">
@@ -149,7 +56,7 @@
           <input type="email" id="register-email" name="email" required placeholder="Enter your email">
 
           <label for="register-password">Password</label>
-          <input type="password" id="register-password" name="password" required placeholder="Enter your password">
+          <input type="password" id="register-password" name="password" required minlength="6" placeholder="Enter your password">
 
           <label for="register-confirm-password">Confirm Password</label>
           <input type="password" id="register-confirm-password" name="confirm_password" required placeholder="Confirm your password">
@@ -162,44 +69,20 @@
   </main>
 
   <footer>
-    <p>&copy; 2025 AutoTechJackpot. All rights reserved.</p>
-    <nav>
-      <a href="policy.html">Terms & Policy</a>
-    </nav>
+    <div class="container">
+      <p>&copy; 2025 AutoTechJackpot. All rights reserved.</p>
+      <nav>
+        <ul>
+          <li><a href="policy.html">Terms & Policy</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
   </footer>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const loginTab = document.getElementById('login-tab');
-      const registerTab = document.getElementById('register-tab');
-      const loginForm = document.getElementById('login-form');
-      const registerForm = document.getElementById('register-form');
-      const passwordError = document.getElementById('password-error');
-      const registerPassword = document.getElementById('register-password');
-      const confirmPassword = document.getElementById('register-confirm-password');
-
-      loginTab.addEventListener('click', () => {
-        loginTab.classList.add('active');
-        registerTab.classList.remove('active');
-        loginForm.style.display = 'block';
-        registerForm.style.display = 'none';
-      });
-
-      registerTab.addEventListener('click', () => {
-        registerTab.classList.add('active');
-        loginTab.classList.remove('active');
-        registerForm.style.display = 'block';
-        loginForm.style.display = 'none';
-      });
-
-      confirmPassword.addEventListener('input', () => {
-        if (registerPassword.value !== confirmPassword.value) {
-          passwordError.style.display = 'block';
-        } else {
-          passwordError.style.display = 'none';
-        }
-      });
-    });
-  </script>
+  <script src="scripts.js" defer></script>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js"></script>
 </body>
 </html>

@@ -163,7 +163,7 @@
             <h3>Audi 2018</h3>
             <p>Win an awesome car! Enter now and take your chance to win big.</p>
             <a href="tickets.html?competitionId=1" class="enter-button">Enter Now</a>
-</div>
+          </div>
         </div>
         <!-- Slide 2 -->
         <div class="carousel-slide">
@@ -205,7 +205,7 @@
     let currentSlideIndex = 0;
 
     const updateCarousel = () => {
-      track.style.transform = translateX(-${currentSlideIndex * 100}%);
+      track.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
     };
 
     prevButton.addEventListener('click', () => {

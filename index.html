@@ -8,7 +8,7 @@
   <style>
     /* Stile per il logo */
     .logo img {
-      max-width: 120px;
+      max-width: 150px;
       height: auto;
       display: block;
       margin: 0 auto;
@@ -16,63 +16,108 @@
 
     /* Header */
     header {
+      background-color: #1A1A50;
+      padding: 20px 10px;
+      border-bottom: 2px solid #FF6A00;
+      text-align: center;
+    }
+
+    header nav {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 20px;
-      background-color: #f4f4f4;
-      border-bottom: 1px solid #ddd;
+      justify-content: center;
+      gap: 15px;
     }
 
     nav a {
-      margin: 0 10px;
+      color: white;
       text-decoration: none;
-      color: #333;
       font-weight: bold;
+      transition: color 0.3s ease;
     }
 
     nav a.active {
-      color: orange;
+      color: #FF6A00;
+    }
+
+    nav a:hover {
+      color: #FF6A00;
     }
 
     /* Carosello */
-    .carousel {
-      position: relative;
+    .carousel-container {
+      max-width: 1200px;
+      margin: 30px auto;
       overflow: hidden;
-      width: 100%;
-      max-width: 1000px;
-      margin: 20px auto;
       border-radius: 10px;
     }
 
     .carousel-track {
       display: flex;
-      transition: transform 0.7s ease-in-out;
+      transition: transform 0.5s ease-in-out;
     }
 
     .carousel-slide {
       min-width: 100%;
-      box-sizing: border-box;
+      text-align: center;
+      color: #fff;
     }
 
     .carousel-slide img {
       width: 100%;
-      display: block;
       border-radius: 10px;
     }
 
-    /* Pulsanti di navigazione */
+    /* Informazioni sulle competizioni */
+    .competition-info {
+      background-color: #2C2C6C;
+      padding: 20px;
+      margin-top: -4px;
+    }
+
+    .competition-info h3 {
+      font-size: 1.5rem;
+      color: #FF6A00;
+      margin-bottom: 10px;
+    }
+
+    .competition-info p {
+      font-size: 1rem;
+      color: #fff;
+    }
+
+    .enter-button {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 20px;
+      background: #FF6A00;
+      color: #fff;
+      font-weight: bold;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: background 0.3s ease;
+    }
+
+    .enter-button:hover {
+      background: #e65900;
+    }
+
+    /* Pulsanti del carosello */
     .carousel-btn {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      background: rgba(0, 0, 0, 0.5);
-      color: white;
+      background: rgba(0, 0, 0, 0.6);
+      color: #fff;
       border: none;
       padding: 10px 20px;
       cursor: pointer;
       z-index: 10;
       border-radius: 5px;
+      transition: background 0.3s;
+    }
+
+    .carousel-btn:hover {
+      background: rgba(0, 0, 0, 0.8);
     }
 
     .carousel-btn.prev {
@@ -83,77 +128,46 @@
       right: 10px;
     }
 
-    .carousel-btn:hover {
-      background: rgba(0, 0, 0, 0.8);
-    }
-
-    /* Informazioni sulle competizioni */
-    .competition-info {
-      text-align: center;
-      margin-top: 15px;
-    }
-
-    .competition-info h3 {
-      margin: 10px 0;
-      font-size: 1.2rem;
-    }
-
-    .competition-info p {
-      color: #666;
-      font-size: 0.9rem;
-      margin: 5px 0;
-    }
-
-    .enter-button {
-      display: inline-block;
-      margin-top: 10px;
-      padding: 10px 20px;
-      background: orange;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
-      transition: background 0.3s ease;
-    }
-
-    .enter-button:hover {
-      background: darkorange;
-    }
-
+    /* Footer */
     footer {
+      background-color: #1A1A50;
+      color: #fff;
       text-align: center;
-      padding: 10px;
-      background-color: #f4f4f4;
-      border-top: 1px solid #ddd;
+      padding: 20px;
+      border-top: 2px solid #FF6A00;
     }
 
     footer nav a {
-      margin: 0 5px;
+      color: #FF6A00;
       text-decoration: none;
-      color: #666;
-      font-size: 0.9rem;
+      margin: 0 5px;
+    }
+
+    footer nav a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
   <header>
     <div class="logo">
-      <a href="index.html" aria-label="Go to Home page">
+      <a href="index.html">
         <img src="logo.png" alt="AutoTechJackpot Logo">
       </a>
     </div>
     <nav>
-      <a href="how-it-works.html" aria-label="How it Works">How It Works</a>
-      <a href="winners.html" aria-label="View Winners">Winners</a>
-      <a href="tickets.html" aria-label="View Tickets" class="active">Tickets</a>
-      <a href="cart.html" aria-label="View Cart">Cart</a>
-      <a href="login.html" aria-label="Login or Register">Login / Register</a>
-      <a href="activecompetitions.html" aria-label="Active Competitions">Active Competitions</a>
+      <a href="how-it-works.html">How It Works</a>
+      <a href="winners.html">Winners</a>
+      <a href="tickets.html" class="active">Tickets</a>
+      <a href="cart.html">Cart</a>
+      <a href="login.html">Login / Register</a>
+      <a href="activecompetitions.html">Active Competitions</a>
     </nav>
   </header>
 
   <main>
     <!-- Carosello -->
-    <section class="carousel">
+    <div class="carousel-container">
       <button class="carousel-btn prev" aria-label="Previous slide">&#8249;</button>
       <div class="carousel-track">
         <!-- Slide 1 -->
@@ -185,18 +199,18 @@
         </div>
       </div>
       <button class="carousel-btn next" aria-label="Next slide">&#8250;</button>
-    </section>
+    </div>
   </main>
 
   <footer>
     <p>&copy; 2025 AutoTechJackpot. All rights reserved.</p>
     <nav>
       <a href="policy.html">Terms & Policy</a>
+      <a href="contact.html">Contact</a>
     </nav>
   </footer>
 
   <script>
-    // JavaScript per il carosello
     const track = document.querySelector('.carousel-track');
     const slides = Array.from(track.children);
     const prevButton = document.querySelector('.carousel-btn.prev');

@@ -15,6 +15,10 @@
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
     }
 
+    .auth-form h2 {
+      margin-bottom: 20px;
+    }
+
     .form-tabs {
       display: flex;
       justify-content: space-between;
@@ -93,22 +97,22 @@
     }
   </style>
   <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js"></script>
-<script>
-  // Configurazione Firebase
-  const firebaseConfig = {
-    apiKey: "AIzaSyDn_UmalWNd1dIdJG2lgbKNXKLZlWwmn4w",
-    authDomain: "autotechjackpot.firebaseapp.com",
-    projectId: "autotechjackpot",
-    storageBucket: "autotechjackpot.firebasestorage.app",
-    messagingSenderId: "127768056298",
-    appId: "1:127768056298:web:fbd966161d3a2bc28c2293"
-  };
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js"></script>
+  <script>
+    // Configurazione Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyDn_UmalWNd1dIdJG2lgbKNXKLZlWwmn4w",
+      authDomain: "autotechjackpot.firebaseapp.com",
+      projectId: "autotechjackpot",
+      storageBucket: "autotechjackpot.firebasestorage.app",
+      messagingSenderId: "127768056298",
+      appId: "1:127768056298:web:fbd966161d3a2bc28c2293"
+    };
 
-  // Inizializza Firebase
-  const app = firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
-</script>
+    // Inizializza Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+  </script>
 </head>
 <body>
   <header>
@@ -116,16 +120,15 @@
       <a href="index.html">
         <img src="logo.png" alt="AutoTechJackpot Logo">
       </a>
-      </div>
-      <nav>
-        <a href="how-it-works.html" aria-label="How it Works">How It Works</a>
-        <a href="winners.html" aria-label="View Winners">Winners</a>
-        <a href="tickets.html" aria-label="View Tickets">Tickets</a>
-        <a href="cart.html" aria-label="View Cart">Cart</a>
-        <a href="login.html" aria-label="Login or Register" class="active">Login / Register</a>
-        <a href="activecompetitions.html" aria-label="Active Competitions">Active Competitions</a>
-      </nav>
     </div>
+    <nav>
+      <a href="how-it-works.html">How It Works</a>
+      <a href="winners.html">Winners</a>
+      <a href="tickets.html">Tickets</a>
+      <a href="cart.html">Cart</a>
+      <a href="login.html" class="active">Login / Register</a>
+      <a href="activecompetitions.html">Active Competitions</a>
+    </nav>
   </header>
 
   <main>
@@ -180,6 +183,8 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      emailjs.init('_pzI6mZJ0GThyqyjw');
+
       const loginTab = document.getElementById('login-tab');
       const registerTab = document.getElementById('register-tab');
       const loginForm = document.getElementById('login-form');
@@ -209,61 +214,62 @@
           passwordError.style.display = 'none';
         }
       });
+
+      // Invia email di benvenuto
+      const sendWelcomeEmail = (email) => {
+        const templateParams = {
+          user_email: email,
+          subject: 'Welcome to AutoTechJackpot!',
+          message: 'Thank you for registering.',
+        };
+
+        emailjs.send('service_6fjt73r', 'template_0eq4duh', templateParams)
+          .then(response => {
+            console.log('Email inviata:', response.status, response.text);
+          })
+          .catch(error => {
+            console.error('Errore nell\'invio email:', error);
+          });
+      };
+
+      // Registrazione
+      document.getElementById('register-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('register-email').value;
+        const password = document.getElementById('register-password').value;
+
+        try {
+          const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+          alert('Registrazione completata!');
+          sendWelcomeEmail(email);
+        } catch (error) {
+          alert('Errore durante la registrazione: ' + error.message);
+        }
+      });
+
+      // Login
+      document.getElementById('login-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
+
+        try {
+          const userCredential = await auth.signInWithEmailAndPassword(email, password);
+          alert('Login completato!');
+        } catch (error) {
+          alert('Errore durante il login: ' + error.message);
+        }
+      });
+
+      // Persistenza
+      auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+        .then(() => {
+          console.log('Persistenza abilitata');
+        })
+        .catch((error) => {
+          console.error('Errore nella persistenza:', error);
+        });
     });
-    document.getElementById('register-form').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const email = document.getElementById('register-email').value;
-  const password = document.getElementById('register-password').value;
-
-  try {
-    const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-    alert('Registrazione completata!');
-    console.log('User:', userCredential.user);
-  } catch (error) {
-    alert('Errore durante la registrazione: ' + error.message);
-  }
-});
-document.getElementById('login-form').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const email = document.getElementById('login-email').value;
-  const password = document.getElementById('login-password').value;
-
-  try {
-    const userCredential = await auth.signInWithEmailAndPassword(email, password);
-    alert('Login completato!');
-    console.log('User:', userCredential.user);
-  } catch (error) {
-    alert('Errore durante il login: ' + error.message);
-  }
-});
-auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-  .then(() => {
-    console.log('Persistenza abilitata');
-  })
-  .catch((error) => {
-    console.error('Errore nella persistenza:', error);
-  });
   </script>
-  <script>
-    emailjs.init('_pzI6mZJ0GThyqyjw');
-const sendWelcomeEmail = (email) => {
-  const templateParams = {
-    user_email: email,
-    subject: 'Welcome to AutoTechJackpot!',
-    message: 'Thank you for the registration'
-  };
-
-  emailjs.send('service_6fjt73r', 'template_0eq4duh', templateParams)
-    .then(response => {
-      console.log('Email inviata:', response.status, response.text);
-    })
-    .catch(error => {
-      console.error('Errore nell\'invio email:', error);
-    });
-};
-    
-// Chiamalo dopo la registrazione completata
-sendWelcomeEmail(email);
-</script>
 </body>
 </html>

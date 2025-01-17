@@ -5,234 +5,79 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Welcome - AutoTechJackpot</title>
   <link rel="stylesheet" href="styles.css">
-  <style>
-    /* Logo Styling */
-    .logo img {
-      max-width: 150px;
-      height: auto;
-      display: block;
-      margin: 0 auto;
-    }
-
-    /* Header */
-    header {
-      background-color: #1A1A50;
-      padding: 20px 10px;
-      border-bottom: 2px solid #FF6A00;
-      text-align: center;
-    }
-
-    header nav {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-    }
-
-    nav a {
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-      transition: color 0.3s ease;
-    }
-
-    nav a.active {
-      color: #FF6A00;
-    }
-
-    nav a:hover {
-      color: #FF6A00;
-    }
-
-    /* Carousel */
-    .carousel-container {
-      max-width: 1200px;
-      margin: 30px auto;
-      position: relative;
-      overflow: hidden;
-      border-radius: 10px;
-    }
-
-    .carousel-track {
-      display: flex;
-      transition: transform 0.5s ease-in-out;
-    }
-
-    .carousel-slide {
-      min-width: 100%;
-      text-align: center;
-      color: #fff;
-    }
-
-    .carousel-slide img {
-      width: 100%;
-      border-radius: 10px;
-    }
-
-    /* Competition Info */
-    .competition-info {
-      background-color: #2C2C6C;
-      padding: 20px;
-      margin-top: -4px;
-    }
-
-    .competition-info h3 {
-      font-size: 1.5rem;
-      color: #FF6A00;
-      margin-bottom: 10px;
-    }
-
-    .competition-info p {
-      font-size: 1rem;
-      color: #fff;
-      margin-bottom: 10px;
-    }
-
-    .enter-button {
-      display: inline-block;
-      margin-top: 10px;
-      padding: 10px 20px;
-      background: #FF6A00;
-      color: #fff;
-      font-weight: bold;
-      border-radius: 5px;
-      text-decoration: none;
-      transition: background 0.3s ease;
-    }
-
-    .enter-button:hover {
-      background: #e65900;
-    }
-
-    /* Carousel Buttons */
-    .carousel-btn {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(0, 0, 0, 0.6);
-      color: #fff;
-      border: none;
-      padding: 15px 20px;
-      cursor: pointer;
-      z-index: 10;
-      border-radius: 5px;
-      transition: background 0.3s ease;
-    }
-
-    .carousel-btn:hover {
-      background: rgba(0, 0, 0, 0.8);
-    }
-
-    .carousel-btn.prev {
-      left: 15px;
-    }
-
-    .carousel-btn.next {
-      right: 15px;
-    }
-
-    /* Footer */
-    footer {
-      background-color: #1A1A50;
-      color: #fff;
-      text-align: center;
-      padding: 20px;
-      border-top: 2px solid #FF6A00;
-    }
-
-    footer nav a {
-      color: #FF6A00;
-      text-decoration: none;
-      margin: 0 5px;
-    }
-
-    footer nav a:hover {
-      text-decoration: underline;
-    }
-  </style>
 </head>
 <body>
   <header>
-    <div class="logo">
-      <a href="index.html">
-        <img src="logo.png" alt="AutoTechJackpot Logo">
-      </a>
+    <div class="header-container">
+      <div class="logo">
+        <a href="index.html" aria-label="Go to Home page">
+          <img src="/mnt/data/file-BFoyoQ2YZ6CmgD8GvdHenf" alt="AutoTechJackpot Logo" class="logo-image">
+        </a>
+      </div>
+      <nav>
+        <a href="how-it-works.html" aria-label="How it Works">How It Works</a>
+        <a href="winners.html" aria-label="View Winners">Winners</a>
+        <a href="tickets.html" aria-label="View Tickets" class="active">Tickets</a>
+        <a href="cart.html" aria-label="View Cart">Cart</a>
+        <a href="login.html" aria-label="Login or Register">Login / Register</a>
+        <a href="activecompetitions.html" aria-label="Active Competitions">Active Competitions</a>
+      </nav>
     </div>
-    <nav>
-      <a href="how-it-works.html">How It Works</a>
-      <a href="winners.html">Winners</a>
-      <a href="tickets.html" class="active">Tickets</a>
-      <a href="cart.html">Cart</a>
-      <a href="login.html">Login / Register</a>
-      <a href="activecompetitions.html">Active Competitions</a>
-    </nav>
   </header>
 
   <main>
-    <!-- Carousel -->
-    <div class="carousel-container">
-      <button class="carousel-btn prev" aria-label="Previous slide">&#8249;</button>
-      <div class="carousel-track">
-        <!-- Slide 1 -->
-        <div class="carousel-slide">
+    <section class="competitions">
+      <h2>Competitions Preview</h2>
+      <div class="competition-grid">
+        <!-- Competition 1 -->
+        <div class="competition-card">
           <img src="audi.png" alt="Audi Competition">
-          <div class="competition-info">
+          <div class="competition-card-content">
             <h3>Audi 2018</h3>
             <p>Win an awesome car! Enter now and take your chance to win big.</p>
             <a href="tickets.html?competitionId=1" class="enter-button">Enter Now</a>
           </div>
         </div>
-        <!-- Slide 2 -->
-        <div class="carousel-slide">
+
+        <!-- Competition 2 -->
+        <div class="competition-card">
           <img src="BMW2020.png" alt="BMW 2020 Competition">
-          <div class="competition-info">
+          <div class="competition-card-content">
             <h3>BMW 2020</h3>
             <p>Ready for a new adventure? Get your ticket now!</p>
             <a href="tickets.html?competitionId=2" class="enter-button">Enter Now</a>
           </div>
         </div>
-        <!-- Slide 3 -->
-        <div class="carousel-slide">
+
+        <!-- Competition 3 -->
+        <div class="competition-card">
           <img src="Mercedes2015.png" alt="Mercedes 2015 Competition">
-          <div class="competition-info">
+          <div class="competition-card-content">
             <h3>Mercedes 2015</h3>
             <p>The jackpot is waiting for you. Enter today and win big!</p>
             <a href="tickets.html?competitionId=3" class="enter-button">Enter Now</a>
           </div>
         </div>
+
+        <!-- Competition 4 -->
+        <div class="competition-card">
+          <img src="Mercedes2021.png" alt="Mercedes 2021 Competition">
+          <div class="competition-card-content">
+            <h3>Mercedes 2021</h3>
+            <p>The jackpot is waiting for you. Enter today and win big!</p>
+            <a href="tickets.html?competitionId=4" class="enter-button">Enter Now</a>
+          </div>
+        </div>
+        <!-- Add more competition cards here as needed -->
       </div>
-      <button class="carousel-btn next" aria-label="Next slide">&#8250;</button>
-    </div>
+    </section>
   </main>
 
   <footer>
     <p>&copy; 2025 AutoTechJackpot. All rights reserved.</p>
     <nav>
       <a href="policy.html">Terms & Policy</a>
-      <a href="contact.html">Contact</a>
     </nav>
   </footer>
-
-  <script>
-    const track = document.querySelector('.carousel-track');
-    const slides = Array.from(track.children);
-    const prevButton = document.querySelector('.carousel-btn.prev');
-    const nextButton = document.querySelector('.carousel-btn.next');
-
-    let currentSlideIndex = 0;
-
-    const updateCarousel = () => {
-      track.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
-    };
-
-    prevButton.addEventListener('click', () => {
-      currentSlideIndex = (currentSlideIndex > 0) ? currentSlideIndex - 1 : slides.length - 1;
-      updateCarousel();
-    });
-
-    nextButton.addEventListener('click', () => {
-      currentSlideIndex = (currentSlideIndex < slides.length - 1) ? currentSlideIndex + 1 : 0;
-      updateCarousel();
-    });
-  </script>
 </body>
 </html>

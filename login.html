@@ -98,7 +98,8 @@
       margin-top: 10px;
     }
   </style>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
 </head>
 <body>
   <header>
@@ -141,20 +142,13 @@
         <!-- Register Form -->
         <form id="register-form" class="auth-form" method="POST" style="display: none;">
           <h2>Register</h2>
-          <label for="register-name">Full Name</label>
-          <input type="text" id="register-name" name="name" required placeholder="Enter your full name">
-
           <label for="register-email">Email Address</label>
           <input type="email" id="register-email" name="email" required placeholder="Enter your email">
 
           <label for="register-password">Password</label>
           <input type="password" id="register-password" name="password" required placeholder="Enter your password">
 
-          <label for="register-confirm-password">Confirm Password</label>
-          <input type="password" id="register-confirm-password" name="confirm_password" required placeholder="Confirm your password">
-
           <button type="submit" class="btn-primary">Register</button>
-          <div id="password-error" class="error-message" style="display: none;">Passwords do not match.</div>
         </form>
       </div>
     </section>
@@ -168,15 +162,16 @@
   </footer>
 
   <script>
+    const supabase = supabase.createClient('https://msgwibzizaywwshrghau.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1zZ3dpYnppemF5d3dzaHJnaGF1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzcyMTY2ODEsImV4cCI6MjA1Mjc5MjY4MX0.iawuRLUczKxiUdTgTgqsStwfhdndwQei4FjVf_MGd0k');
+    emailjs.init('_pzI6mZJ0GThyqyjw');
+
     document.addEventListener('DOMContentLoaded', () => {
       const loginTab = document.getElementById('login-tab');
       const registerTab = document.getElementById('register-tab');
       const loginForm = document.getElementById('login-form');
       const registerForm = document.getElementById('register-form');
-      const passwordError = document.getElementById('password-error');
-      const registerPassword = document.getElementById('register-password');
-      const confirmPassword = document.getElementById('register-confirm-password');
 
+      // Toggle Tabs
       loginTab.addEventListener('click', () => {
         loginTab.classList.add('active');
         registerTab.classList.remove('active');
@@ -187,56 +182,45 @@
       registerTab.addEventListener('click', () => {
         registerTab.classList.add('active');
         loginTab.classList.remove('active');
-        registerForm.style.display = 'block';
         loginForm.style.display = 'none';
+        registerForm.style.display = 'block';
       });
 
-      confirmPassword.addEventListener('input', () => {
-        passwordError.style.display = (registerPassword.value !== confirmPassword.value) ? 'block' : 'none';
+      // Registration Form Submission
+      registerForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('register-email').value;
+        const password = document.getElementById('register-password').value;
+
+        const { error } = await supabase.auth.signUp({ email, password });
+        if (error) {
+          alert('Registration Error: ' + error.message);
+        } else {
+          alert('Registration Complete! Check your email to confirm.');
+
+          // Send Welcome Email
+          emailjs.send('service_6fjt73r', 'template_0eq4duh', {
+            user_email: email,
+          })
+          .then(response => console.log('Welcome email sent:', response))
+          .catch(error => console.error('Error sending welcome email:', error));
+        }
       });
 
- // Inizializza Supabase
-    const supabase = supabase.createClient('https://msgwibzizaywwshrghau.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1zZ3dpYnppemF5d3dzaHJnaGF1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzcyMTY2ODEsImV4cCI6MjA1Mjc5MjY4MX0.iawuRLUczKxiUdTgTgqsStwfhdndwQei4FjVf_MGd0k');
+      // Login Form Submission
+      loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
 
-    // Registrazione
-    document.getElementById('register-button').addEventListener('click', async () => {
-      const email = document.getElementById('register-email').value;
-      const password = document.getElementById('register-password').value;
-
-      const { error } = await supabase.auth.signUp({ email, password });
-
-      if (error) {
-        alert('Error with registration: ' + error.message);
-      } else {
-        alert('Registration complete! Check your email for the confirm.');
-      }
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) {
+          alert('Login Error: ' + error.message);
+        } else {
+          alert('Login Successful!');
+        }
+      });
     });
-
-    // Login
-    document.getElementById('login-button').addEventListener('click', async () => {
-      const email = document.getElementById('login-email').value;
-      const password = document.getElementById('login-password').value;
-
-      const { error, session } = await supabase.auth.signInWithPassword({ email, password });
-
-      if (error) {
-        alert('Login error: ' + error.message);
-      } else {
-        alert('Login successful!');
-        console.log('Session:', session);
-      }
-    });
-      
-  </scriemailjs.init('_pzI6mZJ0GThyqyjw');
-const sendWelcomeEmail = (email) => {
-  emailjs.send('service_6fjt73r', 'template_0eq4duhD', { user_email: email })
-    .then(response => console.log('Email inviata:', response))
-    .catch(error => console.error('Errore nell\'invio email:', error));
-};
-
-// Chiama questa funzione dopo una registrazione riuscita
-sendWelcomeEmail(email);
-pt>
   </script>
 </body>
 </html>

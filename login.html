@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Register / Login - AutoTechJackpot</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
   <style>
+    /* Stili principali */
     .auth-container {
       max-width: 600px;
       margin: 150px auto;
@@ -98,8 +101,6 @@
       margin-top: 10px;
     }
   </style>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
 </head>
 <body>
   <header>
@@ -136,7 +137,6 @@
           <input type="password" id="login-password" name="password" required placeholder="Enter your password">
 
           <button type="submit" class="btn-primary">Login</button>
-          <p><a href="#" style="color: #FF6A00;">Forgot your password?</a></p>
         </form>
 
         <!-- Register Form -->
@@ -171,7 +171,6 @@
       const loginForm = document.getElementById('login-form');
       const registerForm = document.getElementById('register-form');
 
-      // Toggle Tabs
       loginTab.addEventListener('click', () => {
         loginTab.classList.add('active');
         registerTab.classList.remove('active');
@@ -186,7 +185,6 @@
         registerForm.style.display = 'block';
       });
 
-      // Registration Form Submission
       registerForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const email = document.getElementById('register-email').value;
@@ -196,18 +194,13 @@
         if (error) {
           alert('Registration Error: ' + error.message);
         } else {
-          alert('Registration Complete! Check your email to confirm.');
-
-          // Send Welcome Email
-          emailjs.send('service_6fjt73r', 'template_0eq4duh', {
-            user_email: email,
-          })
-          .then(response => console.log('Welcome email sent:', response))
-          .catch(error => console.error('Error sending welcome email:', error));
+          alert('Registration Successful! Please check your email for confirmation.');
+          emailjs.send('service_6fjt73r', 'template_0eq4duh', { user_email: email })
+            .then(response => console.log('Welcome email sent:', response))
+            .catch(error => console.error('Error sending welcome email:', error));
         }
       });
 
-      // Login Form Submission
       loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const email = document.getElementById('login-email').value;

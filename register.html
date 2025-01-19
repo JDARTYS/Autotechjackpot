@@ -19,26 +19,6 @@
       margin-bottom: 20px;
       color: #FF6A00;
     }
-    label {
-      display: block;
-      margin-top: 15px;
-      font-weight: bold;
-      color: #fff;
-    }
-    input {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border: 1px solid #FF6A00;
-      border-radius: 5px;
-      background-color: #1A1A50;
-      color: #fff;
-    }
-    input:focus {
-      outline: none;
-      border-color: #FF6A00;
-      box-shadow: 0 0 5px #FF6A00;
-    }
     .btn-primary {
       display: inline-block;
       width: 100%;
@@ -89,14 +69,17 @@
     const auth0 = new auth0.WebAuth({
       domain: 'autotechjackpot.eu.auth0.com', // Sostituisci con il tuo dominio Auth0
       clientID: 'dRgyMtORHQOK0iJybq8S4yKaC4FQqgmO', // Sostituisci con il tuo Client ID
-      redirectUri: 'https://autotechjackpot.com/', // Modifica con l'URI di redirect del tuo sito
+      redirectUri: 'https://autotechjackpot.com/', // Modifica con il tuo dominio o localhost durante i test
       responseType: 'token id_token',
       scope: 'openid email profile'
     });
 
     // Bottone Register
     document.getElementById('register-button').addEventListener('click', () => {
-      auth0.authorize();
+      // Reindirizza alla pagina di registrazione Auth0
+      auth0.authorize({
+        screen_hint: 'signup', // Mostra la schermata di registrazione
+      });
     });
   </script>
 </body>

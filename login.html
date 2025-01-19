@@ -162,8 +162,10 @@
   </footer>
 
   <script>
-    const supabase = supabase.createClient('https://msgwibzizaywwshrghau.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1zZ3dpYnppemF5d3dzaHJnaGF1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzcyMTY2ODEsImV4cCI6MjA1Mjc5MjY4MX0.iawuRLUczKxiUdTgTgqsStwfhdndwQei4FjVf_MGd0k');
-    emailjs.init('_pzI6mZJ0GThyqyjw');
+    const supabase = supabase.createClient(
+      'https://msgwibzizaywwshrghau.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1zZ3dpYnppemF5d3dzaHJnaGF1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzcyMTY2ODEsImV4cCI6MjA1Mjc5MjY4MX0.iawuRLUczKxiUdTgTgqsStwfhdndwQei4FjVf_MGd0k'
+    );
 
     document.addEventListener('DOMContentLoaded', () => {
       const loginTab = document.getElementById('login-tab');
@@ -171,7 +173,7 @@
       const loginForm = document.getElementById('login-form');
       const registerForm = document.getElementById('register-form');
 
-      // Toggle Tabs
+      // Gestione Tabs
       loginTab.addEventListener('click', () => {
         loginTab.classList.add('active');
         registerTab.classList.remove('active');
@@ -186,7 +188,7 @@
         registerForm.style.display = 'block';
       });
 
-      // Registration Form Submission
+      // Submit Registrazione
       registerForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const email = document.getElementById('register-email').value;
@@ -196,16 +198,11 @@
         if (error) {
           alert('Registration Error: ' + error.message);
         } else {
-          alert('Registration Successful! Please check your email for confirmation.');
-
-          // Send Welcome Email
-          emailjs.send('service_6fjt73r', 'template_0eq4duh', { user_email: email })
-            .then(response => console.log('Welcome email sent:', response))
-            .catch(error => console.error('Error sending welcome email:', error));
+          alert('Registration Successful! Check your email to confirm.');
         }
       });
 
-      // Login Form Submission
+      // Submit Login
       loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const email = document.getElementById('login-email').value;
@@ -216,7 +213,7 @@
           alert('Login Error: ' + error.message);
         } else {
           alert('Login Successful!');
-          window.location.href = 'index.html'; // Redirect to homepage
+          window.location.href = 'index.html'; // Redirect alla homepage
         }
       });
     });

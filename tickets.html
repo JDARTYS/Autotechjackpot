@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tickets - Autotechjackpot</title>
   <link rel="stylesheet" href="styles.css">
-   <style>
+  <style>
     /* Stile per il logo */
     .logo img {
       max-width: 120px;
@@ -13,25 +13,24 @@
       display: block;
       margin: 0 auto;
     }
-    </style>
+  </style>
 </head>
 <body>
   <header>
-      <div class="logo">
+    <div class="logo">
       <a href="index.html" aria-label="Go to Home page">
         <img src="logo.png" alt="AutoTechJackpot Logo">
       </a>
-      </div>
-       <nav>
-        <a href="how-it-works.html" aria-label="How it Works">How It Works</a>
-        <a href="winners.html" aria-label="View Winners">Winners</a>
-        <a href="tickets.html" aria-label="View Tickets" class="active">Tickets</a>
-        <a href="cart.html" aria-label="View Cart">Cart</a>
-        <a href="login.html" aria-label="Login/Register" id="login-link">Login/Register</a>
-        <a href="activecompetitions.html" aria-label="Active Competitions">Active Competitions</a>
-        <a href="logout.html" aria-label="Logout" id="logout-link" style="display:none;">Logout</a>
-      </nav>
     </div>
+    <nav>
+      <a href="how-it-works.html" aria-label="How it Works">How It Works</a>
+      <a href="winners.html" aria-label="View Winners">Winners</a>
+      <a href="tickets.html" aria-label="View Tickets" class="active">Tickets</a>
+      <a href="cart.html" aria-label="View Cart">Cart</a>
+      <a href="login.html" aria-label="Login/Register" id="login-link">Login/Register</a>
+      <a href="activecompetitions.html" aria-label="Active Competitions">Active Competitions</a>
+      <a href="#" aria-label="Logout" id="logout-link" style="display:none;">Logout</a>
+    </nav>
   </header>
 
   <main>
@@ -50,10 +49,11 @@
     </nav>
   </footer>
 
+  <!-- Script Firebase e altre funzionalità -->
   <script type="module">
     // Import Firebase functions
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
 
     // Firebase configuration
     const firebaseConfig = {
@@ -66,82 +66,11 @@
       measurementId: "G-3RJM0DNWDY"
     };
 
-    // Initialize Firebase
+    // Inizializzazione di Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    // I dati dei biglietti
-    const tickets = [
-      { id: '1', name: '2020 BMW 745', price: 2.22, image: 'BMW2020.png', maxAvailable: 22000 },
-      { id: '2', name: '2021 Mercedes-Benz', price: 5.11, image: 'Mercedes2021.png', maxAvailable: 15000 },
-      { id: '3', name: '2019 Mercedes-Benz', price: 3.59, image: 'Mercedes2019.png', maxAvailable: 15000 },
-      { id: '4', name: '2015 Mercedes-Benz S', price: 5.01, image: 'Mercedes2015.png', maxAvailable: 13500 },
-      { id: '5', name: '2018 Audi A5', price: 1.80, image: 'audi.png', maxAvailable: 18000 },
-      { id: '6', name: 'Iphone 16 ProMax', price: 1.22, image: 'Iphone16.png', maxAvailable: 3800 }
-    ];
-
-    // Carica i biglietti
-    document.addEventListener('DOMContentLoaded', () => {
-      const competitionGrid = document.getElementById('competition-grid');
-      
-      tickets.forEach(ticket => {
-        const ticketCard = document.createElement('div');
-        ticketCard.classList.add('competition-card');
-        ticketCard.innerHTML = `
-          <img src="${ticket.image}" alt="${ticket.name}" class="ticket-image">
-          <div class="competition-card-content">
-            <h3>${ticket.name}</h3>
-            <p>Price: €${ticket.price.toFixed(2)}</p>
-            <p>Available: ${ticket.maxAvailable}</p>
-            <button class="add-to-cart" onclick="addToCart('${ticket.id}', '${ticket.name}', ${ticket.price}, '${ticket.image}', ${ticket.maxAvailable})" aria-label="Add ${ticket.name} to Cart">Add to Cart</button>
-          </div>
-        `;
-        competitionGrid.appendChild(ticketCard);
-      });
-    });
-
-    // Funzione per aggiungere il biglietto al carrello
-    function addToCart(ticketId, ticketName, ticketPrice, ticketImage, maxAvailable) {
-      // Verifica se l'utente è loggato tramite Firebase
-      const user = auth.currentUser;
-      if (!user) {
-        alert('Please log in to add tickets to your cart!');
-        window.location.href = 'login.html'; // Reindirizza alla pagina di login
-        return;
-      }
-
-      // Verifica il cooldown
-      const lastPurchaseTime = localStorage.getItem('lastPurchaseTime');
-      const currentTime = Date.now();
-      if (lastPurchaseTime && (currentTime - lastPurchaseTime) < 10000) {
-        const remainingTime = Math.ceil((10000 - (currentTime - lastPurchaseTime) / 1000));
-        alert(`Please wait ${remainingTime} seconds before making another purchase.`);
-        return;
-      }
-
-      // Aggiorna l'orario dell'ultimo acquisto
-      localStorage.setItem('lastPurchaseTime', currentTime);
-
-      // Carica il carrello dal localStorage
-      const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      const existingTicket = cart.find(ticket => ticket.id === ticketId);
-
-      // Aggiungi biglietto al carrello
-      if (existingTicket) {
-        if (existingTicket.quantity + 1 > maxAvailable) {
-          alert(`Sorry, there are only ${maxAvailable - existingTicket.quantity} tickets left for this product.`);
-          return;
-        }
-        existingTicket.quantity += 1;
-      } else {
-        cart.push({ id: ticketId, name: ticketName, price: ticketPrice, image: ticketImage, quantity: 1 });
-      }
-
-      localStorage.setItem('cart', JSON.stringify(cart));
-      alert(`Ticket added to cart!`);
-    }
-
-    // Controllo dell'autenticazione all'avvio della pagina
+    // Gestione dell'autenticazione
     onAuthStateChanged(auth, (user) => {
       if (user) {
         // Utente loggato
@@ -152,6 +81,17 @@
         document.getElementById('login-link').style.display = 'inline';
         document.getElementById('logout-link').style.display = 'none';
       }
+    });
+
+    // Funzione di logout
+    document.getElementById('logout-link').addEventListener('click', (e) => {
+      e.preventDefault();
+      signOut(auth).then(() => {
+        alert('Logged out successfully');
+        window.location.reload(); // Ricarica la pagina per aggiornare lo stato
+      }).catch((error) => {
+        console.error('Error during logout: ', error);
+      });
     });
   </script>
 </body>

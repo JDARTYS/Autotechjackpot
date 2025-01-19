@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - AutoTechJackpot</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <style>
+    .auth-container {
+      max-width: 600px;
+      margin: 150px auto;
+      background-color: #1A1A50;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    }
+    .auth-form h2 {
+      margin-bottom: 20px;
+      color: #FF6A00;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+      color: #fff;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #FF6A00;
+      border-radius: 5px;
+      background-color: #1A1A50;
+      color: #fff;
+    }
+    input:focus {
+      outline: none;
+      border-color: #FF6A00;
+      box-shadow: 0 0 5px #FF6A00;
+    }
+    .btn-primary {
+      display: inline-block;
+      width: 100%;
+      padding: 10px;
+      margin-top: 20px;
+      background-color: #FF6A00;
+      color: #fff;
+      font-size: 1.1em;
+      font-weight: bold;
+      text-align: center;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .btn-primary:hover {
+      background-color: #e65900;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <a href="index.html">
+        <img src="logo.png" alt="AutoTechJackpot Logo">
+      </a>
+    </div>
+    <nav>
+      <a href="login.html">Login</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="auth-container">
+      <form id="register-form" class="auth-form" method="POST">
+        <h2>Register</h2>
+        <label for="register-email">Email Address</label>
+        <input type="email" id="register-email" name="email" required placeholder="Enter your email">
+
+        <label for="register-password">Password</label>
+        <input type="password" id="register-password" name="password" required placeholder="Enter your password">
+
+        <button type="submit" class="btn-primary">Register</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 AutoTechJackpot. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const supabase = supabase.createClient(
+      'https://msgwibzizaywwshrghau.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1zZ3dpYnppemF5d3dzaHJnaGF1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzcyMTY2ODEsImV4cCI6MjA1Mjc5MjY4MX0.iawuRLUczKxiUdTgTgqsStwfhdndwQei4FjVf_MGd0k'
+    );
+
+    document.getElementById('register-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('register-email').value;
+      const password = document.getElementById('register-password').value;
+
+      const { error } = await supabase.auth.signUp({ email, password });
+      if (error) {
+        alert('Registration Error: ' + error.message);
+      } else {
+        alert('Registration Successful! Check your email to confirm.');
+        window.location.href = 'login.html';
+      }
+    });
+  </script>
+</body>
+</html>

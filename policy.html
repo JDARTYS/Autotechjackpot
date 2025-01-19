@@ -5,31 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Terms & Policy - AutoTechJackpot</title>
   <link rel="stylesheet" href="styles.css">
-   <style>
-    /* Stile per il logo */
-    .logo img {
-      max-width: 120px;
-      height: auto;
-      display: block;
-      margin: 0 auto;
-    }
-    </style>
 </head>
 <body>
   <header>
-      <div class="logo">
+    <div class="logo">
       <a href="index.html" aria-label="Go to Home page">
         <img src="logo.png" alt="AutoTechJackpot Logo">
       </a>
-        <nav>
-        <a href="how-it-works.html" aria-label="How it Works">How It Works</a>
-        <a href="winners.html" aria-label="View Winners">Winners</a>
-        <a href="tickets.html" aria-label="View Tickets" class="active">Tickets</a>
-        <a href="cart.html" aria-label="View Cart">Cart</a>
-       <a href="login.html" aria-label="Login/Register">Login/Register</a>
-        <a href="activecompetitions.html" aria-label="Active Competitions">Active Competitions</a>
-      </nav>
     </div>
+    <nav>
+      <ul>
+        <li><a href="how-it-works.html" aria-label="How it Works">How It Works</a></li>
+        <li><a href="winners.html" aria-label="View Winners">Winners</a></li>
+        <li><a href="tickets.html" aria-label="View Tickets" class="active">Tickets</a></li>
+        <li><a href="cart.html" aria-label="View Cart">Cart</a></li>
+        <!-- Il link di login/logout cambia dinamicamente -->
+        <li><a href="login.html" id="login-link" aria-label="Login/Register">Login/Register</a></li>
+        <li><a href="activecompetitions.html" aria-label="Active Competitions">Active Competitions</a></li>
+      </ul>
+    </nav>
   </header>
 
   <main>
@@ -53,17 +47,68 @@
       <p>We reserve the right to update or change these terms at any time. Please check back regularly.</p>
 
       <p>If you have any questions or concerns, feel free to contact us.</p>
+      
+      <!-- Logout Button (Only visible if the user is logged in) -->
+      <button id="logout-button" class="logout-button" style="display: none;">Logout</button>
     </section>
   </main>
 
   <footer>
     <p>&copy; 2025 AutoTechJackpot. All rights reserved.</p>
     <nav>
-      <a href="index.html">Home</a>
-      <a href="how-it-works.html">How It Works</a>
+      <ul>
+        <li><a href="index.html" aria-label="Go to Home page">Home</a></li>
+        <li><a href="how-it-works.html" aria-label="Learn about how it works">How It Works</a></li>
+      </ul>
     </nav>
   </footer>
 
-  <script src="script.js"></script>
+  <!-- Firebase SDK -->
+  <script type="module">
+    // Importa i moduli necessari
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
+
+    // Configurazione Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyDn_UmalWNd1dIdJG2lgbKNXKLZlWwmn4w",
+      authDomain: "autotechjackpot.firebaseapp.com",
+      projectId: "autotechjackpot",
+      storageBucket: "autotechjackpot.firebasestorage.app",
+      messagingSenderId: "127768056298",
+      appId: "1:127768056298:web:fbd966161d3a2bc28c2293",
+      measurementId: "G-3RJM0DNWDY"
+    };
+
+    // Inizializza Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Gestire lo stato di autenticazione
+    onAuthStateChanged(auth, (user) => {
+      const logoutButton = document.getElementById("logout-button");
+      const loginLink = document.getElementById("login-link");
+
+      if (user) {
+        // L'utente è loggato, mostra il bottone di logout
+        loginLink.style.display = "none"; // Nascondi il link di login
+        logoutButton.style.display = "block"; // Mostra il bottone di logout
+      } else {
+        // L'utente non è loggato
+        loginLink.style.display = "inline"; // Mostra il link di login
+        logoutButton.style.display = "none"; // Nascondi il bottone di logout
+      }
+    });
+
+    // Funzione di logout
+    document.getElementById("logout-button")?.addEventListener("click", () => {
+      signOut(auth).then(() => {
+        console.log("User logged out");
+        location.reload(); // Ricarica la pagina per aggiornare lo stato dell'interfaccia
+      }).catch((error) => {
+        console.error("Error logging out: ", error);
+      });
+    });
+  </script>
 </body>
 </html>

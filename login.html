@@ -99,12 +99,8 @@
     <p>&copy; 2025 AutoTechJackpot. All rights reserved.</p>
   </footer>
 
-  <script type="module">
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
-
-    // Your web app's Firebase configuration
+  <script>
+    // Firebase Config
     const firebaseConfig = {
       apiKey: "AIzaSyDn_UmalWNd1dIdJG2lgbKNXKLZlWwmn4w",
       authDomain: "autotechjackpot.firebaseapp.com",
@@ -115,24 +111,31 @@
       measurementId: "G-3RJM0DNWDY"
     };
 
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+    // Load Firebase
+    let app;
+    let auth;
+    (async () => {
+      const firebaseModule = await import('https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js');
+      const authModule = await import('https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js');
 
-    // Handle login form submission
-    document.getElementById('login-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const email = document.getElementById('login-email').value;
-      const password = document.getElementById('login-password').value;
+      app = firebaseModule.initializeApp(firebaseConfig);
+      auth = authModule.getAuth(app);
 
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-        alert('Login Successful!');
-        window.location.href = 'index.html'; // Redirect to home page
-      } catch (error) {
-        alert('Login Error: ' + error.message);
-      }
-    });
+      // Handle login form submission
+      document.getElementById('login-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
+
+        try {
+          await authModule.signInWithEmailAndPassword(auth, email, password);
+          alert('Login Successful!');
+          window.location.href = 'index.html'; // Redirect to home page
+        } catch (error) {
+          alert('Login Error: ' + error.message);
+        }
+      });
+    })();
   </script>
 </body>
 </html>

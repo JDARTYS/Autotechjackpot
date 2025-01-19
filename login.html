@@ -3,10 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login/Register</title>
+  <title>Login & Register - AutoTechJackpot</title>
   <link rel="stylesheet" href="styles.css">
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
   <style>
     .auth-container {
       max-width: 600px;
@@ -83,7 +81,7 @@
   <main>
     <section class="auth-container">
       <!-- Login Form -->
-      <form id="login-form" class="auth-form" method="POST" style="display: block;">
+      <form id="login-form" class="auth-form" method="POST">
         <h2>Login</h2>
         <label for="login-email">Email Address</label>
         <input type="email" id="login-email" name="email" required placeholder="Enter your email">
@@ -114,21 +112,28 @@
     <p>&copy; 2025 AutoTechJackpot. All rights reserved.</p>
   </footer>
 
-  <script>
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyDn_UmalWNd1dIdJG2lgbKNXKLZlWwmn4w",
-  authDomain: "autotechjackpot.firebaseapp.com",
-  projectId: "autotechjackpot",
-  storageBucket: "autotechjackpot.firebasestorage.app",
-  messagingSenderId: "127768056298",
-  appId: "1:127768056298:web:fbd966161d3a2bc28c2293",
-  measurementId: "G-3RJM0DNWDY"
-};
+  <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
 
-    // Initialize Firebase
-    const app = firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyDn_UmalWNd1dIdJG2lgbKNXKLZlWwmn4w",
+    authDomain: "autotechjackpot.firebaseapp.com",
+    projectId: "autotechjackpot",
+    storageBucket: "autotechjackpot.firebasestorage.app",
+    messagingSenderId: "127768056298",
+    appId: "1:127768056298:web:fbd966161d3a2bc28c2293",
+    measurementId: "G-3RJM0DNWDY"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
 
     // Handle login form submission
     document.getElementById('login-form').addEventListener('submit', async (e) => {

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - AutoTechJackpot</title>
   <link rel="stylesheet" href="styles.css">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="https://cdn.auth0.com/js/auth0/9.19/auth0.min.js"></script>
   <style>
     .auth-container {
       max-width: 600px;
@@ -73,16 +73,10 @@
 
   <main>
     <section class="auth-container">
-      <form id="login-form" class="auth-form" method="POST">
+      <div class="auth-form">
         <h2>Login</h2>
-        <label for="login-email">Email Address</label>
-        <input type="email" id="login-email" name="email" required placeholder="Enter your email">
-
-        <label for="login-password">Password</label>
-        <input type="password" id="login-password" name="password" required placeholder="Enter your password">
-
-        <button type="submit" class="btn-primary">Login</button>
-      </form>
+        <button id="login-button" class="btn-primary">Login</button>
+      </div>
     </section>
   </main>
 
@@ -91,23 +85,18 @@
   </footer>
 
   <script>
-    const supabase = supabase.createClient(
-      'https://msgwibzizaywwshrghau.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1zZ3dpYnppemF5d3dzaHJnaGF1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzcyMTY2ODEsImV4cCI6MjA1Mjc5MjY4MX0.iawuRLUczKxiUdTgTgqsStwfhdndwQei4FjVf_MGd0k'
-    );
+    // Configura Auth0
+    const auth0 = new auth0.WebAuth({
+      domain: 'autotechjackpot.eu.auth0.com', // Sostituisci con il tuo dominio Auth0
+      clientID: 'dRgyMtORHQOK0iJybq8S4yKaC4FQqgmO', // Sostituisci con il tuo Client ID
+      redirectUri: 'https://autotechjackpot.com/', // Modifica con l'URI di redirect del tuo sito
+      responseType: 'token id_token',
+      scope: 'openid email profile'
+    });
 
-    document.getElementById('login-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const email = document.getElementById('login-email').value;
-      const password = document.getElementById('login-password').value;
-
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) {
-        alert('Login Error: ' + error.message);
-      } else {
-        alert('Login Successful!');
-        window.location.href = 'index.html';
-      }
+    // Bottone Login
+    document.getElementById('login-button').addEventListener('click', () => {
+      auth0.authorize();
     });
   </script>
 </body>

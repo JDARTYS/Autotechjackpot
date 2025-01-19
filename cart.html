@@ -136,7 +136,6 @@
   </footer>
 
   <script>
-    // Carica il carrello dal localStorage
     function loadCart() {
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
       const cartItems = document.getElementById('cart-items');
@@ -167,7 +166,6 @@
       setupRemoveButtons();
     }
 
-    // Configura i pulsanti "Remove"
     function setupRemoveButtons() {
       const removeButtons = document.querySelectorAll('.remove-button');
       removeButtons.forEach(button => {
@@ -178,7 +176,6 @@
       });
     }
 
-    // Rimuove un elemento dal carrello
     function removeFromCart(index) {
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
       cart.splice(index, 1);
@@ -186,17 +183,16 @@
       loadCart();
     }
 
-    // Gestisce il checkout
     document.getElementById('checkout-button').addEventListener('click', () => {
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
       if (cart.length === 0) {
         alert("Your cart is empty!");
         return;
       }
-      alert("Proceeding to checkout...");
+      // Reindirizza alla pagina checkout
+      window.location.href = 'checkout.html';
     });
 
-    // Carica il carrello all'avvio della pagina
     loadCart();
   </script>
 </body>

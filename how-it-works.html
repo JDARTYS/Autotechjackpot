@@ -6,13 +6,14 @@
   <title>How It Works - AutoTechJackpot</title>
   <link rel="stylesheet" href="styles.css">
   <style>
-     /* Stile per il logo */
+    /* Stile per il logo */
     .logo img {
       max-width: 120px;
       height: auto;
       display: block;
       margin: 0 auto;
     }
+
     .how-it-works {
       margin-top: 100px;
       padding: 40px;
@@ -92,20 +93,20 @@
 </head>
 <body>
   <header>
-     <div class="logo">
+    <div class="logo">
       <a href="index.html" aria-label="Go to Home page">
         <img src="logo.png" alt="AutoTechJackpot Logo">
       </a>
-      </div>
-       <nav>
-        <a href="how-it-works.html" aria-label="How it Works">How It Works</a>
-        <a href="winners.html" aria-label="View Winners">Winners</a>
-        <a href="tickets.html" aria-label="View Tickets" class="active">Tickets</a>
-        <a href="cart.html" aria-label="View Cart">Cart</a>
-       <a href="login.html" aria-label="Login/Register">Login/Register</a>
-        <a href="activecompetitions.html" aria-label="Active Competitions">Active Competitions</a>
-      </nav>
     </div>
+    <nav>
+      <a href="how-it-works.html" aria-label="How it Works">How It Works</a>
+      <a href="winners.html" aria-label="View Winners">Winners</a>
+      <a href="tickets.html" aria-label="View Tickets">Tickets</a>
+      <a href="cart.html" aria-label="View Cart">Cart</a>
+      <a href="login.html" aria-label="Login/Register" id="login-link">Login/Register</a>
+      <a href="activecompetitions.html" aria-label="Active Competitions">Active Competitions</a>
+      <a href="#" aria-label="Logout" id="logout-link" style="display:none;">Logout</a>
+    </nav>
   </header>
 
   <main>
@@ -143,7 +144,7 @@
       </div>
       <div class="faq-item">
         <h3>How are winners selected?</h3>
-<p>Winners are chosen at random using a secure and certified process to ensure fairness and transparency.</p>
+        <p>Winners are chosen at random using a secure and certified process to ensure fairness and transparency.</p>
       </div>
       <div class="faq-item">
         <h3>Where can I buy tickets?</h3>
@@ -158,5 +159,51 @@
       <a href="policy.html">Terms & Policy</a>
     </nav>
   </footer>
+
+  <!-- Script Firebase e altre funzionalità -->
+  <script type="module">
+    // Import Firebase functions
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDn_UmalWNd1dIdJG2lgbKNXKLZlWwmn4w",
+      authDomain: "autotechjackpot.firebaseapp.com",
+      projectId: "autotechjackpot",
+      storageBucket: "autotechjackpot.firebasestorage.app",
+      messagingSenderId: "127768056298",
+      appId: "1:127768056298:web:fbd966161d3a2bc28c2293",
+      measurementId: "G-3RJM0DNWDY"
+    };
+
+    // Inizializzazione di Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Gestione dell'autenticazione
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // Utente loggato
+        document.getElementById('login-link').style.display = 'none';
+        document.getElementById('logout-link').style.display = 'inline';
+      } else {
+        // Utente non loggato
+        document.getElementById('login-link').style.display = 'inline';
+        document.getElementById('logout-link').style.display = 'none';
+      }
+    });
+
+    // Funzione di logout
+    document.getElementById('logout-link').addEventListener('click', (e) => {
+      e.preventDefault();
+      signOut(auth).then(() => {
+        alert('Logged out successfully');
+        window.location.reload(); // Ricarica la pagina per aggiornare lo stato
+      }).catch((error) => {
+        console.error('Error during logout: ', error);
+      });
+    });
+  </script>
 </body>
 </html>

@@ -27,9 +27,7 @@
         <a href="winners.html" aria-label="View Winners">Winners</a>
         <a href="tickets.html" aria-label="View Tickets" class="active">Tickets</a>
         <a href="cart.html" aria-label="View Cart">Cart</a>
-        <a href="login.html" aria-label="Login/Register" id="login-link">Login/Register</a>
         <a href="activecompetitions.html" aria-label="Active Competitions">Active Competitions</a>
-        <a href="logout.html" aria-label="Logout" id="logout-link" style="display:none;">Logout</a>
       </nav>
     </div>
   </header>
@@ -88,53 +86,5 @@
       <a href="policy.html">Terms & Policy</a>
     </nav>
   </footer>
-  
-   <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyDn_UmalWNd1dIdJG2lgbKNXKLZlWwmn4w",
-    authDomain: "autotechjackpot.firebaseapp.com",
-    projectId: "autotechjackpot",
-    storageBucket: "autotechjackpot.firebasestorage.app",
-    messagingSenderId: "127768056298",
-    appId: "1:127768056298:web:fbd966161d3a2bc28c2293",
-    measurementId: "G-3RJM0DNWDY"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-
-    // Controllo dell'autenticazione all'avvio della pagina
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // Utente loggato
-        document.getElementById('login-link').style.display = 'none';
-        document.getElementById('logout-link').style.display = 'inline';
-      } else {
-        // Utente non loggato
-        document.getElementById('login-link').style.display = 'inline';
-        document.getElementById('logout-link').style.display = 'none';
-      }
-    });
-
-    // Funzione di logout
-    document.getElementById('logout-link').addEventListener('click', (e) => {
-      e.preventDefault();
-      signOut(auth).then(() => {
-        alert('Logged out successfully');
-        window.location.reload();
-      }).catch((error) => {
-        console.error('Error during logout: ', error);
-      });
-    });
-  </script>
 </body>
 </html>

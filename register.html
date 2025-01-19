@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Register - AutoTechJackpot</title>
+  <title>Login - AutoTechJackpot</title>
   <link rel="stylesheet" href="styles.css">
   <script src="https://cdn.auth0.com/js/auth0/9.19/auth0.min.js"></script>
   <style>
@@ -67,15 +67,15 @@
       </a>
     </div>
     <nav>
-      <a href="login.html">Login</a>
+      <a href="register.html">Register</a>
     </nav>
   </header>
 
   <main>
     <section class="auth-container">
       <div class="auth-form">
-        <h2>Register</h2>
-        <button id="register-button" class="btn-primary">Register</button>
+        <h2>Login</h2>
+        <button id="login-button" class="btn-primary">Login</button>
       </div>
     </section>
   </main>
@@ -91,11 +91,11 @@
       clientID: 'dRgyMtORHQOK0iJybq8S4yKaC4FQqgmO', // Sostituisci con il tuo Client ID
       redirectUri: 'https://autotechjackpot.com/', // Modifica con l'URI di redirect del tuo sito
       responseType: 'token 36000',
-      scope: 'openid email profile'
+      scope: 'https://autotechjackpot.eu.auth0.com/.well-known/openid-configuration'
     });
 
-    // Bottone Register
-    document.getElementById('register-button').addEventListener('click', () => {
+    // Bottone Login
+    document.getElementById('login-button').addEventListener('click', () => {
       auth0.authorize();
     });
   </script>

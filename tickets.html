@@ -50,12 +50,11 @@
   </footer>
 
   <script type="module">
-    // Import the functions you need from the SDKs you need
+    // Import Firebase
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-analytics.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
 
-    // Your web app's Firebase configuration
+    // Configurazione Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyDn_UmalWNd1dIdJG2lgbKNXKLZlWwmn4w",
       authDomain: "autotechjackpot.firebaseapp.com",
@@ -68,7 +67,6 @@
 
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
     const auth = getAuth();
 
     // Dati dei biglietti
@@ -84,7 +82,7 @@
     // Carica i biglietti
     document.addEventListener('DOMContentLoaded', () => {
       const competitionGrid = document.getElementById('competition-grid');
-      
+
       tickets.forEach(ticket => {
         const ticketCard = document.createElement('div');
         ticketCard.classList.add('competition-card');
@@ -94,79 +92,72 @@
             <h3>${ticket.name}</h3>
             <p>Price: €${ticket.price.toFixed(2)}</p>
             <p>Available: ${ticket.maxAvailable}</p>
-            <button class="add-to-cart" onclick="addToCart('${ticket.id}', '${ticket.name}', ${ticket.price}, '${ticket.image}', ${ticket.maxAvailable})" aria-label="Add ${ticket.name} to Cart">Add to Cart</button>
+            <button class="add-to-cart" data-id="${ticket.id}">Add to Cart</button>
           </div>
         `;
         competitionGrid.appendChild(ticketCard);
       });
+
+      // Gestione evento "Add to Cart"
+      document.querySelectorAll('.add-to-cart').forEach(button => {
+        button.addEventListener('click', (e) => {
+          const ticketId = e.target.dataset.id;
+          const ticket = tickets.find(t => t.id === ticketId);
+          if (ticket) addToCart(ticket);
+        });
+      });
     });
 
-    // Funzione per aggiungere il biglietto al carrello
-    function addToCart(ticketId, ticketName, ticketPrice, ticketImage, maxAvailable) {
-      // Verifica se l'utente è loggato tramite Firebase
-      const user = auth.currentUser;
-      if (!user) {
+    // Funzione per aggiungere biglietto al carrello
+    function addToCart(ticket) {
+      // Controlla se l'utente è loggato
+      if (!auth.currentUser) {
         alert('Please log in to add tickets to your cart!');
-        window.location.href = 'login.html'; // Reindirizza alla pagina di login
+        window.location.href = 'login.html';
         return;
       }
 
-      // Verifica il cooldown
-      const lastPurchaseTime = localStorage.getItem('lastPurchaseTime');
-      const currentTime = Date.now();
-      if (lastPurchaseTime && (currentTime - lastPurchaseTime) < 10000) {
-        const remainingTime = Math.ceil((10000 - (currentTime - lastPurchaseTime) / 1000));
-        alert(`Please wait ${remainingTime} seconds before making another purchase.`);
-        return;
-      }
-
-      // Aggiorna l'orario dell'ultimo acquisto
-      localStorage.setItem('lastPurchaseTime', currentTime);
-
-      // Carica il carrello dal localStorage
+      // Carica il carrello
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      const existingTicket = cart.find(ticket => ticket.id === ticketId);
+      const existingTicket = cart.find(item => item.id === ticket.id);
 
-      // Aggiungi biglietto al carrello
+      // Aggiungi o aggiorna il biglietto
       if (existingTicket) {
-        if (existingTicket.quantity + 1 > maxAvailable) {
-          alert(`Sorry, there are only ${maxAvailable - existingTicket.quantity} tickets left for this product.`);
+        if (existingTicket.quantity < ticket.maxAvailable) {
+          existingTicket.quantity += 1;
+        } else {
+          alert(`No more tickets available for ${ticket.name}.`);
           return;
         }
-        existingTicket.quantity += 1;
       } else {
-        cart.push({ id: ticketId, name: ticketName, price: ticketPrice, image: ticketImage, quantity: 1 });
+        cart.push({ ...ticket, quantity: 1 });
       }
 
       localStorage.setItem('cart', JSON.stringify(cart));
-      alert(`Ticket added to cart!`);
-
-      // Reindirizza alla pagina del carrello
+      alert(`${ticket.name} added to cart!`);
       window.location.href = 'cart.html';
     }
 
-    // Controllo dell'autenticazione all'avvio della pagina
+    // Gestione autenticazione
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        // Utente loggato
         document.getElementById('login-link').style.display = 'none';
         document.getElementById('logout-link').style.display = 'inline';
       } else {
-        // Utente non loggato
         document.getElementById('login-link').style.display = 'inline';
         document.getElementById('logout-link').style.display = 'none';
       }
     });
 
-    // Funzione di logout
+    // Logout
     document.getElementById('logout-link').addEventListener('click', (e) => {
       e.preventDefault();
-      signOut(auth).then(() => {
-        alert('Logged out successfully');
-        window.location.reload();
-      }).catch((error) => {
-        console.error('Error during logout: ', error);
-      });
+      signOut(auth)
+        .then(() => {
+          alert('Logged out successfully');
+          window.location.reload();
+        })
+        .catch((error) => console.error('Logout error:', error));
     });
   </script>
 </body>

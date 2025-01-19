@@ -41,32 +41,13 @@
   </main>
 
   <footer>
-    <p>&copy; 2025 Autotechjackpot. All rights reserved.</p>
+    <p>&copy; 2025 AutoTechJackpot. All rights reserved.</p>
     <nav>
       <a href="policy.html" aria-label="Terms and Policies">Terms & Policy</a>
     </nav>
   </footer>
 
-  <script type="module">
-    // Import Firebase
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
-
-    // Configurazione Firebase
-    const firebaseConfig = {
-      apiKey: "AIzaSyDn_UmalWNd1dIdJG2lgbKNXKLZlWwmn4w",
-      authDomain: "autotechjackpot.firebaseapp.com",
-      projectId: "autotechjackpot",
-      storageBucket: "autotechjackpot.firebasestorage.app",
-      messagingSenderId: "127768056298",
-      appId: "1:127768056298:web:fbd966161d3a2bc28c2293",
-      measurementId: "G-3RJM0DNWDY"
-    };
-
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth();
-
+  <script>
     // Dati dei biglietti
     const tickets = [
       { id: '1', name: '2020 BMW 745', price: 2.22, image: 'BMW2020.png', maxAvailable: 22000 },
@@ -77,7 +58,7 @@
       { id: '6', name: 'Iphone 16 ProMax', price: 1.22, image: 'Iphone16.png', maxAvailable: 3800 }
     ];
 
-    // Carica i biglietti
+    // Carica i biglietti nella griglia
     document.addEventListener('DOMContentLoaded', () => {
       const competitionGrid = document.getElementById('competition-grid');
 
@@ -106,20 +87,11 @@
       });
     });
 
-    // Funzione per aggiungere biglietto al carrello
+    // Funzione per aggiungere un biglietto al carrello
     function addToCart(ticket) {
-      // Controlla se l'utente è loggato
-      if (!auth.currentUser) {
-        alert('Please log in to add tickets to your cart!');
-        window.location.href = 'login.html';
-        return;
-      }
-
-      // Carica il carrello
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
       const existingTicket = cart.find(item => item.id === ticket.id);
 
-      // Aggiungi o aggiorna il biglietto
       if (existingTicket) {
         if (existingTicket.quantity < ticket.maxAvailable) {
           existingTicket.quantity += 1;
@@ -133,30 +105,8 @@
 
       localStorage.setItem('cart', JSON.stringify(cart));
       alert(`${ticket.name} added to cart!`);
-      window.location.href = 'cart.html';
+      window.location.href = 'cart.html'; // Reindirizza al carrello
     }
-
-    // Gestione autenticazione
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        document.getElementById('login-link').style.display = 'none';
-        document.getElementById('logout-link').style.display = 'inline';
-      } else {
-        document.getElementById('login-link').style.display = 'inline';
-        document.getElementById('logout-link').style.display = 'none';
-      }
-    });
-
-    // Logout
-    document.getElementById('logout-link').addEventListener('click', (e) => {
-      e.preventDefault();
-      signOut(auth)
-        .then(() => {
-          alert('Logged out successfully');
-          window.location.reload();
-        })
-        .catch((error) => console.error('Logout error:', error));
-    });
   </script>
 </body>
 </html>

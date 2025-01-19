@@ -70,8 +70,8 @@
       domain: 'autotechjackpot.eu.auth0.com', // Sostituisci con il tuo dominio Auth0
       clientID: 'dRgyMtORHQOK0iJybq8S4yKaC4FQqgmO', // Sostituisci con il tuo Client ID
       redirectUri: 'https://autotechjackpot.com/', // Modifica con il tuo dominio o localhost durante i test
-      responseType: 'token id_token',
-      scope: 'openid email profile'
+      responseType: 'token id_token', // Richiedi Access Token e ID Token
+      scope: 'openid profile email' // Richiedi email e profilo
     });
 
     // Bottone Register

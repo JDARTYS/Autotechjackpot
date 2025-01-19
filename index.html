@@ -2,18 +2,18 @@
 <html lang="en">
 <head>
   <style>
-     logo img {
+    .logo img {
       max-width: 120px;
       height: auto;
       display: block;
       margin: 0 auto;
     }
-     </style>
+  </style>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Welcome - AutoTechJackpot</title>
   <link rel="stylesheet" href="styles.css">
-  </head>
+</head>
 <body>
   <header>
     <div class="header-container">
@@ -27,8 +27,9 @@
         <a href="winners.html" aria-label="View Winners">Winners</a>
         <a href="tickets.html" aria-label="View Tickets" class="active">Tickets</a>
         <a href="cart.html" aria-label="View Cart">Cart</a>
-        <a href="login.html" aria-label="Login/Register">Login/Register</a>
+        <a href="login.html" aria-label="Login/Register" id="login-link">Login/Register</a>
         <a href="activecompetitions.html" aria-label="Active Competitions">Active Competitions</a>
+        <a href="logout.html" aria-label="Logout" id="logout-link" style="display:none;">Logout</a>
       </nav>
     </div>
   </header>
@@ -87,5 +88,61 @@
       <a href="policy.html">Terms & Policy</a>
     </nav>
   </footer>
+  
+   <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyDn_UmalWNd1dIdJG2lgbKNXKLZlWwmn4w",
+    authDomain: "autotechjackpot.firebaseapp.com",
+    projectId: "autotechjackpot",
+    storageBucket: "autotechjackpot.firebasestorage.app",
+    messagingSenderId: "127768056298",
+    appId: "1:127768056298:web:fbd966161d3a2bc28c2293",
+    measurementId: "G-3RJM0DNWDY"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+
+    // Funzione per aggiornare i link di login/logout
+    function checkLoginStatus() {
+      const loginLink = document.getElementById('login-link');
+      const logoutLink = document.getElementById('logout-link');
+
+      auth.onAuthStateChanged(user => {
+        if (user) {
+          // Se l'utente è loggato, nascondi il link di login e mostra quello di logout
+          loginLink.style.display = 'none';
+          logoutLink.style.display = 'inline-block';
+        } else {
+          // Se l'utente non è loggato, mostra il link di login e nascondi quello di logout
+          loginLink.style.display = 'inline-block';
+          logoutLink.style.display = 'none';
+        }
+      });
+    }
+
+    // Chiamata alla funzione di controllo login all'inizio
+    checkLoginStatus();
+
+    // Logout function
+    document.getElementById('logout-link').addEventListener('click', (e) => {
+      e.preventDefault();
+      auth.signOut().then(() => {
+        alert('Logged out successfully');
+        window.location.reload();
+      }).catch((error) => {
+        console.error('Error during logout: ', error);
+      });
+    });
+  </script>
 </body>
 </html>

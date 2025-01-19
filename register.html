@@ -3,8 +3,67 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Register</title>
+  <title>Register - AutoTechJackpot</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    .auth-container {
+      max-width: 600px;
+      margin: 150px auto;
+      background-color: #1A1A50;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    }
+    .auth-form h2 {
+      margin-bottom: 20px;
+      color: #FF6A00;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+      color: #fff;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #FF6A00;
+      border-radius: 5px;
+      background-color: #1A1A50;
+      color: #fff;
+    }
+    input:focus {
+      outline: none;
+      border-color: #FF6A00;
+      box-shadow: 0 0 5px #FF6A00;
+    }
+    .btn-primary {
+      display: inline-block;
+      width: 100%;
+      padding: 10px;
+      margin-top: 20px;
+      background-color: #FF6A00;
+      color: #fff;
+      font-size: 1.1em;
+      font-weight: bold;
+      text-align: center;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .btn-primary:hover {
+      background-color: #e65900;
+    }
+    .toggle-link {
+      color: #FF6A00;
+      text-decoration: none;
+      display: block;
+      margin-top: 20px;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
 
@@ -15,7 +74,7 @@
       </a>
     </div>
     <nav>
-      <a href="login.html">Login</a>
+      <a href="index.html">Home</a>
     </nav>
   </header>
 
@@ -31,6 +90,8 @@
         <input type="password" id="register-password" name="password" required placeholder="Enter your password">
 
         <button type="submit" class="btn-primary">Register</button>
+
+        <a href="login.html" class="toggle-link">Already have an account? Login here</a>
       </form>
     </section>
   </main>

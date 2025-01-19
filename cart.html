@@ -6,6 +6,7 @@
   <title>Your Cart - AutoTechJackpot</title>
   <link rel="stylesheet" href="styles.css">
   <style>
+    /* Stili per la pagina del carrello */
     .cart {
       margin-top: 100px;
       padding: 40px;
@@ -111,7 +112,6 @@
         <a href="winners.html" aria-label="View Winners">Winners</a>
         <a href="tickets.html" aria-label="View Tickets" class="active">Tickets</a>
         <a href="cart.html" aria-label="View Cart">Cart</a>
-        <!-- Link di login/logout dinamico -->
         <a href="login.html" id="login-link" aria-label="Login/Register">Login/Register</a>
         <a href="activecompetitions.html" aria-label="Active Competitions">Active Competitions</a>
       </nav>
@@ -137,11 +137,9 @@
 
   <!-- Firebase SDK -->
   <script type="module">
-    // Importa i moduli necessari
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
 
-    // Configurazione Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyDn_UmalWNd1dIdJG2lgbKNXKLZlWwmn4w",
       authDomain: "autotechjackpot.firebaseapp.com",
@@ -152,41 +150,39 @@
       measurementId: "G-3RJM0DNWDY"
     };
 
-    // Inizializza Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    // Gestire lo stato di autenticazione
     onAuthStateChanged(auth, (user) => {
       const loginLink = document.getElementById("login-link");
-
       if (user) {
-        // L'utente è loggato, aggiorna il link di login
         loginLink.textContent = "Logout";
         loginLink.href = "#";
-        loginLink.addEventListener("click", () => {
+        loginLink.addEventListener("click", (e) => {
+          e.preventDefault();
           signOut(auth).then(() => {
-            console.log("User logged out");
-            location.reload(); // Ricarica la pagina per aggiornare lo stato
+            alert("Logged out successfully!");
+            location.reload();
           }).catch((error) => {
-            console.error("Error logging out: ", error);
+            console.error("Logout error:", error);
           });
         });
       } else {
-        // L'utente non è loggato
         loginLink.textContent = "Login/Register";
         loginLink.href = "login.html";
       }
     });
 
-    // Funzione per caricare e visualizzare gli articoli nel carrello
     function loadCart() {
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
       const cartItems = document.getElementById('cart-items');
       const totalPriceElement = document.getElementById('total-price');
       let total = 0;
 
-      cartItems.innerHTML = '';
+      cartItems.innerHTML = cart.length === 0 
+        ? '<p>Your cart is empty.</p>'
+        : '';
+
       cart.forEach((item, index) => {
         total += (item.price || 0) * (item.quantity || 1);
 
@@ -224,16 +220,9 @@
       loadCart();
     }
 
-    function setupCheckoutButton() {
-      document.getElementById('checkout-button').addEventListener('click', () => {
-        window.location.href = 'checkout.html';
-      });
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      loadCart();
-      setupCheckoutButton();
-    });
-  </script>
-</body>
-</html>
+    document.getElementById('checkout-button').addEventListener('click', () => {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      if (cart.length === 0) {
+        alert("Your cart is empty!");
+        return;
+     

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tickets - Autotechjackpot</title>
+  <title>Tickets - AutoTechJackpot</title>
   <link rel="stylesheet" href="styles.css">
   <style>
     /* Stile per il logo */
@@ -13,6 +13,40 @@
       display: block;
       margin: 0 auto;
     }
+    /* Layout dei biglietti */
+    .ticket-section {
+      padding: 20px;
+    }
+    .ticket-cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .ticket-card {
+      width: 200px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .ticket-card img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+    .ticket-card button {
+      background-color: #f39c12;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .ticket-card button:hover {
+      background-color: #e67e22;
+    }
   </style>
 </head>
 <body>
@@ -21,78 +55,149 @@
       <a href="index.html" aria-label="Go to Home page">
         <img src="logo.png" alt="AutoTechJackpot Logo">
       </a>
+      <nav>
+        <a href="how-it-works.html" aria-label="How it Works">How It Works</a>
+        <a href="winners.html" aria-label="View Winners">Winners</a>
+        <a href="tickets.html" aria-label="View Tickets" class="active">Tickets</a>
+        <a href="cart.html" aria-label="View Cart">Cart</a>
+        <a href="login.html" aria-label="Login/Register" id="login-link">Login/Register</a>
+        <a href="activecompetitions.html" aria-label="Active Competitions">Active Competitions</a>
+      </nav>
     </div>
-    <nav>
-      <a href="how-it-works.html" aria-label="How it Works">How It Works</a>
-      <a href="winners.html" aria-label="View Winners">Winners</a>
-      <a href="tickets.html" aria-label="View Tickets" class="active">Tickets</a>
-      <a href="cart.html" aria-label="View Cart">Cart</a>
-      <a href="login.html" aria-label="Login/Register" id="login-link">Login/Register</a>
-      <a href="activecompetitions.html" aria-label="Active Competitions">Active Competitions</a>
-      <a href="#" aria-label="Logout" id="logout-link" style="display:none;">Logout</a>
-    </nav>
   </header>
 
   <main>
-    <section class="tickets">
-      <h1>Available Tickets</h1>
-      <div class="competition-grid" id="competition-grid">
-        <!-- Biglietti aggiunti dinamicamente qui -->
+    <section class="ticket-section">
+      <h1>Choose Your Ticket</h1>
+      <div class="ticket-cards">
+        <div class="ticket-card">
+          <img src="Iphone16.png" alt="iPhone 16 ProMax">
+          <p>iPhone 16 ProMax</p>
+          <p>Price: €1.22</p>
+          <p>Tickets Remaining: <span id="iphone-tickets-remaining">Loading...</span></p>
+          <button onclick="buyTicket('iphone')">Buy Ticket</button>
+        </div>
+        <div class="ticket-card">
+          <img src="audi.png" alt="Audi A5">
+          <p>Audi A5</p>
+          <p>Price: €1.80</p>
+          <p>Tickets Remaining: <span id="audi-tickets-remaining">Loading...</span></p>
+          <button onclick="buyTicket('audi')">Buy Ticket</button>
+        </div>
+        <div class="ticket-card">
+          <img src="BMW2020.png" alt="BMW 745">
+          <p>BMW 745</p>
+          <p>Price: €2.22</p>
+          <p>Tickets Remaining: <span id="bmw-tickets-remaining">Loading...</span></p>
+          <button onclick="buyTicket('bmw')">Buy Ticket</button>
+        </div>
+        <div class="ticket-card">
+          <img src="Mercedes2021.png" alt="Mercedes GLE">
+          <p>Mercedes GLE</p>
+          <p>Price: €5.11</p>
+          <p>Tickets Remaining: <span id="mercedes-gle-tickets-remaining">Loading...</span></p>
+          <button onclick="buyTicket('mercedesGle')">Buy Ticket</button>
+        </div>
+        <div class="ticket-card">
+          <img src="Mercedes2019.png" alt="Mercedes CLS">
+          <p>Mercedes CLS</p>
+          <p>Price: €3.59</p>
+          <p>Tickets Remaining: <span id="mercedes-cls-tickets-remaining">Loading...</span></p>
+          <button onclick="buyTicket('mercedesCls')">Buy Ticket</button>
+        </div>
+        <div class="ticket-card">
+          <img src="Mercedes2015.png" alt="Mercedes S63 AMG">
+          <p>Mercedes S63 AMG</p>
+          <p>Price: €5.01</p>
+          <p>Tickets Remaining: <span id="mercedes-s63-tickets-remaining">Loading...</span></p>
+          <button onclick="buyTicket('mercedesS63')">Buy Ticket</button>
+        </div>
       </div>
     </section>
   </main>
 
   <footer>
-    <p>&copy; 2025 Autotechjackpot. All rights reserved.</p>
+    <p>&copy; 2025 AutoTechJackpot. All rights reserved.</p>
     <nav>
-      <a href="policy.html" aria-label="Terms and Policies">Terms & Policy</a>
+      <a href="policy.html">Terms & Policy</a>
     </nav>
   </footer>
 
-  <!-- Script Firebase e altre funzionalità -->
   <script type="module">
-    // Import Firebase functions
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
 
-    // Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyDn_UmalWNd1dIdJG2lgbKNXKLZlWwmn4w",
-      authDomain: "autotechjackpot.firebaseapp.com",
-      projectId: "autotechjackpot",
-      storageBucket: "autotechjackpot.firebasestorage.app",
-      messagingSenderId: "127768056298",
-      appId: "1:127768056298:web:fbd966161d3a2bc28c2293",
-      measurementId: "G-3RJM0DNWDY"
-    };
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyDn_UmalWNd1dIdJG2lgbKNXKLZlWwmn4w",
+    authDomain: "autotechjackpot.firebaseapp.com",
+    projectId: "autotechjackpot",
+    storageBucket: "autotechjackpot.firebasestorage.app",
+    messagingSenderId: "127768056298",
+    appId: "1:127768056298:web:fbd966161d3a2bc28c2293",
+    measurementId: "G-3RJM0DNWDY"
+  };
 
-    // Inizializzazione di Firebase
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    // Gestione dell'autenticazione
-    onAuthStateChanged(auth, (user) => {
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+    
+    // Controlla lo stato di autenticazione
+    auth.onAuthStateChanged(user => {
+      const loginLink = document.getElementById('login-link');
       if (user) {
-        // Utente loggato
-        document.getElementById('login-link').style.display = 'none';
-        document.getElementById('logout-link').style.display = 'inline';
+        loginLink.textContent = 'Logout';
+        loginLink.setAttribute('href', '#');
+        loginLink.addEventListener('click', () => {
+          auth.signOut().then(() => {
+            window.location.reload();
+          });
+        });
       } else {
-        // Utente non loggato
-        document.getElementById('login-link').style.display = 'inline';
-        document.getElementById('logout-link').style.display = 'none';
+        loginLink.textContent = 'Login/Register';
+        loginLink.setAttribute('href', 'login.html');
       }
     });
 
-    // Funzione di logout
-    document.getElementById('logout-link').addEventListener('click', (e) => {
-      e.preventDefault();
-      signOut(auth).then(() => {
-        alert('Logged out successfully');
-        window.location.reload(); // Ricarica la pagina per aggiornare lo stato
-      }).catch((error) => {
-        console.error('Error during logout: ', error);
+    // Carica i dati dei biglietti dal localStorage
+    const ticketsData = JSON.parse(localStorage.getItem('ticketsData')) || {
+      iphone: { total: 3800 },
+      audi: { total: 18000 },
+      bmw: { total: 22000 },
+      mercedesGle: { total: 15000 },
+      mercedesCls: { total: 15000 },
+      mercedesS63: { total: 13500 }
+    };
+
+    // Aggiorna i contatori dei biglietti rimanenti per ogni competizione
+    document.addEventListener('DOMContentLoaded', () => {
+      Object.keys(ticketsData).forEach(competitionId => {
+        const ticketCountElement = document.getElementById(`${competitionId}-tickets-remaining`);
+        if (ticketCountElement) {
+          ticketCountElement.textContent = ticketsData[competitionId].total;
+        }
       });
     });
+
+    // Funzione per comprare un biglietto
+    function buyTicket(competitionId) {
+      const ticketCountElement = document.getElementById(`${competitionId}-tickets-remaining`);
+      let remainingTickets = ticketsData[competitionId].total;
+
+      if (remainingTickets > 0) {
+        ticketsData[competitionId].total--;
+        localStorage.setItem('ticketsData', JSON.stringify(ticketsData));
+        ticketCountElement.textContent = ticketsData[competitionId].total;
+        alert('You have successfully purchased a ticket!');
+      } else {
+        alert('Sorry, no tickets left for this competition.');
+      }
+    }
   </script>
+
 </body>
 </html>

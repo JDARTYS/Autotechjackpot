@@ -81,6 +81,18 @@
         screen_hint: 'signup', // Mostra la schermata di registrazione
       });
     });
+
+    auth0.parseHash(window.location.hash, function(err, authResult) {
+  if (err) {
+    console.log('Error:', err);
+    return;
+  }
+  console.log('Auth result:', authResult); // Verifica la risposta di Auth0
+  if (authResult && authResult.idToken) {
+    // L'utente è autenticato
+    window.location.href = '/profile'; // O qualsiasi altra pagina di destinazione
+  }
+});
   </script>
 </body>
 </html>

@@ -5,32 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Winners - AutoTechJackpot</title>
     <link rel="stylesheet" href="styles.css">
-     <style>
-    /* Stile per il logo */
-    .logo img {
-      max-width: 120px;
-      height: auto;
-      display: block;
-      margin: 0 auto;
-    }
+    <style>
+        /* Stile per il logo */
+        .logo img {
+          max-width: 120px;
+          height: auto;
+          display: block;
+          margin: 0 auto;
+        }
     </style>
 </head>
 <body>
     <header>
-         <div class="logo">
-      <a href="index.html" aria-label="Go to Home page">
-        <img src="logo.png" alt="AutoTechJackpot Logo">
-      </a>
-            </div>
-  <nav>
-        <a href="how-it-works.html" aria-label="How it Works">How It Works</a>
-        <a href="winners.html" aria-label="View Winners">Winners</a>
-        <a href="tickets.html" aria-label="View Tickets" class="active">Tickets</a>
-        <a href="cart.html" aria-label="View Cart">Cart</a>
-       <a href="login.html" aria-label="Login/Register">Login/Register</a>
-        <a href="activecompetitions.html" aria-label="Active Competitions">Active Competitions</a>
-      </nav>
+        <div class="logo">
+            <a href="index.html" aria-label="Go to Home page">
+                <img src="logo.png" alt="AutoTechJackpot Logo">
+            </a>
         </div>
+        <nav>
+            <a href="how-it-works.html" aria-label="How it Works">How It Works</a>
+            <a href="winners.html" aria-label="View Winners" class="active">Winners</a>
+            <a href="tickets.html" aria-label="View Tickets">Tickets</a>
+            <a href="cart.html" aria-label="View Cart">Cart</a>
+            <!-- Link di login/logout dinamico -->
+            <a href="login.html" id="login-link" aria-label="Login/Register">Login/Register</a>
+            <a href="activecompetitions.html" aria-label="Active Competitions">Active Competitions</a>
+        </nav>
     </header>
 
     <main>
@@ -52,10 +52,51 @@
         </nav>
     </footer>
 
-    <script>
-        // Simulating an empty state for now. Once winners are available, you can dynamically populate the grid.
-        // You can use the following function to populate winners once data becomes available.
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Importa i moduli necessari
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
 
+        // Configurazione Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyDn_UmalWNd1dIdJG2lgbKNXKLZlWwmn4w",
+            authDomain: "autotechjackpot.firebaseapp.com",
+            projectId: "autotechjackpot",
+            storageBucket: "autotechjackpot.firebasestorage.app",
+            messagingSenderId: "127768056298",
+            appId: "1:127768056298:web:fbd966161d3a2bc28c2293",
+            measurementId: "G-3RJM0DNWDY"
+        };
+
+        // Inizializza Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Gestire lo stato di autenticazione
+        onAuthStateChanged(auth, (user) => {
+            const loginLink = document.getElementById("login-link");
+
+            if (user) {
+                // L'utente è loggato, aggiorna il link di login
+                loginLink.textContent = "Logout";
+                loginLink.href = "#";
+                loginLink.addEventListener("click", () => {
+                    signOut(auth).then(() => {
+                        console.log("User logged out");
+                        location.reload(); // Ricarica la pagina per aggiornare lo stato
+                    }).catch((error) => {
+                        console.error("Error logging out: ", error);
+                    });
+                });
+            } else {
+                // L'utente non è loggato
+                loginLink.textContent = "Login/Register";
+                loginLink.href = "login.html";
+            }
+        });
+
+        // Funzione per caricare i vincitori (questa funzione è un esempio di come caricare i dati dinamicamente)
         function loadWinners(winners) {
             const winnersGrid = document.getElementById('winners-grid');
 
@@ -79,11 +120,9 @@
             }
         }
 
-        // For now, just an empty array to simulate no winners
+        // Esegui il caricamento dei vincitori (puoi aggiornare i dati in seguito)
         const winners = [];
-
-        // When winners are available, call loadWinners(winners);
-        loadWinners(winners);  // This will show "No winners" for now
+        loadWinners(winners);  // Questo mostrerà "No winners" per ora
     </script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Register - AutoTechJackpot</title>
+  <title>Register</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -39,23 +39,27 @@
     <p>&copy; 2025 AutoTechJackpot. All rights reserved.</p>
   </footer>
 
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
-  <script>
+  <script type="module">
+    // Import the functions you need from Firebase SDK
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
+
     // Firebase configuration
     const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT_ID.appspot.com",
-      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-      appId: "YOUR_APP_ID"
+      apiKey: "AIzaSyDn_UmalWNd1dIdJG2lgbKNXKLZlWwmn4w",
+      authDomain: "autotechjackpot.firebaseapp.com",
+      projectId: "autotechjackpot",
+      storageBucket: "autotechjackpot.firebasestorage.app",
+      messagingSenderId: "127768056298",
+      appId: "1:127768056298:web:fbd966161d3a2bc28c2293",
+      measurementId: "G-3RJM0DNWDY"
     };
 
     // Initialize Firebase
-    const app = firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
+    // Handle register form submission
     document.getElementById('register-form').addEventListener('submit', async (e) => {
       e.preventDefault();
 
@@ -63,11 +67,11 @@
       const password = document.getElementById('register-password').value;
 
       try {
-        await auth.createUserWithEmailAndPassword(email, password);
+        await createUserWithEmailAndPassword(auth, email, password);
         alert('Registration successful!');
         window.location.href = 'login.html'; // Redirect to login page after successful registration
       } catch (error) {
-        alert(error.message);
+        alert('Registration Error: ' + error.message);
       }
     });
   </script>

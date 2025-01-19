@@ -57,6 +57,11 @@
     .btn-primary:hover {
       background-color: #e65900;
     }
+    .error-message {
+      color: red;
+      font-size: 0.9em;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
@@ -81,6 +86,7 @@
         <label for="register-password">Password</label>
         <input type="password" id="register-password" name="password" required placeholder="Enter your password">
 
+        <div id="register-error" class="error-message" style="display: none;"></div>
         <button type="submit" class="btn-primary">Register</button>
       </form>
     </section>
@@ -100,13 +106,28 @@
       e.preventDefault();
       const email = document.getElementById('register-email').value;
       const password = document.getElementById('register-password').value;
+      const errorDiv = document.getElementById('register-error');
+
+      errorDiv.style.display = 'none';
+      errorDiv.textContent = '';
+
+      if (password.length < 6) {
+        errorDiv.style.display = 'block';
+        errorDiv.textContent = 'Password must be at least 6 characters long.';
+        return;
+      }
 
       const { error } = await supabase.auth.signUp({ email, password });
+      console.log('Supabase Response:', error);
+
       if (error) {
-        alert('Registration Error: ' + error.message);
+        errorDiv.style.display = 'block';
+        errorDiv.textContent = 'Registration Error: ' + error.message;
       } else {
         alert('Registration Successful! Check your email to confirm.');
-        window.location.href = 'login.html';
+        setTimeout(() => {
+          window.location.href = 'login.html';
+        }, 2000);
       }
     });
   </script>

@@ -6,7 +6,6 @@
   <title>Your Cart - AutoTechJackpot</title>
   <link rel="stylesheet" href="styles.css">
   <style>
-    /* Stili per la pagina del carrello */
     .cart {
       margin-top: 100px;
       padding: 40px;
@@ -189,8 +188,8 @@
         alert("Your cart is empty!");
         return;
       }
-      // Reindirizza alla pagina checkout
-      window.location.href = 'checkout.html';
+      console.log('Redirecting to checkout...');
+      window.location.href = 'checkout.html'; // Assicurati che checkout.html esista
     });
 
     loadCart();

@@ -135,44 +135,7 @@
     <p>&copy; 2025 AutoTechJackpot. All rights reserved.</p>
   </footer>
 
-  <!-- Firebase SDK -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyDn_UmalWNd1dIdJG2lgbKNXKLZlWwmn4w",
-      authDomain: "autotechjackpot.firebaseapp.com",
-      projectId: "autotechjackpot",
-      storageBucket: "autotechjackpot.firebasestorage.app",
-      messagingSenderId: "127768056298",
-      appId: "1:127768056298:web:fbd966161d3a2bc28c2293",
-      measurementId: "G-3RJM0DNWDY"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    onAuthStateChanged(auth, (user) => {
-      const loginLink = document.getElementById("login-link");
-      if (user) {
-        loginLink.textContent = "Logout";
-        loginLink.href = "#";
-        loginLink.addEventListener("click", (e) => {
-          e.preventDefault();
-          signOut(auth).then(() => {
-            alert("Logged out successfully!");
-            location.reload();
-          }).catch((error) => {
-            console.error("Logout error:", error);
-          });
-        });
-      } else {
-        loginLink.textContent = "Login/Register";
-        loginLink.href = "login.html";
-      }
-    });
-
+<Script>
     function loadCart() {
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
       const cartItems = document.getElementById('cart-items');
@@ -225,4 +188,6 @@
       if (cart.length === 0) {
         alert("Your cart is empty!");
         return;
-     
+        </sript>
+          </body>
+          </html>

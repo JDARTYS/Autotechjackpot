@@ -27,8 +27,9 @@
         <a href="winners.html" aria-label="View Winners">Winners</a>
         <a href="tickets.html" aria-label="View Tickets" class="active">Tickets</a>
         <a href="cart.html" aria-label="View Cart">Cart</a>
-       <a href="login.html" aria-label="Login/Register">Login/Register</a>
+        <a href="login.html" aria-label="Login/Register" id="login-link">Login/Register</a>
         <a href="activecompetitions.html" aria-label="Active Competitions">Active Competitions</a>
+        <a href="logout.html" aria-label="Logout" id="logout-link" style="display:none;">Logout</a>
       </nav>
     </div>
   </header>
@@ -49,8 +50,27 @@
     </nav>
   </footer>
 
-  <script>
-    // I dati dei biglietti vengono caricati dalla pagina "activecompetitions.html"
+  <script type="module">
+    // Import Firebase functions
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDn_UmalWNd1dIdJG2lgbKNXKLZlWwmn4w",
+      authDomain: "autotechjackpot.firebaseapp.com",
+      projectId: "autotechjackpot",
+      storageBucket: "autotechjackpot.firebasestorage.app",
+      messagingSenderId: "127768056298",
+      appId: "1:127768056298:web:fbd966161d3a2bc28c2293",
+      measurementId: "G-3RJM0DNWDY"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // I dati dei biglietti
     const tickets = [
       { id: '1', name: '2020 BMW 745', price: 2.22, image: 'BMW2020.png', maxAvailable: 22000 },
       { id: '2', name: '2021 Mercedes-Benz', price: 5.11, image: 'Mercedes2021.png', maxAvailable: 15000 },
@@ -60,11 +80,7 @@
       { id: '6', name: 'Iphone 16 ProMax', price: 1.22, image: 'Iphone16.png', maxAvailable: 3800 }
     ];
 
-    // Limite massimo di biglietti per utente
-    const MAX_TICKETS_PER_USER = 500;
-    const COOLDOWN_TIME = 10; // 10 secondi di cooldown
-
-    // Carica i biglietti nella pagina
+    // Carica i biglietti
     document.addEventListener('DOMContentLoaded', () => {
       const competitionGrid = document.getElementById('competition-grid');
       
@@ -86,18 +102,19 @@
 
     // Funzione per aggiungere il biglietto al carrello
     function addToCart(ticketId, ticketName, ticketPrice, ticketImage, maxAvailable) {
-      // Verifica se l'utente è loggato
-      if (!localStorage.getItem('isLoggedIn')) {
+      // Verifica se l'utente è loggato tramite Firebase
+      const user = auth.currentUser;
+      if (!user) {
         alert('Please log in to add tickets to your cart!');
         window.location.href = 'login.html'; // Reindirizza alla pagina di login
         return;
       }
 
-      // Controlla il cooldown
+      // Verifica il cooldown
       const lastPurchaseTime = localStorage.getItem('lastPurchaseTime');
       const currentTime = Date.now();
-      if (lastPurchaseTime && (currentTime - lastPurchaseTime) < COOLDOWN_TIME * 1000) {
-        const remainingTime = Math.ceil((COOLDOWN_TIME - (currentTime - lastPurchaseTime) / 1000));
+      if (lastPurchaseTime && (currentTime - lastPurchaseTime) < 10000) {
+        const remainingTime = Math.ceil((10000 - (currentTime - lastPurchaseTime) / 1000));
         alert(`Please wait ${remainingTime} seconds before making another purchase.`);
         return;
       }
@@ -105,40 +122,37 @@
       // Aggiorna l'orario dell'ultimo acquisto
       localStorage.setItem('lastPurchaseTime', currentTime);
 
-      // Controlla il numero totale di biglietti acquistati dall'utente
-      const totalTickets = JSON.parse(localStorage.getItem('totalTicketsPurchased')) || 0;
-      if (totalTickets >= MAX_TICKETS_PER_USER) {
-        alert(`You have already purchased the maximum allowed tickets (${MAX_TICKETS_PER_USER}).`);
-        return;
-      }
-
       // Carica il carrello dal localStorage
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
       const existingTicket = cart.find(ticket => ticket.id === ticketId);
 
-      // Se il biglietto è già nel carrello, aumenta la quantità
+      // Aggiungi biglietto al carrello
       if (existingTicket) {
-        // Controlla la disponibilità del prodotto
         if (existingTicket.quantity + 1 > maxAvailable) {
           alert(`Sorry, there are only ${maxAvailable - existingTicket.quantity} tickets left for this product.`);
           return;
         }
         existingTicket.quantity += 1;
       } else {
-        // Aggiungi il biglietto al carrello se non è presente
         cart.push({ id: ticketId, name: ticketName, price: ticketPrice, image: ticketImage, quantity: 1 });
       }
 
-      // Calcola il totale dei biglietti acquistati
-      const totalPurchased = cart.reduce((sum, ticket) => sum + ticket.quantity, 0);
-      localStorage.setItem('totalTicketsPurchased', totalPurchased);
-
-      // Salva il carrello nel localStorage
       localStorage.setItem('cart', JSON.stringify(cart));
-
-      // Messaggio di conferma
-      alert(`Ticket added to cart! You now have ${totalPurchased} item(s) in your cart.`);
+      alert(`Ticket added to cart!`);
     }
+
+    // Controllo dell'autenticazione all'avvio della pagina
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // Utente loggato
+        document.getElementById('login-link').style.display = 'none';
+        document.getElementById('logout-link').style.display = 'inline';
+      } else {
+        // Utente non loggato
+        document.getElementById('login-link').style.display = 'inline';
+        document.getElementById('logout-link').style.display = 'none';
+      }
+    });
   </script>
 </body>
 </html>

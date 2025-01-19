@@ -82,21 +82,6 @@
     .paypal:hover {
       background-color: #005C9E;
     }
-    
-    .user-info {
-      text-align: center;
-      color: #FF6A00;
-      margin-bottom: 20px;
-    }
-
-    .logout-btn {
-      background-color: #e65900;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
   </style>
 </head>
 <body>
@@ -108,8 +93,7 @@
     </div>
     <nav>
       <a href="cart.html" aria-label="View Cart">Cart</a>
-      <a href="login.html" id="login-link" aria-label="Login/Register">Login/Register</a>
-      <a href="logout.html" id="logout-link" style="display:none;" aria-label="Logout">Logout</a>
+      <a href="tickets.html" aria-label="View Tickets">Tickets</a>
     </nav>
   </header>
 
@@ -145,27 +129,18 @@
   </footer>
 
   <script>
-  
-    emailjs.init("_pzI6mZJ0GThyqyjw"); // Sostituisci con la tua public key da EmailJS
-
-    const stripe = Stripe('pk_live_51QgpeAFR0CD3L4eTZzZS5p8MpE1Krtjk0bdQB00pFc1eS90wVDLkO0MFcpG6ATrM7mwixQIML7PyS0DAtwa7TjsB00ytBk4wwf'); // Sostituisci con la tua chiave pubblica Stripe
+    const stripe = Stripe('pk_live_51QgpeAFR0CD3L4eTZzZS5p8MpE1Krtjk0bdQB00pFc1eS90wVDLkO0MFcpG6ATrM7mwixQIML7PyS0DAtwa7TjsB00ytBk4wwf'); // Replace with your live key
 
     document.addEventListener('DOMContentLoaded', () => {
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
       const orderSummary = document.getElementById('order-summary');
       const paypalButton = document.getElementById('paypal-button');
       const cardButton = document.getElementById('card-button');
-      const loginLink = document.getElementById('login-link');
-      const logoutLink = document.getElementById('logout-link');
-      const userInfo = document.querySelector('.user-info');
-      const userEmail = localStorage.getItem('userEmail'); // Supponiamo che l'email sia salvata localmente
 
-    
       if (cart.length > 0) {
         const total = cart.reduce((acc, item) => acc + (item.price * (item.quantity || 1)), 0).toFixed(2);
-        const orderId = `${Math.floor(Math.random() * 1000000)}`;
 
-        // Mostra i dettagli del carrello
+        // Show order summary
         orderSummary.innerHTML = cart.map(item => `
           <div class="order-item">
             <p><strong>${item.name}</strong></p>
@@ -173,10 +148,10 @@
           </div>
         `).join('') + `<p class="order-total"><strong>Total Amount: €${total}</strong></p>`;
 
-        // Configura il bottone Stripe
+        // Stripe payment
         cardButton.addEventListener('click', async () => {
           try {
-            const response = await fetch('create-checkout-session.js', {
+            const response = await fetch('/create-checkout-session', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
@@ -196,7 +171,7 @@
           }
         });
 
-        // Configura il bottone PayPal
+        // PayPal payment
         paypalButton.href = `https://paypal.me/autotechjackpot?amount=${total}`;
       } else {
         orderSummary.innerHTML = '<p>Your cart is empty. Please add items to the cart.</p>';

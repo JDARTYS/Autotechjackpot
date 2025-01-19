@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Register - AutoTechJackpot</title>
   <link rel="stylesheet" href="styles.css">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="https://cdn.auth0.com/js/auth0/9.19/auth0.min.js"></script>
   <style>
     .auth-container {
       max-width: 600px;
@@ -57,11 +57,6 @@
     .btn-primary:hover {
       background-color: #e65900;
     }
-    .error-message {
-      color: red;
-      font-size: 0.9em;
-      margin-top: 10px;
-    }
   </style>
 </head>
 <body>
@@ -78,17 +73,10 @@
 
   <main>
     <section class="auth-container">
-      <form id="register-form" class="auth-form" method="POST">
+      <div class="auth-form">
         <h2>Register</h2>
-        <label for="register-email">Email Address</label>
-        <input type="email" id="register-email" name="email" required placeholder="Enter your email">
-
-        <label for="register-password">Password</label>
-        <input type="password" id="register-password" name="password" required placeholder="Enter your password">
-
-        <div id="register-error" class="error-message" style="display: none;"></div>
-        <button type="submit" class="btn-primary">Register</button>
-      </form>
+        <button id="register-button" class="btn-primary">Register</button>
+      </div>
     </section>
   </main>
 
@@ -97,38 +85,18 @@
   </footer>
 
   <script>
-    const supabase = supabase.createClient(
-      'https://msgwibzizaywwshrghau.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1zZ3dpYnppemF5d3dzaHJnaGF1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzcyMTY2ODEsImV4cCI6MjA1Mjc5MjY4MX0.iawuRLUczKxiUdTgTgqsStwfhdndwQei4FjVf_MGd0k'
-    );
+    // Configura Auth0
+    const auth0 = new auth0.WebAuth({
+      domain: 'autotechjackpot.eu.auth0.com', // Sostituisci con il tuo dominio Auth0
+      clientID: 'dRgyMtORHQOK0iJybq8S4yKaC4FQqgmO', // Sostituisci con il tuo Client ID
+      redirectUri: 'https://autotechjackpot.com/', // Modifica con l'URI di redirect del tuo sito
+      responseType: 'token 36000',
+      scope: 'openid email profile'
+    });
 
-    document.getElementById('register-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const email = document.getElementById('register-email').value;
-      const password = document.getElementById('register-password').value;
-      const errorDiv = document.getElementById('register-error');
-
-      errorDiv.style.display = 'none';
-      errorDiv.textContent = '';
-
-      if (password.length < 6) {
-        errorDiv.style.display = 'block';
-        errorDiv.textContent = 'Password must be at least 6 characters long.';
-        return;
-      }
-
-      const { error } = await supabase.auth.signUp({ email, password });
-      console.log('Supabase Response:', error);
-
-      if (error) {
-        errorDiv.style.display = 'block';
-        errorDiv.textContent = 'Registration Error: ' + error.message;
-      } else {
-        alert('Registration Successful! Check your email to confirm.');
-        setTimeout(() => {
-          window.location.href = 'login.html';
-        }, 2000);
-      }
+    // Bottone Register
+    document.getElementById('register-button').addEventListener('click', () => {
+      auth0.authorize();
     });
   </script>
 </body>

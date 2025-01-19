@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tickets - Autotechjackpot</title>
   <link rel="stylesheet" href="styles.css">
-   <style>
+  <style>
     /* Stile per il logo */
     .logo img {
       max-width: 120px;
@@ -13,25 +13,24 @@
       display: block;
       margin: 0 auto;
     }
-    </style>
+  </style>
 </head>
 <body>
   <header>
-      <div class="logo">
+    <div class="logo">
       <a href="index.html" aria-label="Go to Home page">
         <img src="logo.png" alt="AutoTechJackpot Logo">
       </a>
-      </div>
-       <nav>
-        <a href="how-it-works.html" aria-label="How it Works">How It Works</a>
-        <a href="winners.html" aria-label="View Winners">Winners</a>
-        <a href="tickets.html" aria-label="View Tickets" class="active">Tickets</a>
-        <a href="cart.html" aria-label="View Cart">Cart</a>
-        <a href="login.html" aria-label="Login/Register" id="login-link">Login/Register</a>
-        <a href="activecompetitions.html" aria-label="Active Competitions">Active Competitions</a>
-        <a href="logout.html" aria-label="Logout" id="logout-link" style="display:none;">Logout</a>
-      </nav>
     </div>
+    <nav>
+      <a href="how-it-works.html" aria-label="How it Works">How It Works</a>
+      <a href="winners.html" aria-label="View Winners">Winners</a>
+      <a href="tickets.html" aria-label="View Tickets" class="active">Tickets</a>
+      <a href="cart.html" aria-label="View Cart">Cart</a>
+      <a href="login.html" aria-label="Login/Register" id="login-link">Login/Register</a>
+      <a href="activecompetitions.html" aria-label="Active Competitions">Active Competitions</a>
+      <a href="logout.html" aria-label="Logout" id="logout-link" style="display:none;">Logout</a>
+    </nav>
   </header>
 
   <main>
@@ -51,29 +50,28 @@
   </footer>
 
   <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-analytics.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
 
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyDn_UmalWNd1dIdJG2lgbKNXKLZlWwmn4w",
-    authDomain: "autotechjackpot.firebaseapp.com",
-    projectId: "autotechjackpot",
-    storageBucket: "autotechjackpot.firebasestorage.app",
-    messagingSenderId: "127768056298",
-    appId: "1:127768056298:web:fbd966161d3a2bc28c2293",
-    measurementId: "G-3RJM0DNWDY"
-  };
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDn_UmalWNd1dIdJG2lgbKNXKLZlWwmn4w",
+      authDomain: "autotechjackpot.firebaseapp.com",
+      projectId: "autotechjackpot",
+      storageBucket: "autotechjackpot.firebasestorage.app",
+      messagingSenderId: "127768056298",
+      appId: "1:127768056298:web:fbd966161d3a2bc28c2293",
+      measurementId: "G-3RJM0DNWDY"
+    };
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const auth = getAuth();
 
-    // I dati dei biglietti
+    // Dati dei biglietti
     const tickets = [
       { id: '1', name: '2020 BMW 745', price: 2.22, image: 'BMW2020.png', maxAvailable: 22000 },
       { id: '2', name: '2021 Mercedes-Benz', price: 5.11, image: 'Mercedes2021.png', maxAvailable: 15000 },
@@ -142,6 +140,9 @@
 
       localStorage.setItem('cart', JSON.stringify(cart));
       alert(`Ticket added to cart!`);
+
+      // Reindirizza alla pagina del carrello
+      window.location.href = 'cart.html';
     }
 
     // Controllo dell'autenticazione all'avvio della pagina

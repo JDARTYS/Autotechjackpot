@@ -69,7 +69,7 @@
     const auth0 = new auth0.WebAuth({
       domain: 'autotechjackpot.eu.auth0.com', // Sostituisci con il tuo dominio Auth0
       clientID: 'dRgyMtORHQOK0iJybq8S4yKaC4FQqgmO', // Sostituisci con il tuo Client ID
-      redirectUri: 'https://autotechjackpot.com/', // Modifica con il tuo dominio o localhost durante i test
+      redirectUri: 'https://autotechjackpot.com/callback', // URL di reindirizzamento
       responseType: 'token id_token', // Richiedi Access Token e ID Token
       scope: 'openid profile email' // Richiedi email e profilo
     });
@@ -81,18 +81,6 @@
         screen_hint: 'signup', // Mostra la schermata di registrazione
       });
     });
-
-    auth0.parseHash(window.location.hash, function(err, authResult) {
-  if (err) {
-    console.log('Error:', err);
-    return;
-  }
-  console.log('Auth result:', authResult); // Verifica la risposta di Auth0
-  if (authResult && authResult.idToken) {
-    // L'utente è autenticato
-    window.location.href = '/profile'; // O qualsiasi altra pagina di destinazione
-  }
-});
   </script>
 </body>
 </html>

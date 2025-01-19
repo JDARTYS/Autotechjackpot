@@ -112,31 +112,23 @@
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
 
-    // Funzione per aggiornare i link di login/logout
-    function checkLoginStatus() {
-      const loginLink = document.getElementById('login-link');
-      const logoutLink = document.getElementById('logout-link');
+    // Controllo dell'autenticazione all'avvio della pagina
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // Utente loggato
+        document.getElementById('login-link').style.display = 'none';
+        document.getElementById('logout-link').style.display = 'inline';
+      } else {
+        // Utente non loggato
+        document.getElementById('login-link').style.display = 'inline';
+        document.getElementById('logout-link').style.display = 'none';
+      }
+    });
 
-      auth.onAuthStateChanged(user => {
-        if (user) {
-          // Se l'utente è loggato, nascondi il link di login e mostra quello di logout
-          loginLink.style.display = 'none';
-          logoutLink.style.display = 'inline-block';
-        } else {
-          // Se l'utente non è loggato, mostra il link di login e nascondi quello di logout
-          loginLink.style.display = 'inline-block';
-          logoutLink.style.display = 'none';
-        }
-      });
-    }
-
-    // Chiamata alla funzione di controllo login all'inizio
-    checkLoginStatus();
-
-    // Logout function
+    // Funzione di logout
     document.getElementById('logout-link').addEventListener('click', (e) => {
       e.preventDefault();
-      auth.signOut().then(() => {
+      signOut(auth).then(() => {
         alert('Logged out successfully');
         window.location.reload();
       }).catch((error) => {

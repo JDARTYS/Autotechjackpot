@@ -43,69 +43,11 @@
             <p>Win the latest iPhone! Enter now and take your chance to win big.</p>
             <p>Ticket Price: <span class="price">€1.22</span></p>
             <p>Tickets Remaining: <span class="tickets-remaining" id="iphone-tickets-remaining">Loading...</span></p>
-            <a href="tickets.html?competitionId=iphone" class="enter-button">Enter Now</a>
+            <button class="enter-button" onclick="purchaseTicket('iphone')">Enter Now</button>
           </div>
         </div>
 
-        <!-- Competition 2: Audi A5 -->
-        <div class="competition-card">
-          <img src="audi.png" alt="Audi A5">
-          <div class="competition-card-content">
-            <h3>Audi A5</h3>
-            <p>Ready for a new adventure? Get your ticket now!</p>
-            <p>Ticket Price: <span class="price">€1.80</span></p>
-            <p>Tickets Remaining: <span class="tickets-remaining" id="audi-tickets-remaining">Loading...</span></p>
-            <a href="tickets.html?competitionId=audi" class="enter-button">Enter Now</a>
-          </div>
-        </div>
-
-        <!-- Competition 3: BMW 745 -->
-        <div class="competition-card">
-          <img src="BMW2020.png" alt="BMW 745">
-          <div class="competition-card-content">
-            <h3>BMW 745</h3>
-            <p>Get your chance to win a BMW! Enter now and take part in the competition.</p>
-            <p>Ticket Price: <span class="price">€2.22</span></p>
-            <p>Tickets Remaining: <span class="tickets-remaining" id="bmw-tickets-remaining">Loading...</span></p>
-            <a href="tickets.html?competitionId=bmw" class="enter-button">Enter Now</a>
-          </div>
-        </div>
-
-        <!-- Competition 4: Mercedes GLE -->
-        <div class="competition-card">
-          <img src="Mercedes2021.png" alt="Mercedes GLE">
-          <div class="competition-card-content">
-            <h3>Mercedes GLE</h3>
-            <p>Win a Mercedes GLE! Don't miss your chance to enter.</p>
-            <p>Ticket Price: <span class="price">€5.11</span></p>
-            <p>Tickets Remaining: <span class="tickets-remaining" id="mercedes-gle-tickets-remaining">Loading...</span></p>
-            <a href="tickets.html?competitionId=mercedesGle" class="enter-button">Enter Now</a>
-          </div>
-        </div>
-
-        <!-- Competition 5: Mercedes CLS -->
-        <div class="competition-card">
-          <img src="Mercedes2019.png" alt="Mercedes CLS">
-          <div class="competition-card-content">
-            <h3>Mercedes CLS</h3>
-            <p>Get your chance to win a Mercedes CLS! Enter now.</p>
-            <p>Ticket Price: <span class="price">€3.59</span></p>
-            <p>Tickets Remaining: <span class="tickets-remaining" id="mercedes-cls-tickets-remaining">Loading...</span></p>
-            <a href="tickets.html?competitionId=mercedesCls" class="enter-button">Enter Now</a>
-          </div>
-        </div>
-
-        <!-- Competition 6: Mercedes S63 AMG -->
-        <div class="competition-card">
-          <img src="Mercedes2015.png" alt="Mercedes S63 AMG">
-          <div class="competition-card-content">
-            <h3>Mercedes S63 AMG</h3>
-            <p>Enter for a chance to win a Mercedes S63 AMG! Hurry up!</p>
-            <p>Ticket Price: <span class="price">€5.01</span></p>
-            <p>Tickets Remaining: <span class="tickets-remaining" id="mercedes-s63-tickets-remaining">Loading...</span></p>
-            <a href="tickets.html?competitionId=mercedesS63" class="enter-button">Enter Now</a>
-          </div>
-        </div>
+        <!-- Other competitions go here -->
       </div>
     </section>
   </main>
@@ -118,8 +60,51 @@
   </footer>
 
   <script>
+    // Funzione per simulare l'acquisto di un biglietto
+    function purchaseTicket(competitionId) {
+      // Esegui la logica per il pagamento (Stripe, PayPal, etc.)
+      // Questo esempio simula il pagamento con un setTimeout
+      simulatePayment(competitionId);
+    }
 
-    // Carica i dati dei biglietti e aggiorna il contatore
+    // Funzione per simulare un pagamento
+    function simulatePayment(competitionId) {
+      // In un'app reale, qui invieresti una richiesta al backend per processare il pagamento
+      // Dopo che il pagamento è stato completato, aggiorniamo il numero di biglietti
+
+      setTimeout(() => {
+        alert("Payment successful! Ticket purchased for " + competitionId);
+
+        // Ora aggiorniamo il numero di biglietti nel frontend
+        updateTicketCount(competitionId);
+      }, 2000); // Simulazione del ritardo del pagamento
+    }
+
+    // Funzione per aggiornare il contatore dei biglietti
+    function updateTicketCount(competitionId) {
+      const ticketsData = JSON.parse(localStorage.getItem('ticketsData')) || {
+        iphone: { total: 3800 },
+        audi: { total: 18000 },
+        bmw: { total: 22000 },
+        mercedesGle: { total: 15000 },
+        mercedesCls: { total: 15000 },
+        mercedesS63: { total: 13500 }
+      };
+
+      // Diminuiamo il numero di biglietti
+      if (ticketsData[competitionId]) {
+        ticketsData[competitionId].total -= 1;
+        localStorage.setItem('ticketsData', JSON.stringify(ticketsData));
+
+        // Aggiorniamo il contatore nel frontend
+        const ticketCountElement = document.getElementById(`${competitionId}-tickets-remaining`);
+        if (ticketCountElement) {
+          ticketCountElement.textContent = ticketsData[competitionId].total;
+        }
+      }
+    }
+
+    // Carica i dati dei biglietti all'inizio
     document.addEventListener('DOMContentLoaded', () => {
       const ticketsData = JSON.parse(localStorage.getItem('ticketsData')) || {
         iphone: { total: 3800 },

@@ -151,7 +151,7 @@
         // Stripe payment
        cardButton.addEventListener('click', async () => {
   try {
-    const response = await fetch('/api/create-checkout-session', { // Percorso corretto dell'API su Vercel
+    const response = await fetch('/api/create-checkout-session.js', { // Percorso corretto dell'API su Vercel
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

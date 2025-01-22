@@ -149,27 +149,31 @@
         `).join('') + `<p class="order-total"><strong>Total Amount: €${total}</strong></p>`;
 
         // Stripe payment
-        cardButton.addEventListener('click', async () => {
-          try {
-            const response = await fetch('create-checkout-session.js', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                cartItems: cart.map(item => ({
-                  name: item.name,
-                  price: item.price,
-                  quantity: item.quantity,
-                })),
-              }),
-            });
+       cardButton.addEventListener('click', async () => {
+  try {
+    const response = await fetch('/api/create-checkout-session', { // Percorso corretto dell'API su Vercel
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        cartItems: cart.map(item => ({
+          name: item.name,
+          price: item.price,
+          quantity: item.quantity,
+        })),
+      }),
+    });
 
-            const { id } = await response.json();
-            await stripe.redirectToCheckout({ sessionId: id });
-          } catch (error) {
-            console.error('Error:', error);
-            alert('Failed to redirect to payment.');
-          }
-        });
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    const { id } = await response.json();
+    await stripe.redirectToCheckout({ sessionId: id });
+  } catch (error) {
+    console.error('Error:', error);
+    alert('Failed to redirect to payment.');
+  }
+});
 
         // PayPal payment
         paypalButton.href = `https://paypal.me/autotechjackpot?amount=${total}`;

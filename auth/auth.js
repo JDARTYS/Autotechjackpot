@@ -6,7 +6,7 @@ async function initAuth() {
   auth0Client = await createAuth0Client({
     domain: "autotechjackpot.eu.auth0.com",
     client_id: "KaPyAYevXOZaKcI7nbH3OCNKcB1fKQek",
-    redirect_uri: "https://autotechjackpot.vercel.app/callback"
+   redirect_uri: "https://autotechjackpot.vercel.app"
   });
 
   // Controlla se l'utente è autenticato

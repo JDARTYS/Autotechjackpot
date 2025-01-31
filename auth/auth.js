@@ -22,11 +22,14 @@ async function initAuth() {
 
 // Funzione di login
 async function login() {
+  if (!auth0Client) return console.error("Auth0 client is not initialized yet.");
   await auth0Client.loginWithRedirect();
 }
 
+
 // Funzione di logout
 async function logout() {
+  if (!auth0Client) return console.error("Auth0 client is not initialized yet.");
   auth0Client.logout({ returnTo: "https://autotechjackpot.vercel.app/" });
 }
 

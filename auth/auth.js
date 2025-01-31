@@ -30,7 +30,7 @@ async function login() {
 // Funzione di logout
 async function logout() {
   if (!auth0Client) return console.error("Auth0 client is not initialized yet.");
-  auth0Client.logout({ returnTo: "https://autotechjackpot.vercel.app/" });
+  auth0Client.logout({ returnTo: "https://autotechjackpot.vercel.app" });
 }
 
 // Inizializza Auth0

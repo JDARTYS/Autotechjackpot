@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redirecting...</title>
+  <script type="module">
+    import { createAuth0Client } from "https://cdn.auth0.com/js/auth0-spa-js/1.18/auth0-spa-js.production.js";
+
+    async function handleCallback() {
+      const auth0 = await createAuth0Client({
+        domain: "autotechjackpot.eu.auth0.com",
+        client_id: "KaPyAYevXOZaKcI7nbH3OCNKcB1fKQek"
+      });
+
+      await auth0.handleRedirectCallback();
+      window.location.href = "/";
+    }
+
+    handleCallback();
+  </script>
+</head>
+<body>
+  <p>Redirecting...</p>
+</body>
+</html>

@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Checkout - AutoTechJackpot</title>
   <link rel="stylesheet" href="styles.css">
-  <script src="https://js.stripe.com/v3/"></script> <!-- Stripe Library -->
   <script src="https://cdn.emailjs.com/dist/email.min.js"></script> <!-- EmailJS Library -->
   <style>
     /* Stile per il logo */
@@ -129,8 +128,7 @@
   </footer>
 
   <script>
-    const stripe = Stripe('pk_live_51QgpeAFR0CD3L4eTZzZS5p8MpE1Krtjk0bdQB00pFc1eS90wVDLkO0MFcpG6ATrM7mwixQIML7PyS0DAtwa7TjsB00ytBk4wwf'); // Replace with your live key
-
+  
     document.addEventListener('DOMContentLoaded', () => {
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
       const orderSummary = document.getElementById('order-summary');
@@ -148,35 +146,9 @@
           </div>
         `).join('') + `<p class="order-total"><strong>Total Amount: €${total}</strong></p>`;
 
-        // Stripe payment
-       cardButton.addEventListener('click', async () => {
-  try {
-    const response = await fetch('/api/create-checkout-session.js', { // Percorso corretto dell'API su Vercel
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        cartItems: cart.map(item => ({
-          name: item.name,
-          price: item.price,
-          quantity: item.quantity,
-        })),
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-
-    const { id } = await response.json();
-    await stripe.redirectToCheckout({ sessionId: id });
-  } catch (error) {
-    console.error('Error:', error);
-    alert('Failed to redirect to payment.');
-  }
-});
 
         // PayPal payment
-        paypalButton.href = `https://paypal.me/autotechjackpot?amount=${total}`;
+        paypalButton.href = `https://paypal.me/AutotechJackpotDE?country.x=DE&locale.x=en_US${total}`;
       } else {
         orderSummary.innerHTML = '<p>Your cart is empty. Please add items to the cart.</p>';
         paypalButton.style.display = 'none';

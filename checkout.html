@@ -142,7 +142,7 @@
         `).join('') + `<p class="order-total"><strong>Total Amount: €${total}</strong></p>`;
 
         // Correggi il link PayPal
-        paypalButton.href = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=tuoemail@paypal.com&currency_code=EUR&amount=${total}`;
+        paypalButton.href = `https://paypal.me/AutotechJackpotDE/${total}?currency_code=EUR`;
 
         // Gestisci pagamento con carta (Stripe)
         cardButton.addEventListener("click", () => {

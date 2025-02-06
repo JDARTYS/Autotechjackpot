@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="styles.css">
   <script src="https://cdn.emailjs.com/dist/email.min.js"></script> <!-- EmailJS Library -->
   <style>
-    /* Stile per il logo */
     .logo img {
       max-width: 120px;
       height: auto;
@@ -33,10 +32,6 @@
       border-radius: 8px;
       margin-bottom: 20px;
       color: #fff;
-    }
-
-    .order-item {
-      margin-bottom: 10px;
     }
 
     .order-total {
@@ -128,9 +123,9 @@
   </footer>
 
   <script>
-  
     document.addEventListener('DOMContentLoaded', () => {
-      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const cartData = localStorage.getItem('cart');
+      const cart = cartData ? JSON.parse(cartData) : [];
       const orderSummary = document.getElementById('order-summary');
       const paypalButton = document.getElementById('paypal-button');
       const cardButton = document.getElementById('card-button');
@@ -138,7 +133,7 @@
       if (cart.length > 0) {
         const total = cart.reduce((acc, item) => acc + (item.price * (item.quantity || 1)), 0).toFixed(2);
 
-        // Show order summary
+        // Mostra il riepilogo ordine
         orderSummary.innerHTML = cart.map(item => `
           <div class="order-item">
             <p><strong>${item.name}</strong></p>
@@ -146,9 +141,13 @@
           </div>
         `).join('') + `<p class="order-total"><strong>Total Amount: €${total}</strong></p>`;
 
+        // Correggi il link PayPal
+        paypalButton.href = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=tuoemail@paypal.com&currency_code=EUR&amount=${total}`;
 
-        // PayPal payment
-        paypalButton.href = `https://paypal.me/AutotechJackpotDE?country.x=DE&locale.x=en_US${total}`;
+        // Gestisci pagamento con carta (Stripe)
+        cardButton.addEventListener("click", () => {
+          window.location.href = `https://checkout.stripe.com/pay/TUO-CODE-STRIPE?amount=${total}`;
+        });
       } else {
         orderSummary.innerHTML = '<p>Your cart is empty. Please add items to the cart.</p>';
         paypalButton.style.display = 'none';

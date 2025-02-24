@@ -98,9 +98,6 @@
         <div class="payment-buttons">
           <!-- PayPal Button -->
           <a id="paypal-button" href="#" class="payment-button paypal" role="button">Pay with PayPal</a>
-
-          <!-- Credit Card Button -->
-          <button id="card-button" class="payment-button card">Pay with Credit Card</button>
         </div>
       </div>
     </section>
@@ -142,10 +139,6 @@
             hostedButtonId: "NXWU6F2ERF83A",
           }).render("#paypal-container-NXWU6F2ERF83A");
         });
-
-        // Gestisci pagamento con carta (Stripe)
-        cardButton.addEventListener("click", () => {
-          window.location.href = `https://checkout.stripe.com/pay/TUO-CODE-STRIPE?amount=${total}`;
         });
 
       } else {

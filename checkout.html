@@ -23,6 +23,7 @@
     }
     .checkout h1, .checkout h2 {
       color: #FF6A00;
+      text-align: center;
     }
     .order-summary {
       background-color: #2C2C6C;
@@ -41,7 +42,9 @@
     }
     .payment-buttons {
       display: flex;
-      justify-content: space-between;
+      justify-content: center; /* Centra orizzontalmente */
+      align-items: center; /* Centra verticalmente */
+      flex-direction: column; /* Dispone i pulsanti in colonna */
       gap: 20px;
     }
     .payment-button {
@@ -116,7 +119,6 @@
       const cart = cartData ? JSON.parse(cartData) : [];
       const orderSummary = document.getElementById('order-summary');
       const paypalButton = document.getElementById('paypal-button');
-      const cardButton = document.getElementById('card-button');
 
       if (cart.length > 0) {
         const total = cart.reduce((acc, item) => acc + (item.price * (item.quantity || 1)), 0).toFixed(2);
@@ -133,18 +135,17 @@
         paypalButton.addEventListener("click", () => {
           const paypalContainer = document.createElement("div");
           paypalContainer.id = "paypal-container-NXWU6F2ERF83A";
-          orderSummary.appendChild(paypalContainer);
+          paypalContainer.style.marginTop = "20px"; // Aggiunto margine sopra il pulsante
+          document.querySelector(".payment-buttons").appendChild(paypalContainer);
 
           paypal.HostedButtons({
             hostedButtonId: "NXWU6F2ERF83A",
           }).render("#paypal-container-NXWU6F2ERF83A");
         });
-        });
 
       } else {
         orderSummary.innerHTML = '<p>Your cart is empty. Please add items to the cart.</p>';
         paypalButton.style.display = 'none';
-        cardButton.style.display = 'none';
       }
     });
   </script>

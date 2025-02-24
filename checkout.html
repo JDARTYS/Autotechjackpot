@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Checkout - AutoTechJackpot</title>
   <link rel="stylesheet" href="styles.css">
-  <script src="https://cdn.emailjs.com/dist/email.min.js"></script> <!-- EmailJS Library -->
+  <script src="https://cdn.emailjs.com/dist/email.min.js" defer></script>
+  <script src="https://www.paypal.com/sdk/js?client-id=BAAIg_e8RwfQsI9yWHTWBPPpr22_ZkkqU1iKfObIRZO9KPGsZ-DiyVYGE-0lZlzu1P7IVYIqeNE7nGDsxE&components=hosted-buttons&disable-funding=venmo&currency=EUR" defer></script>
   <style>
     .logo img {
       max-width: 120px;
@@ -14,18 +15,15 @@
       margin: 0 auto;
     }
     .checkout {
-      margin-top: 120px;
+      margin: 120px auto;
       padding: 40px;
       background-color: #1A1A50;
       border-radius: 8px;
       max-width: 800px;
-      margin: 120px auto;
     }
-
     .checkout h1, .checkout h2 {
       color: #FF6A00;
     }
-
     .order-summary {
       background-color: #2C2C6C;
       padding: 20px;
@@ -33,23 +31,19 @@
       margin-bottom: 20px;
       color: #fff;
     }
-
     .order-total {
       text-align: right;
       font-size: 1.2em;
     }
-
     .payment-section {
       margin-top: 20px;
       text-align: center;
     }
-
     .payment-buttons {
       display: flex;
       justify-content: space-between;
       gap: 20px;
     }
-
     .payment-button {
       display: inline-block;
       width: 100%;
@@ -64,15 +58,12 @@
       cursor: pointer;
       transition: background-color 0.3s ease;
     }
-
     .payment-button:hover {
       background-color: #e65900;
     }
-
     .paypal {
       background-color: #0070BA;
     }
-
     .paypal:hover {
       background-color: #005C9E;
     }
@@ -106,7 +97,7 @@
         <h2>Choose Your Payment Method</h2>
         <div class="payment-buttons">
           <!-- PayPal Button -->
-          <a id="paypal-button" href="#" class="payment-button paypal">Pay with PayPal</a>
+          <a id="paypal-button" href="#" class="payment-button paypal" role="button">Pay with PayPal</a>
 
           <!-- Credit Card Button -->
           <button id="card-button" class="payment-button card">Pay with Credit Card</button>
@@ -122,7 +113,7 @@
     </nav>
   </footer>
 
-  <script>
+  <script defer>
     document.addEventListener('DOMContentLoaded', () => {
       const cartData = localStorage.getItem('cart');
       const cart = cartData ? JSON.parse(cartData) : [];
@@ -141,13 +132,22 @@
           </div>
         `).join('') + `<p class="order-total"><strong>Total Amount: €${total}</strong></p>`;
 
-        // Correggi il link PayPal
-        paypalButton.href = `https://paypal.me/AutotechJackpotDE/${total}?currency_code=EUR`;
+        // Configura il pulsante PayPal
+        paypalButton.addEventListener("click", () => {
+          const paypalContainer = document.createElement("div");
+          paypalContainer.id = "paypal-container-NXWU6F2ERF83A";
+          orderSummary.appendChild(paypalContainer);
+
+          paypal.HostedButtons({
+            hostedButtonId: "NXWU6F2ERF83A",
+          }).render("#paypal-container-NXWU6F2ERF83A");
+        });
 
         // Gestisci pagamento con carta (Stripe)
         cardButton.addEventListener("click", () => {
           window.location.href = `https://checkout.stripe.com/pay/TUO-CODE-STRIPE?amount=${total}`;
         });
+
       } else {
         orderSummary.innerHTML = '<p>Your cart is empty. Please add items to the cart.</p>';
         paypalButton.style.display = 'none';

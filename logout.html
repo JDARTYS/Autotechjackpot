@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +7,15 @@
 </head>
 <body>
     <h2>Logout</h2>
-    <form action="/logout" method="POST">
-        <button type="submit">Esci</button>
+    <form id="logoutForm">
+        <button type="submit">Exit</button>
     </form>
-</body>
-</html>
+
+    <script>
+        document.getElementById('logoutForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const response = await fetch('/api/logout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            const data = await response

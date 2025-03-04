@@ -1,292 +1,301 @@
+Sembra che tu abbia fatto un ottimo lavoro, ma ci sono alcune piccole correzioni necessarie nel tuo codice. Ecco la versione corretta con alcuni aggiustamenti per assicurare che tutto funzioni correttamente:
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <style>
-        *{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-}
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
 
-.container{
-    background-color: rgb(255, 119, 0);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100vh;
-    column-gap: 0px;
-}
+        .container {
+            background-color: rgb(255, 119, 0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100vh;
+            column-gap: 0px;
+        }
 
-.form{
-    position: absolute;
-    max-width: 450px;
-    width: 100%;
-    margin: 20px;
-    padding-top: 15px;
-    background-color: #fff;
-    border-radius: 8px;    }
+        .form {
+            position: absolute;
+            max-width: 450px;
+            width: 100%;
+            margin: 20px;
+            padding-top: 15px;
+            background-color: #fff;
+            border-radius: 8px;
+        }
 
-.form.signup{
-    opacity: 0;
-    pointer-events: none;
-}
-.forms.Show-Signup .form.signup{
-    opacity: 1;
-    pointer-events: auto;
-}
+        .form.signup {
+            opacity: 0;
+            pointer-events: none;
+        }
 
-.forms.Show-Signup .form.login{
-    opacity: 0;
-    pointer-events: none;
-}
+        .forms.Show-Signup .form.signup {
+            opacity: 1;
+            pointer-events: auto;
+        }
 
-.heading{
-    font-size: 28px;
-    text-align: center;
-    font-weight: 500 ;
-    
-}
+        .forms.Show-Signup .form.login {
+            opacity: 0;
+            pointer-events: none;
+        }
 
-.line{
-    background-color: rgb(195, 195, 195);
-    margin: 20px;
-    height: 1px;
-}
-.underline{
-    background-color: rgb(255, 119, 0);
-    margin: 8px 120px 40px 120px;
-    height: 2.5px;
-}
+        .heading {
+            font-size: 28px;
+            text-align: center;
+            font-weight: 500;
+        }
 
-.content {
-    margin: 0 20px;
-    margin-bottom: 30px ;
-}
-.field{
-    width: 100%;
-    height: 35px;
-    position: relative;
-    margin: 10px 0 ;
-}
-.input{
-    padding: 0 20px;
-}
-.field input,
-.field button{
+        .line {
+            background-color: rgb(195, 195, 195);
+            margin: 20px;
+            height: 1px;
+        }
 
-    width: 100%;
-    height: 100%;
-    padding: 0 15px;
-    border-radius: 12px;
-}
-.field input{
-    outline: none;
-    border-style: none none solid none;
-    border-radius: 0;
-}
-.input .hide-show{
-    position: absolute;
-    top: 50%;
-    right: 20px;
-    opacity: 0.6;
-    cursor: pointer;
-}
-.field input:focus{
-    border-bottom: 2px solid;
-}
-.field button{
-    background-color: rgb(255, 119, 0);
-    border: none;
-    color: #fff;
-    font-size: 18px;
-    font-weight: 100;
-    cursor: pointer;
-}
+        .underline {
+            background-color: rgb(255, 119, 0);
+            margin: 8px 120px 40px 120px;
+            height: 2.5px;
+        }
 
-.forg {
-    margin: 10px 0 23px 0;
-    text-align: right;
-    padding: 0 15px;
-    text-decoration: none;
-    cursor: pointer;
-}
-.link a,
-.forg a{
-    text-decoration: none;
-}
-.link{
-    text-align: center;
-    margin: 20px 0;
-    cursor: pointer;
-}
+        .content {
+            margin: 0 20px;
+            margin-bottom: 30px;
+        }
 
-.thirdLogin{
-    /* text-align: center; */
-    border: 1px solid grey;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 5px;
-    cursor: pointer;
-}
+        .field {
+            width: 100%;
+            height: 35px;
+            position: relative;
+            margin: 10px 0;
+        }
 
-.facebook{
-    border-style: none;
-    background-color: #3b5998;
-    color: #fff;
-}
-.face-icon{
-    position: absolute;
-    left: 0;
-    width: 30px;
-    /* height: 30px; */
-    font-size: 25px;
-    padding-left: 5px;
-    /* display: flex; */
-    /* align-items: center; */
-}
-.google{
-    opacity: 0.7;
-}
+        .input {
+            padding: 0 20px;
+        }
 
-.space{
-    margin: 25px 0 10px 0;
-}
-</style>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        .field input,
+        .field button {
+            width: 100%;
+            height: 100%;
+            padding: 0 15px;
+            border-radius: 12px;
+        }
+
+        .field input {
+            outline: none;
+            border-style: none none solid none;
+            border-radius: 0;
+        }
+
+        .input .hide-show {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            opacity: 0.6;
+            cursor: pointer;
+        }
+
+        .field input:focus {
+            border-bottom: 2px solid;
+        }
+
+        .field button {
+            background-color: rgb(255, 119, 0);
+            border: none;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 100;
+            cursor: pointer;
+        }
+
+        .forg {
+            margin: 10px 0 23px 0;
+            text-align: right;
+            padding: 0 15px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .link a,
+        .forg a {
+            text-decoration: none;
+        }
+
+        .link {
+            text-align: center;
+            margin: 20px 0;
+            cursor: pointer;
+        }
+
+        .thirdLogin {
+            border: 1px solid grey;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .facebook {
+            border-style: none;
+            background-color: #3b5998;
+            color: #fff;
+        }
+
+        .face-icon {
+            position: absolute;
+            left: 0;
+            width: 30px;
+            font-size: 25px;
+            padding-left: 5px;
+        }
+
+        .google {
+            opacity: 0.7;
+        }
+
+        .space {
+            margin: 25px 0 10px 0;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- BoxIcons -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <title>Autotechjackpot</title>
 </head>
 <body>
     <section class="container forms">
-    <div class="form login">
-        <h3 class="heading">Login</h3>
-        <form action="#" class="content">
-            <div class="line underline"></div>
-            
-            <div class="field input">
-                <input type="email" placeholder="Enter your Email" />
-            </div>
+        <div class="form login">
+            <h3 class="heading">Login</h3>
+            <form action="#" class="content">
+                <div class="line underline"></div>
 
-            <div class="field input">
-            <input type="password" placeholder="Enter your Password" class="password" />
-            <i class='bx bx-hide hide-show'></i>
-            </div>
-            
-            <div class="forg">
-                <a href="#" class="forget">Forget password?</a>
-            </div>
+                <div class="field input">
+                    <input type="email" placeholder="Enter your Email">
+                </div>
 
-            <div class="field btn">
-                <button>Login</button>
-            </div>
+                <div class="field input">
+                    <input type="password" placeholder="Enter your Password" class="password">
+                    <i class='bx bx-hide hide-show'></i>
+                </div>
 
-            <div class="link sign-login">
-                <span>Don't have an Account!</span>
-                <a href="#" class="forget">Sign up</a>
-            </div>
+                <div class="forg">
+                    <a href="#" class="forget">Forget password?</a>
+                </div>
 
-            <div class="line"></div>
-            <!-- Other Login Options -->
+                <div class="field btn">
+                    <button>Login</button>
+                </div>
 
-            <div class="thirdLogin field facebook">
-                <i class='bx bxl-facebook-circle face-icon'></i>
-                <span>Login with facebook</span>
-            </div>
-            
-            <div class="thirdLogin field google">
-                <i class='bx bxl-google face-icon'></i>
-                <span>Login with google</span>
-            </div>
+                <div class="link sign-login">
+                    <span>Don't have an Account!</span>
+                    <a href="#" class="forget">Sign up</a>
+                </div>
 
+                <div class="line"></div>
 
-        </form>
-    </div>
+                <div class="thirdLogin field facebook">
+                    <i class='bx bxl-facebook-circle face-icon'></i>
+                    <span>Login with facebook</span>
+                </div>
 
+                <div class="thirdLogin field google">
+                    <i class='bx bxl-google face-icon'></i>
+                    <span>Login with google</span>
+                </div>
+            </form>
+        </div>
 
-    <!-- SignUp Form -->
+        <div class="form signup">
+            <h3 class="heading">SignUp</h3>
+            <form action="#" class="content">
+                <div class="line underline"></div>
 
+                <div class="field input">
+                    <input type="email" placeholder="Enter your Email" required>
+                </div>
 
-    <div class="form signup">
-        <h3 class="heading">SignUp</h3>
-        <form action="#" class="content">
-            <div class="line underline"></div>
-            
-            <div class="field input">
-                <input type="email" placeholder="Enter your Email" required />
-            </div>
+                <div class="field input">
+                    <input type="password" placeholder="Enter your new Password" class="password" required>
+                    <i class='bx bx-hide hide-show'></i>
+                </div>
 
-            <div class="field input">
-            <input type="password" placeholder="Enter your new Password" class="password" required />
-            <i class='bx bx-hide hide-show'></i>
-            </div>
+                <div class="field input">
+                    <input type="password" placeholder="Confirm Password" class="password" required>
+                    <i class='bx bx-hide hide-show'></i>
+                </div>
 
-            <div class="field input">
-            <input type="password" placeholder="Confirm Password" class="password" required />
-            <i class='bx bx-hide hide-show'></i>
-            </div>
+                <div class="space"></div>
 
-            <div class="space"></div>
+                <div class="field btn">
+                    <button>Sign Up</button>
+                </div>
 
-            <div class="field btn">
-                <button>Sign Up</button>
-            </div>
+                <div class="link sign-login">
+                    <span>Already have an Account!</span>
+                    <a href="#" class="forget">Login</a>
+                </div>
 
-            <div class="link sign-login">
-                <span>Already have an Account!</span>
-                <a href="#" class="forget">Login</a>
-            </div>
+                <div class="line"></div>
 
+                <div class="thirdLogin field facebook">
+                    <i class='bx bxl-facebook-circle face-icon'></i>
+                    <span>SignUp with facebook</span>
+                </div>
 
-            <div class="line"></div>
-            <!-- Other Login Options -->
-
-            <div class="thirdLogin field facebook">
-                <i class='bx bxl-facebook-circle face-icon'></i>
-                <span>SignUp with facebook</span>
-            </div>
-            
-            <div class="thirdLogin field google">
-                <i class='bx bxl-google face-icon'></i>
-                <span>SignUp with google</span>
-            </div>
-
-        </form>
-    </div>
+                <div class="thirdLogin field google">
+                    <i class='bx bxl-google face-icon'></i>
+                    <span>SignUp with google</span>
+                </div>
+            </form>
+        </div>
     </section>
 
-    <script 
-const links = document.querySelectorAll(".link");
-const forms = document.querySelector(".forms");
-const showHide = document.querySelectorAll(".hide-show");
+    <script>
+        const links = document.querySelectorAll(".link");
+        const forms = document.querySelector(".forms");
+        const showHide = document.querySelectorAll(".hide-show");
 
-showHide.forEach(showicon=>{
-    showicon.addEventListener("click", ()=>{
-        let field_password = showicon.parentElement.parentElement.querySelectorAll(".password");
+        showHide.forEach(showicon => {
+            showicon.addEventListener("click", () => {
+                let field_password = showicon.parentElement.parentElement.querySelectorAll(".password");
 
-        field_password.forEach(password=>{
-            if(password.type === 'password'){
-                password.type = 'text';
-                showHide.classList.replace("bx-hide", "bx-show");
-            }
-            password.type = "password";
-            showHide.classList.replace("bx-show", "bx-hide");
-        })
-    })
-})
+                field_password.forEach(password => {
+                    if (password.type === 'password') {
+                        password.type = 'text';
+                        showicon.classList.replace("bx-hide", "bx-show");
+                    } else {
+                        password.type = "password";
+                        showicon.classList.replace("bx-show", "bx-hide");
+                    }
+                });
+            });
+        });
 
-
-links.forEach(link =>{
-    link.addEventListener("click", e=>{
-        e.preventDefault();
-        forms.classList.toggle("Show-Signup");
-    })
-}) 
+        links.forEach(link => {
+            link.addEventListener("click", e => {
+                e.preventDefault();
+                forms.classList.toggle("Show-Signup");
+            });
+        });
     </script>
 </body>
 </html>
+```
+
+Ho apportato alcune correzioni per migliorare il tuo codice:
+- Ho chiuso correttamente il tag `<script>`.
+- Ho aggiunto il controllo corretto per la visibilità delle password.
+- Ho migliorato l'indentazione e la leggibilità del codice.
+
+Spero che queste modifiche ti aiutino. Fammi sapere se hai bisogno di altro! 😊

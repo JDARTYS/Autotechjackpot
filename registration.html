@@ -166,7 +166,6 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- BoxIcons -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <title>Autotechjackpot</title>
 </head>
@@ -174,15 +173,15 @@
     <section class="container forms">
         <div class="form login">
             <h3 class="heading">Login</h3>
-            <form action="#" class="content">
+            <form action="#" class="content" onsubmit="login(event)">
                 <div class="line underline"></div>
 
                 <div class="field input">
-                    <input type="email" placeholder="Enter your Email">
+                    <input type="email" id="login-email" placeholder="Enter your Email" required>
                 </div>
 
                 <div class="field input">
-                    <input type="password" placeholder="Enter your Password" class="password">
+                    <input type="password" id="login-password" placeholder="Enter your Password" class="password" required>
                     <i class='bx bx-hide hide-show'></i>
                 </div>
 
@@ -191,7 +190,7 @@
                 </div>
 
                 <div class="field btn">
-                    <button>Login</button>
+                    <button type="submit">Login</button>
                 </div>
 
                 <div class="link sign-login">
@@ -215,27 +214,27 @@
 
         <div class="form signup">
             <h3 class="heading">SignUp</h3>
-            <form action="#" class="content">
+            <form action="#" class="content" onsubmit="signup(event)">
                 <div class="line underline"></div>
 
                 <div class="field input">
-                    <input type="email" placeholder="Enter your Email" required>
+                    <input type="email" id="signup-email" placeholder="Enter your Email" required>
                 </div>
 
                 <div class="field input">
-                    <input type="password" placeholder="Enter your new Password" class="password" required>
+                    <input type="password" id="signup-password" placeholder="Enter your new Password" class="password" required>
                     <i class='bx bx-hide hide-show'></i>
                 </div>
 
                 <div class="field input">
-                    <input type="password" placeholder="Confirm Password" class="password" required>
+                    <input type="password" id="signup-confirm-password" placeholder="Confirm Password" class="password" required>
                     <i class='bx bx-hide hide-show'></i>
                 </div>
 
                 <div class="space"></div>
 
                 <div class="field btn">
-                    <button>Sign Up</button>
+                    <button type="submit">Sign Up</button>
                 </div>
 
                 <div class="link sign-login">
@@ -287,38 +286,37 @@
         });
 
         function login(event) {
-    event.preventDefault();
-    const email = document.getElementById('login-email').value;
-    const password = document.getElementById('login-password').value;
-    
-    // Esegui la logica di login qui (es. invio al server)
-    localStorage.setItem('user', JSON.stringify({ email })); // Salva l'utente in localStorage
-    window.location.href = 'index.html'; // Reindirizza alla pagina home
-}
+            event.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
 
-function signup(event) {
-    event.preventDefault();
-    const email = document.getElementById('signup-email').value;
-    const password = document.getElementById('signup-password').value;
-    const confirmPassword = document.getElementById('signup-confirm-password').value;
+            // Esegui la logica di login qui (es. invio al server)
+            localStorage.setItem('user', JSON.stringify({ email })); // Salva l'utente in localStorage
+            window.location.href = 'index.html'; // Reindirizza alla pagina home
+        }
 
-    if (password === confirmPassword) {
-        // Esegui la logica di registrazione qui (es. invio al server)
-        localStorage.setItem('user', JSON.stringify({ email })); // Salva l'utente in localStorage
-        window.location.href = 'index.html'; // Reindirizza alla pagina home
-    } else {
-        alert("Le password non corrispondono. Per favore, riprova.");
-    }
-}
+        function signup(event) {
+            event.preventDefault();
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const confirmPassword = document.getElementById('signup-confirm-password').value;
 
-// Verifica se l'utente è già loggato
-window.onload = function() {
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (user) {
-        window.location.href = 'index.html'; // Se l'utente è loggato, reindirizza alla pagina home
-    }
-};
+            if (password === confirmPassword) {
+                // Esegui la logica di registrazione qui (es. invio al server)
+                localStorage.setItem('user', JSON.stringify({ email })); // Salva l'utente in localStorage
+                window.location.href = 'index.html'; // Reindirizza alla pagina home
+            } else {
+                alert("Le password non corrispondono. Per favore, riprova.");
+            }
+        }
 
+        // Verifica se l'utente è già loggato
+        window.onload = function() {
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (user) {
+                window.location.href = 'index.html'; // Se l'utente è loggato, reindirizza alla pagina home
+            }
+        };
     </script>
 </body>
 </html>

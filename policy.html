@@ -63,5 +63,33 @@
       </ul>
     </nav>
   </footer>
+
+  <script>
+    // Funzione per gestire il caricamento delle informazioni utente
+    window.onload = function() {
+        const user = JSON.parse(localStorage.getItem('user'));
+        const userInfo = document.getElementById('user-info'); // Assicurati che questo ID esista nella tua pagina
+        const registerButton = document.getElementById('register-button'); // Assicurati che questo ID esista nella tua pagina
+        const logoutButton = document.getElementById('logout-button'); // Assicurati che questo ID esista nella tua pagina
+
+        if (user) {
+            userInfo.textContent = `Welcome, ${user.email}!`; // Mostra il messaggio di benvenuto
+            registerButton.style.display = 'none'; // Nascondi il pulsante di registrazione/login
+            logoutButton.style.display = 'block'; // Mostra il pulsante di logout
+        } else {
+            userInfo.textContent = ''; // Nessun utente loggato
+            registerButton.style.display = 'block'; // Mostra il pulsante di registrazione/login
+            logoutButton.style.display = 'none'; // Nascondi il pulsante di logout
+        }
+
+        // Gestione del logout
+        if (logoutButton) {
+            logoutButton.addEventListener('click', function() {
+                localStorage.removeItem('user'); // Rimuovi l'utente da localStorage
+                window.location.reload(); // Ricarica la pagina per aggiornare l'interfaccia
+            });
+        }
+    };
+</script>
 </body>
 </html>

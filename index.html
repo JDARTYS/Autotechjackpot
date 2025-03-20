@@ -16,7 +16,6 @@
 </head>
 <body>
   <header>
-<p id="user-info"></p>
     <div class="header-container">
       <div class="logo">
         <a href="index.html" aria-label="Go to Home page">
@@ -24,9 +23,9 @@
         </a>
       </div>
       <nav>
-<a href="registration.html"><button id="register-button">Register/Login</button></a>
-<button id="logout-button" style="display: none;">Logout</button>
-<p id="user-info"></p>
+        <button id="register-button">Register/Login</button>
+        <button id="logout-button" style="display: none;">Logout</button>
+        <p id="user-info"></p>
         <a href="how-it-works.html" aria-label="How it Works">How It Works</a>
         <a href="winners.html" aria-label="View Winners">Winners</a>
         <a href="tickets.html" aria-label="View Tickets" class="active">Tickets</a>
@@ -90,5 +89,31 @@
       <a href="policy.html">Terms & Policy</a>
     </nav>
   </footer>
+
+  <script>
+    // Funzione per gestire il caricamento delle informazioni utente
+    window.onload = function() {
+      const user = JSON.parse(localStorage.getItem('user'));
+      const userInfo = document.getElementById('user-info');
+      const registerButton = document.getElementById('register-button');
+      const logoutButton = document.getElementById('logout-button');
+
+      if (user) {
+        userInfo.textContent = `Welcome, ${user.email}!`; // Mostra il messaggio di benvenuto
+        registerButton.style.display = 'none'; // Nascondi il pulsante di registrazione/login
+        logoutButton.style.display = 'block'; // Mostra il pulsante di logout
+      } else {
+        userInfo.textContent = ''; // Nessun utente loggato
+        registerButton.style.display = 'block'; // Mostra il pulsante di registrazione/login
+        logoutButton.style.display = 'none'; // Nascondi il pulsante di logout
+      }
+
+      // Gestione del logout
+      logoutButton.addEventListener('click', function() {
+        localStorage.removeItem('user'); // Rimuovi l'utente da localStorage
+        window.location.reload(); // Ricarica la pagina per aggiornare l'interfaccia
+      });
+    };
+  </script>
 </body>
 </html>
